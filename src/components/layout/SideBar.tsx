@@ -20,7 +20,9 @@ const SideBar = () => {
         </button>
       </div>
       <div className="mb-3">
-        <MdOutlineAccountCircle className="text-icons text-5xl" />
+        <Link to={`/mypage`}>
+          <MdOutlineAccountCircle className="text-icons text-5xl" />
+        </Link>
       </div>
     </nav>
   );

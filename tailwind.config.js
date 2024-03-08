@@ -17,10 +17,19 @@ export default {
       title: "#00A3FF",
       warning: "#FF0000",
       softwarning: "#FFFF00",
+      writeSubBg: "#02A4D8",
+      green: "#00FF00",
+      forestGreen: "#228B22",
+      gold: "#FFD700",
+      navy: "#000080",
     },
     extend: {
       dropShadow: {
-        shadow: "0 8px 8px rgba(211, 218, 226, 1)",
+        shadow: "5px 5px 5px rgba(255, 255, 255, 0.4)",
+      },
+      boxShadow: {
+        writeShadow:
+          "10px 0 10px -10px rgba(255, 255, 255, 0.3), -10px 0 10px -10px rgba(255, 255, 255, 0.3)",
       },
     },
   },
