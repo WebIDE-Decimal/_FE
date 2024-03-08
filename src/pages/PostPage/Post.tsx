@@ -1,0 +1,68 @@
+import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { removePost } from "../../store/posts/posts.slice";
+import { toast } from "react-toastify";
+
+const Post = () => {
+  const { posts } = useAppSelector((state) => state.posts);
+  const { id } = useParams();
+  const post = { ...posts.filter((post) => post.id === id)[0] };
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleRemoveClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    dispatch(removePost({ id: post.id }));
+    navigate(`/`);
+    toast.info("모집 글이 삭제되었습니다.");
+  };
+
+  const handleEditClick = () => {
+    navigate(`/write/${post.id}`);
+  };
+
+  return (
+    <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full flex items-center justify-center mt-4">
+        <h2 className="text-title font-semibold text-5xl">CosMo&apos;s</h2>
+      </div>
+      <div className="mt-8">
+        <h2 className="text-white font-bold text-3xl">{post.title}</h2>
+      </div>
+      <div className="w-3/5 mt-8 mb-6">
+        <p className="font-semibold text-2xl text-white">
+          모집인원: <span className="text-forestGreen">{post.recruit}</span>명
+        </p>
+      </div>
+      <div className="w-3/5 my-4">
+        <p className="font-semibold text-2xl text-white">스터디 정보:</p>
+        <div className="mt-2 bg-btnwhite/90 rounded">
+          <p className="p-3 font-medium">{post.content}</p>
+        </div>
+      </div>
+      <div className="bg-gold my-6 rounded-lg">
+        <button className="px-4 py-3 text-navy font-semibold text-lg">
+          신청하기
+        </button>
+      </div>
+      <div>
+        <button
+          className="bg-gray rounded-lg mx-2 px-4 py-3 text-white/80 font-semibold text-lg"
+          onClick={handleRemoveClick}
+        >
+          삭제하기
+        </button>
+        <button
+          className="bg-green/80 mx-2 rounded-lg px-4 py-3 font-semibold text-lg"
+          onClick={handleEditClick}
+        >
+          수정하기
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Post;

@@ -13,7 +13,7 @@ const Nav = () => {
           <CiSearch className="text-3xl text-icons/40" />
         </div>
         <input
-          className="w-full h-10 bg-transparent text-white border-icons/30 border-2 rounded-lg placeholder:pl-12 placeholder:text-icons/50"
+          className="w-full h-10 bg-transparent text-white border-icons/30 border-2 rounded-lg pl-12 placeholder:text-icons/50"
           type="text"
           placeholder="원하는 스터디를 찾아보세요."
         />
