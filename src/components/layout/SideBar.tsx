@@ -2,8 +2,15 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { MdFolderOpen, MdOutlineAccountCircle } from "react-icons/md";
 import { SiWechat } from "react-icons/si";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/redux";
+import { clickMyStudy } from "../../store/myPage/viewPage/viewPage";
 
 const SideBar = () => {
+  const dispatch = useAppDispatch();
+
+  const handleMyPageClick = () => {
+    dispatch(clickMyStudy());
+  };
   return (
     <nav className="flex fixed flex-col justify-between items-center bg-navBg w-20 h-lvh">
       <div className="flex flex-col mt-2">
@@ -20,7 +27,7 @@ const SideBar = () => {
         </button>
       </div>
       <div className="mb-3">
-        <Link to={`/mypage`}>
+        <Link onClick={handleMyPageClick} to={`/mypage`}>
           <MdOutlineAccountCircle className="text-icons text-5xl" />
         </Link>
       </div>

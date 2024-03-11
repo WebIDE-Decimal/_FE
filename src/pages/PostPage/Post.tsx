@@ -1,9 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyModal";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { toggleApplyStudyModal } from "../../store/modal/modalSlice";
-import { removePost } from "../../store/posts/posts.slice";
+import {
+  toggleAlertModal,
+  toggleApplyStudyModal,
+} from "../../store/modal/modalSlice";
 import Comments from "./Comments/Comments";
 
 const Post = () => {
@@ -12,17 +14,14 @@ const Post = () => {
   const post = { ...posts.filter((post) => post.id === id)[0] };
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { viewApplyStudyModal } = useAppSelector((state) => state.modal);
-
+  const { viewApplyStudyModal, viewAlertModal } = useAppSelector(
+    (state) => state.modal
+  );
   const handleRemoveClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (window.confirm("모집글을 삭제하시겠습니까?")) {
-      dispatch(removePost({ id: post.id }));
-      navigate(`/`);
-      toast.info("모집 글이 삭제되었습니다.");
-    }
+    dispatch(toggleAlertModal(true));
   };
 
   const handleEditClick = () => {
@@ -36,6 +35,13 @@ const Post = () => {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       {viewApplyStudyModal && <ApplyStudyModal />}
+      {viewAlertModal && (
+        <AlertModal
+          text={"모집글을 삭제하시겠습니까?"}
+          id={post.id}
+          type={"삭제하기"}
+        />
+      )}
       <div className="w-full flex items-center justify-center mt-4">
         <h2 className="text-title font-semibold text-5xl">CosMo&apos;s</h2>
       </div>
