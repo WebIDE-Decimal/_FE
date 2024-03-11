@@ -1,17 +1,23 @@
-import { toast } from "react-toastify";
+import AlertModal from "../../../../components/Modal/AlertModal/AlertModal";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { toggleAlertModal } from "../../../../store/modal/modalSlice";
 
 const Withdrawal = () => {
+  const { viewAlertModal } = useAppSelector((state) => state.modal);
+  const dispatch = useAppDispatch();
+
   const handleWithdrawalClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (window.confirm("회원 탈퇴를 하시겠습니까?")) {
-      toast.info("회원 탈퇴가 완료되었습니다.");
-    }
+    dispatch(toggleAlertModal(true));
   };
 
   return (
     <div className="flex w-full flex-col h-96 justify-center items-center">
+      {viewAlertModal && (
+        <AlertModal text="회원 탈퇴를 하시겠습니까?" type="회원 탈퇴" />
+      )}
       <div className="flex flex-col items-center">
         <p className="text-white text-2xl mb-2">회원 탈퇴</p>
         <span className="pb-3 text-warning font-semibold">
