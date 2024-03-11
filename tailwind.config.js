@@ -22,6 +22,8 @@ export default {
       forestGreen: "#228B22",
       gold: "#FFD700",
       navy: "#000080",
+      "modal-bg": "#CCCCCC",
+      skyBlue: "#00bfff",
     },
     extend: {
       dropShadow: {
