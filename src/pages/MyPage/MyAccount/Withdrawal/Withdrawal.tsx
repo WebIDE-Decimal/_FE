@@ -1,4 +1,15 @@
+import { toast } from "react-toastify";
+
 const Withdrawal = () => {
+  const handleWithdrawalClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    if (window.confirm("회원 탈퇴를 하시겠습니까?")) {
+      toast.info("회원 탈퇴가 완료되었습니다.");
+    }
+  };
+
   return (
     <div className="flex w-full flex-col h-96 justify-center items-center">
       <div className="flex flex-col items-center">
@@ -17,7 +28,10 @@ const Withdrawal = () => {
           placeholder="비밀번호를 입력하세요."
         />
         <div className="mt-4">
-          <button className="float-right bg-loginBtn text-btnwhite px-3 py-2 rounded-lg hover:cursor-pointer">
+          <button
+            onClick={handleWithdrawalClick}
+            className="float-right bg-loginBtn text-btnwhite px-3 py-2 rounded-lg hover:cursor-pointer"
+          >
             회원 탈퇴
           </button>
         </div>

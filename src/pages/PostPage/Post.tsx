@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { removePost } from "../../store/posts/posts.slice";
 import { toast } from "react-toastify";
-import { toggleApplyStudyModal } from "../../store/modal/modalSlice";
 import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyModal";
-import Comment from "./Comment/Comment";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { toggleApplyStudyModal } from "../../store/modal/modalSlice";
+import { removePost } from "../../store/posts/posts.slice";
+import Comments from "./Comments/Comments";
 
 const Post = () => {
   const { posts } = useAppSelector((state) => state.posts);
@@ -57,7 +57,7 @@ const Post = () => {
         </div>
       </div>
       <div className="w-3/5">
-        <Comment />
+        <Comments />
       </div>
       <div onClick={handleApplyClick} className="bg-gold my-6 rounded-lg">
         <button className="px-4 py-3 text-navy font-semibold text-lg">
