@@ -26,7 +26,7 @@ const ApplyStudyModal = () => {
           <p className="font-medium text-lg">지원자 닉네임: </p>
         </div>
         <div>
-          <p className="font-medium text-lg mb-1">지원자 소개: </p>
+          <p className="font-medium text-lg mb-2">지원자 소개: </p>
           <textarea
             value={myIntroduction}
             onChange={(e) => setMyIntroduction(e.target.value)}
