@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAppDispatch } from "../../../hooks/redux";
 import { toggleApplyStudyModal } from "../../../store/modal/modalSlice";
+import useOnClickOutside from "../../../hooks/useOnClickOutside.ts";
 
 const ApplyStudyModal = () => {
   const dispatch = useAppDispatch();
   const [myIntroduction, setMyIntroduction] = useState("");
-
+  const modalRef = useRef<HTMLDivElement>(null);
   const handleCloseClick = () => {
     dispatch(toggleApplyStudyModal(false));
   };
 
+  useOnClickOutside(modalRef, () => {
+    dispatch(toggleApplyStudyModal(false));
+  });
+
   return (
-    <div className="fixed flex flex-col rounded-xl justify-center bg-modal-bg z-10 py-3 px-4 w-1/3">
+    <div
+      ref={modalRef}
+      className="fixed flex flex-col rounded-xl justify-center bg-modal-bg z-10 py-3 px-4 w-1/3"
+    >
       <div className="w-full">
         <div className="flex w-full my-1 items-center justify-center">
           <p className="text-3xl font-semibold">스터디 지원하기</p>
