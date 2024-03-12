@@ -6,13 +6,16 @@ import { toast } from "react-toastify";
 import { v4 } from "uuid";
 
 const Comments = () => {
+  const getUser = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
   const comments = useAppSelector((state) => state.comments);
   const [comment, setComment] = useState("");
   const dispatch = useAppDispatch();
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const handleCommentButton = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     if (comment === "") {
@@ -41,14 +44,14 @@ const Comments = () => {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           className="resize-none w-full h-40 rounded-lg p-2"
-          placeholder="코멘트를 작성하세요."
+          placeholder={`${getUser ? "댓글을 작성하세요." : "댓글을 작성하시려면 로그인 하세요."}`}
         />
         <div>
           <button
             onClick={handleCommentButton}
             className="bg-gray/90 mt-2 rounded-lg float-end px-3 py-2 hover:text-white hover:bg-gray text-white/70 font-semibold text-lg"
           >
-            댓글쓰기
+            {getUser ? "댓글쓰기" : "로그인"}
           </button>
         </div>
       </form>

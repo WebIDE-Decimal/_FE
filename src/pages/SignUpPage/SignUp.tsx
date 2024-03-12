@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +10,7 @@ const SignUp = () => {
   const [checkPassword, setCheckPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [checkEmail, setCheckEmail] = useState("a");
+  const navigate = useNavigate();
 
   const pattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-]+$/;
 
@@ -34,15 +37,17 @@ const SignUp = () => {
     }
   }, [checkEmail]);
 
-  const clickSignUp = async (e) => {
+
+  const handleSignUpClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const request = await axios
-      .post("http://localhost:8080/api/users/signup", {
-        email,
-        nickname,
-        password,
-      })
-      .then((res) => console.log(res));
+    await axios.post("http://localhost:8080/api/users/signup", {
+      email,
+      password,
+      nickname,
+    });
+    navigate(`/login`);
+    toast.success("회원 가입이 완료되었습니다.");
+
   };
 
   return (
@@ -138,7 +143,9 @@ const SignUp = () => {
           </div>
           <div>
             <button
-              onClick={clickSignUp}
+
+              onClick={handleSignUpClick}
+
               className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md"
             >
               회원가입
