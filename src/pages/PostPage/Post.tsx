@@ -9,6 +9,9 @@ import {
 import Comments from "./Comments/Comments";
 
 const Post = () => {
+  const getUser = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
   const { posts } = useAppSelector((state) => state.posts);
   const { id } = useParams();
   const post = { ...posts.filter((post) => post.id === id)[0] };
@@ -65,11 +68,20 @@ const Post = () => {
       <div className="w-3/5">
         <Comments />
       </div>
-      <div onClick={handleApplyClick} className="bg-gold my-6 rounded-lg">
-        <button className="px-4 py-3 text-navy font-semibold text-lg">
-          신청하기
-        </button>
-      </div>
+      {getUser ? (
+        <div onClick={handleApplyClick} className="bg-gold my-6 rounded-lg">
+          <button className="px-4 py-3 text-navy font-semibold text-lg">
+            신청하기
+          </button>
+        </div>
+      ) : (
+        <div onClick={handleApplyClick} className="bg-gold my-6 rounded-lg">
+          <button className="px-4 py-3 text-navy font-semibold text-lg">
+            신청하기
+          </button>
+        </div>
+      )}
+
       <div>
         <button
           className="bg-gray rounded-lg mx-2 px-4 py-3 text-white/80 font-semibold text-lg"
