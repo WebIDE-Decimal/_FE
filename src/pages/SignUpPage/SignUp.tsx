@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const SignUp = () => {
   };
 
   const handleEmailClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     emailValidChk();
@@ -32,6 +33,17 @@ const SignUp = () => {
       }, 3000);
     }
   }, [checkEmail]);
+
+  const clickSignUp = async (e) => {
+    e.preventDefault();
+    const request = await axios
+      .post("http://localhost:8080/api/users/signup", {
+        email,
+        nickname,
+        password,
+      })
+      .then((res) => console.log(res));
+  };
 
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center">
@@ -125,7 +137,10 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <button className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md">
+            <button
+              onClick={clickSignUp}
+              className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md"
+            >
               회원가입
             </button>
           </div>
