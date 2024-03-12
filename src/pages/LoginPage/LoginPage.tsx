@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center">
       <div className="w-1/4 flex flex-col items-center mb-48">
@@ -20,6 +24,8 @@ const Login = () => {
         <form className="w-full">
           <div className="my-4">
             <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
               type="text"
               placeholder="이메일 또는 아이디"
@@ -27,6 +33,8 @@ const Login = () => {
           </div>
           <div className="my-4">
             <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
               placeholder="비밀번호"
               type="password"
