@@ -1,9 +1,7 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -26,7 +24,6 @@ const Login = () => {
         }
       });
   };
-
 
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center">

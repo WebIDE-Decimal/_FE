@@ -18,10 +18,10 @@ const Post = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { viewApplyStudyModal, viewAlertModal } = useAppSelector(
-    (state) => state.modal
+    (state) => state.modal,
   );
   const handleRemoveClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     dispatch(toggleAlertModal(true));
@@ -82,7 +82,7 @@ const Post = () => {
         </div>
       )}
 
-      <div>
+      <div className={"mb-6"}>
         <button
           className="bg-gray rounded-lg mx-2 px-4 py-3 text-white/80 font-semibold text-lg"
           onClick={handleRemoveClick}
