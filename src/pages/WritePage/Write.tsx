@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { MdGroups } from "react-icons/md";
 import { SlMinus, SlPlus } from "react-icons/sl";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 } from "uuid";
@@ -20,7 +19,7 @@ const Write = () => {
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const handleMinusClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     if (peopleNumber === 1) {
@@ -30,7 +29,7 @@ const Write = () => {
   };
 
   const handlePlusClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     setPeopleNumber(peopleNumber + 1);
@@ -91,85 +90,84 @@ const Write = () => {
   };
 
   return (
-    <div>
-      <div className="w-full mt-4">
-        <h2 className="text-title text-center font-semibold text-5xl">
-          CosMo&apos;s
-        </h2>
-      </div>
-      <div className="w-full mt-6 bg-writeSubBg">
-        <p className="text-2xl italic font-semibold pt-4 pl-6 text-btnwhite">
-          스터디 모집
-        </p>
-        <div className="text-lg pl-6 font-medium py-2 text-btnwhite italic">
-          <span>함께할 팀원을 모집해 보세요!</span>
-        </div>
-      </div>
-      <div className="flex justify-center items-center">
-        <form className="w-3/4 shadow-writeShadow px-8">
-          <div className="pt-6 pb-4">
-            <span className="text-2xl text-white font-medium">
-              스터디 이름:{" "}
-            </span>
+    <div className={"h-full"}>
+      <div className="flex justify-center h-full items-center">
+        <form className="w-3/4 bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6">
+          <div className={"mt-4"}>
+            <button
+              className={"w-3 h-3 bg-[#F44336] mr-2 rounded-full"}
+            ></button>
+            <button
+              className={"w-3 h-3 bg-[#FFC107] mr-2 rounded-full"}
+            ></button>
+            <button
+              className={"w-3 h-3 bg-[#4CAF50] mr-2 rounded-full"}
+            ></button>
+          </div>
+          <div className="pt-6 pb-3 px-2">
+            <span className="text-xl text-white font-bold">스터디 이름 *</span>
             <div className="my-3">
               <input
                 ref={titleRef}
-                className="w-full h-12 text-xl rounded-md pl-2 placeholder:text-lg placeholder:font-medium"
+                className="w-full text-white h-12 text-xl bg-[#1b1b1b] rounded-lg pl-4 placeholder:text-lg placeholder:text-[#64758B] placeholder:font-medium"
                 type="text"
-                placeholder="스터디 이름을 입력하세요."
+                placeholder="한글명 ex) 우리 스터디"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
           </div>
-          <div className="flex w-1/5 items-center my-4">
-            <p className="text-2xl flex-grow font-medium text-white">
-              모집 인원
-            </p>
+          <div className="pb-2 px-2">
+            <span className="text-xl text-white font-bold">모집 대상</span>
+            <div className="my-3">
+              <input
+                className="w-full text-white h-12 text-xl bg-[#1b1b1b] rounded-lg pl-4 placeholder:text-lg placeholder:text-[#64758B] placeholder:font-medium"
+                type="text"
+                placeholder="JAVA, JavaScript, Node.js ..."
+              />
+            </div>
+          </div>
+          <div className="flex w-1/5 items-center px-2">
+            <p className="text-xl flex-grow font-bold text-white">모집 인원</p>
             <div className="flex w-1/2 justify-between">
-              <button
-                className="text-white text-2xl"
-                onClick={handleMinusClick}
-              >
+              <button className="text-white text-xl" onClick={handleMinusClick}>
                 <SlMinus />
               </button>
-              <p className="text-3xl text-green/80"> {peopleNumber} </p>
-              <button className="text-white text-2xl" onClick={handlePlusClick}>
+              <p className="text-2xl text-green"> {peopleNumber} </p>
+              <button className="text-white text-xl" onClick={handlePlusClick}>
                 <SlPlus />
               </button>
             </div>
           </div>
-          <div className="pt-4">
-            <span className="text-2xl text-white font-medium">
-              스터디 설명:{" "}
-            </span>
-            <div className="my-3">
+          <div className={"border-b mt-3 border-[#46494E]"} />
+          <div className="pt-3 px-2">
+            <span className="text-xl text-white font-bold">모집 내용 </span>
+            <div className="mt-3">
               <textarea
                 ref={contentRef}
-                className="resize-none w-full h-96 rounded-md p-2 text-lg"
-                placeholder="어떤 스터디를 만들고 싶은지 소개해 주세요."
+                className="resize-none placeholder:text-[#64758B] placeholder:text-lg text-white w-full h-96 bg-[#1b1b1b] rounded-lg p-4 text-lg"
+                placeholder="CosMos's 에서 스터디 기반으로 회원을 모집하고 공부해보세요."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
             </div>
-          </div>
-          <div className="flex justify-center border-t-2 border-gray/40 my-6">
-            {post.id ? (
-              <div
-                className="text-btnwhite flex items-center mt-6 bg-loginBtn px-4 py-3 rounded-lg"
-                onClick={handleEditClick}
-              >
-                <button>수정하기</button>
-              </div>
-            ) : (
-              <div
-                className="text-btnwhite flex items-center mt-6 bg-loginBtn px-4 py-3 rounded-lg"
-                onClick={handleRecruitClick}
-              >
-                <MdGroups className="absolute text-2xl" />
-                <button className="ml-8">팀원 모집하기</button>
-              </div>
-            )}
+            <div className="flex justify-end">
+              {post.id ? (
+                <div
+                  className="text-btnwhite flex items-center mt-1 bg-loginBtn px-4 py-3 rounded-lg"
+                  onClick={handleEditClick}
+                >
+                  <button>수정하기</button>
+                </div>
+              ) : (
+                <div
+                  className="text-white mb-6 flex items-center mt-1 bg-darkgreen px-16 py-3 font-bold rounded"
+                  onClick={handleRecruitClick}
+                >
+                  <button className={"text-lg"}>등록하기</button>
+                </div>
+              )}
+            </div>
           </div>
         </form>
       </div>
