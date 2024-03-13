@@ -1,14 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  viewMyStudy: true,
-  viewMyAccount: false,
-  viewProceedingStudy: true,
+  viewProceedingStudy: false,
   viewAppliedForStudy: false,
-  viewFinishedStudy: false,
+  viewRecruitingStudy: false,
   viewMyInformation: true,
-  viewResetPassword: false,
-  viewWithdrawal: false,
   isConfirm: false,
 };
 
@@ -16,43 +12,29 @@ const viewPageSlice = createSlice({
   name: "viewPage",
   initialState,
   reducers: {
-    clickMyStudy: (state) => {
-      state.viewMyStudy = true;
-      state.viewMyAccount = false;
-    },
-    clickMyAccount: (state) => {
-      state.viewMyAccount = true;
-      state.viewMyStudy = false;
-    },
     clickProceedingStudy: (state) => {
+      state.viewMyInformation = false;
       state.viewProceedingStudy = true;
-      state.viewResetPassword = false;
-      state.viewWithdrawal = false;
+      state.viewAppliedForStudy = false;
+      state.viewRecruitingStudy = false;
     },
     clickAppliedForStudy: (state) => {
-      state.viewAppliedForStudy = true;
+      state.viewMyInformation = false;
       state.viewProceedingStudy = false;
-      state.viewFinishedStudy = false;
+      state.viewAppliedForStudy = true;
+      state.viewRecruitingStudy = false;
     },
-    clickFinishedStudy: (state) => {
-      state.viewFinishedStudy = true;
+    clickRecruitingStudy: (state) => {
+      state.viewMyInformation = false;
       state.viewProceedingStudy = false;
       state.viewAppliedForStudy = false;
+      state.viewRecruitingStudy = true;
     },
     clickMyInformation: (state) => {
       state.viewMyInformation = true;
-      state.viewResetPassword = false;
-      state.viewWithdrawal = false;
-    },
-    clickResetPassword: (state) => {
-      state.viewResetPassword = true;
-      state.viewMyInformation = false;
-      state.viewWithdrawal = false;
-    },
-    clickWithdrawal: (state) => {
-      state.viewWithdrawal = true;
-      state.viewMyInformation = false;
-      state.viewResetPassword = false;
+      state.viewProceedingStudy = false;
+      state.viewAppliedForStudy = false;
+      state.viewRecruitingStudy = false;
     },
     clickConfirm: (state, { payload }) => {
       state.isConfirm = payload;
@@ -61,14 +43,10 @@ const viewPageSlice = createSlice({
 });
 
 export const {
-  clickMyStudy,
-  clickMyAccount,
   clickProceedingStudy,
   clickAppliedForStudy,
-  clickFinishedStudy,
+  clickRecruitingStudy,
   clickMyInformation,
-  clickResetPassword,
-  clickWithdrawal,
   clickConfirm,
 } = viewPageSlice.actions;
 

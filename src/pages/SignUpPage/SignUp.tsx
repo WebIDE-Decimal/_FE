@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +36,6 @@ const SignUp = () => {
     }
   }, [checkEmail]);
 
-
   const handleSignUpClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await axios.post("http://localhost:8080/api/users/signup", {
@@ -47,7 +45,6 @@ const SignUp = () => {
     });
     navigate(`/login`);
     toast.success("회원 가입이 완료되었습니다.");
-
   };
 
   return (
@@ -143,9 +140,7 @@ const SignUp = () => {
           </div>
           <div>
             <button
-
               onClick={handleSignUpClick}
-
               className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md"
             >
               회원가입

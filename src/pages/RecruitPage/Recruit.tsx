@@ -1,6 +1,7 @@
 import saly from "../../assets/Saly-14.png";
 import RecruitCategory from "./RecruitCategory/RecruitCategory.tsx";
 import StudyList from "./StudyList/StudyList.tsx";
+import { Link } from "react-router-dom";
 
 const Recruit = () => {
   return (
@@ -21,13 +22,15 @@ const Recruit = () => {
                 </p>
               </div>
             </div>
-            <button
-              className={
-                "flex-grow-0 text-white w-48 h-12 font-bold bg-buttonGreen rounded text-center"
-              }
-            >
-              모집글 작성하기
-            </button>
+            <Link to={`write`}>
+              <button
+                className={
+                  "flex-grow-0 text-white w-48 h-12 font-bold bg-buttonGreen rounded text-center"
+                }
+              >
+                모집글 작성하기
+              </button>
+            </Link>
           </div>
         </div>
         <div className={"w-6/7 flex h-full my-12"}>

@@ -93,7 +93,11 @@ const Post = () => {
             </div>
           </div>
           <div className={"w-1/3 mt-9"}>
-            <img className={"float-right w-40 h-40"} src={defaultUser} />
+            <img
+              className={"float-right w-40 h-40"}
+              src={defaultUser}
+              alt={"Author Image"}
+            />
           </div>
         </div>
       </div>
