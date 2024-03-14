@@ -5,7 +5,7 @@ const RecruitDescription = ({ post }) => {
         <p className={"text-white font-bold text-xl mb-4"}>모집 내용</p>
         <p
           className={
-            "px-4 text-white font-light max-h-[260px] overflow-y-auto scrollbar-thin scrollbar-thumb-studyCardBg scrollbar-track-gray"
+            "p-4 text-white bg-[#1b1b1b] rounded-lg font-light max-h-[260px] overflow-y-auto scrollbar-thin scrollbar-thumb-studyCardBg scrollbar-track-gray"
           }
         >
           {post.content}
