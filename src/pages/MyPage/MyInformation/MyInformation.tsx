@@ -1,11 +1,18 @@
 import defaultImg from "../../../assets/user.png";
 import React, { useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux.ts";
+import AlertModal from "../../../components/Modal/AlertModal/AlertModal.tsx";
+import { toggleAlertModal } from "../../../store/modal/modalSlice.ts";
+
 
 const MyInformation = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [img, setImg] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
+  const { viewAlertModal } = useAppSelector((state) => state.modal);
+  const dispatch = useAppDispatch();
+
   const handleImgClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     inputRef.current?.click();
@@ -21,12 +28,21 @@ const MyInformation = () => {
       setImg(imgUrl);
     }
   };
+
+
+  console.log(viewAlertModal);
+
   return (
     <div className={"w-full flex mt-12"}>
+      {viewAlertModal && (
+        <div className={"w-5/6 fixed h-1/2 flex items-center justify-center"}>
+          <AlertModal text={"회원탈퇴 하시겠습니까?"} type={"회원 탈퇴"} />
+        </div>
+      )}
       <div className={"flex w-1/3 h-full flex-col justify-center items-center"}>
         <div>
           <img
-            className={"w-52 h-52"}
+            className={"w-52 h-52 rounded-full"}
             src={img ? img : defaultImg}
             alt={"profile image"}
           />
@@ -92,8 +108,14 @@ const MyInformation = () => {
             <p className={"text-white font-bold mb-3"}>기존 비밀번호</p>
             <div className={"flex items-center"}>
               <input
-                className={"w-1/2 pl-2 bg-[#CBD5E1] rounded h-8"}
+
+
+                className={
+                  "w-1/2 pl-2 bg-[#CBD5E1] rounded h-8 placeholder:font-medium placeholder:text-sky-800"
+                }
                 type={"password"}
+                placeholder={"기존 비밀번호를 입력하세요."}
+
               />
             </div>
           </div>
@@ -145,6 +167,11 @@ const MyInformation = () => {
         <div className={"pl-8 mt-5"}>
           <p className={"text-white font-bold"}>회원 탈퇴</p>
           <button
+            onClick={(e) => {
+              e.preventDefault();
+              dispatch(toggleAlertModal(true));
+            }}
+
             className={
               "bg-[#F44336] text-white font-bold ml-1 mt-3 px-4 py-1.5 rounded"
             }
