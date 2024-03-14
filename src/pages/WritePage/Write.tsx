@@ -132,18 +132,24 @@ const Write = () => {
           <div className="flex w-1/4 items-center px-2">
             <p className="text-xl flex-grow font-bold text-white">모집 인원</p>
             <div className="flex w-2/4 justify-between">
-              <button className="text-white text-xl" onClick={handleMinusClick}>
+              <button
+                className="text-white/80 text-xl hover:text-white"
+                onClick={handleMinusClick}
+              >
                 <SlMinus />
               </button>
-              <p className="text-2xl text-green"> {peopleNumber} </p>
-              <button className="text-white text-xl" onClick={handlePlusClick}>
+              <p className="text-2xl text-green">{peopleNumber}</p>
+              <button
+                className="text-white/80 text-xl hover:text-white"
+                onClick={handlePlusClick}
+              >
                 <SlPlus />
               </button>
             </div>
           </div>
           <div className={"border-b mt-3 border-[#46494E]"} />
           <div className="pt-3 px-2">
-            <span className="text-xl text-white font-bold">모집 내용 </span>
+            <span className="text-xl text-white font-bold">모집 내용 *</span>
             <div className="mt-3">
               <textarea
                 ref={contentRef}
@@ -163,7 +169,7 @@ const Write = () => {
                 </div>
               ) : (
                 <div
-                  className="text-white mb-6 flex items-center mt-1 bg-darkgreen px-16 py-3 font-bold rounded"
+                  className="text-white mb-6 flex items-center mt-1 bg-darkgreen/90 px-16 py-3 font-bold rounded hover:cursor-pointer hover:bg-darkgreen"
                   onClick={handleRecruitClick}
                 >
                   <button className={"text-lg"}>등록하기</button>

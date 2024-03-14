@@ -33,13 +33,9 @@ const Post = () => {
           <div className={"w-2/3"}>
             <div className={"mt-4"}>
               <button
-                className={"w-3 h-3 bg-[#F44336] mr-2 rounded-full"}
-              ></button>
-              <button
-                className={"w-3 h-3 bg-[#FFC107] mr-2 rounded-full"}
-              ></button>
-              <button
-                className={"w-3 h-3 bg-[#4CAF50] mr-2 rounded-full"}
+                className={
+                  "w-3 h-3 bg-[#F44336] mr-2 rounded-full hover:bg-red-600"
+                }
               ></button>
             </div>
             <div className={"w-full mt-5 pb-4 mb-4 border-b border-[#46494E]"}>
