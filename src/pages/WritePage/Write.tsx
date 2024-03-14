@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { SlMinus, SlPlus } from "react-icons/sl";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 } from "uuid";
@@ -60,7 +60,7 @@ const Write = () => {
     };
 
     dispatch(addPost(newPost));
-    navigate(`/`);
+    navigate(`/recruit`);
     toast.success("모집 글이 등록되었습니다.");
   };
 
@@ -91,19 +91,19 @@ const Write = () => {
     toast.success("글이 수정되었습니다.");
   };
 
+  const handleCloseClick = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigate(`../recruit`);
+  };
+
   return (
     <div className={"h-full"}>
       <div className="flex justify-center h-full items-center">
         <form className="w-3/4 bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6">
           <div className={"mt-4"}>
             <button
+              onClick={handleCloseClick}
               className={"w-3 h-3 bg-[#F44336] mr-2 rounded-full"}
-            ></button>
-            <button
-              className={"w-3 h-3 bg-[#FFC107] mr-2 rounded-full"}
-            ></button>
-            <button
-              className={"w-3 h-3 bg-[#4CAF50] mr-2 rounded-full"}
             ></button>
           </div>
           <div className="pt-6 pb-3 px-2">
@@ -148,7 +148,7 @@ const Write = () => {
               <textarea
                 ref={contentRef}
                 className="resize-none placeholder:text-[#64758B] placeholder:text-lg text-white w-full h-96 bg-[#1b1b1b] rounded-lg p-4 text-lg"
-                placeholder="CosMos's 에서 스터디 기반으로 회원을 모집하고 공부해보세요."
+                placeholder="COSMS's 에서 스터디 기반으로 회원을 모집하고 공부해보세요."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
