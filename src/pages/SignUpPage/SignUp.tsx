@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -7,6 +9,7 @@ const SignUp = () => {
   const [checkPassword, setCheckPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [checkEmail, setCheckEmail] = useState("a");
+  const navigate = useNavigate();
 
   const pattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-]+$/;
 
@@ -19,7 +22,7 @@ const SignUp = () => {
   };
 
   const handleEmailClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     emailValidChk();
@@ -32,6 +35,17 @@ const SignUp = () => {
       }, 3000);
     }
   }, [checkEmail]);
+
+  const handleSignUpClick = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await axios.post("http://localhost:8080/api/users/signup", {
+      email,
+      password,
+      nickname,
+    });
+    navigate(`/login`);
+    toast.success("회원 가입이 완료되었습니다.");
+  };
 
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center">
@@ -125,13 +139,19 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <button className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md">
+            <button
+              onClick={handleSignUpClick}
+              className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md hover:bg-login"
+            >
               회원가입
             </button>
           </div>
           <div className="flex justify-center">
             <span className="text-white/60">이미 계정이 있으세요?</span>
-            <Link to={`/login`} className="ml-2 text-loginBtn font-semibold">
+            <Link
+              to={`/login`}
+              className="ml-2 text-sky-500 font-semibold hover:text-sky-400"
+            >
               로그인
             </Link>
           </div>

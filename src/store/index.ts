@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import posts from "./posts/posts.slice";
-import myAccount from "./myPage/myAccount/myAccount";
-import viewPage from "./myPage/viewPage/viewPage";
+import myAccount from "./myPage/myAccount/myAccountSlice.ts";
+import viewPage from "./myPage/viewPage/viewPageSlice.ts";
 import modal from "./modal/modalSlice";
-import comments from "./posts/comments/comments";
+
+import postPage from "./postPage/postPageSlice.ts";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,7 @@ export const store = configureStore({
     myAccount,
     viewPage,
     modal,
-    comments,
+    postPage,
   },
 });
 

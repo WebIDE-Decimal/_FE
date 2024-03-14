@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/layout/Layout";
-import HomePage from "./pages/HomePage/HomePage";
 import Login from "./pages/LoginPage/LoginPage";
 import SignUp from "./pages/SignUpPage/SignUp";
 import ResetPassword from "./pages/ResetPage/ResetPassword";
@@ -10,6 +9,9 @@ import Write from "./pages/WritePage/Write";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import My from "./pages/MyPage/My";
+import Home from "./pages/HomePage/Home.tsx";
+import Recruit from "./pages/RecruitPage/Recruit.tsx";
+
 function App() {
   return (
     <div>
@@ -22,7 +24,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<Home />} />
+          <Route path="/recruit" element={<Recruit />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset" element={<ResetPassword />} />

@@ -1,59 +1,84 @@
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import MyInformation from "./MyInformation/MyInformation.tsx";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
 import {
-  clickMyAccount,
+  clickAppliedForStudy,
   clickMyInformation,
-  clickMyStudy,
   clickProceedingStudy,
-} from "../../store/myPage/viewPage/viewPage";
-import MyAccount from "./MyAccount/MyAccount";
-import MyStudy from "./MyStudy/MyStudy";
+  clickRecruitingStudy,
+} from "../../store/myPage/viewPage/viewPageSlice.ts";
+import AppliedForStudies from "./AppliedForStudies/AppliedForStudies.tsx";
+import ProceedingStudies from "./ProceedingStudies/ProceedingStudies.tsx";
+import RecruitingStudies from "./RecruitingStudys/RecruitingStudies.tsx";
 
 const My = () => {
+  const {
+    viewMyInformation,
+    viewAppliedForStudy,
+    viewProceedingStudy,
+    viewRecruitingStudy,
+  } = useAppSelector((state) => state.viewPage);
   const dispatch = useAppDispatch();
-  const { viewMyStudy, viewMyAccount } = useAppSelector(
-    (state) => state.viewPage
-  );
 
-  const handleMyStudyClick = () => {
-    dispatch(clickMyStudy());
-    dispatch(clickProceedingStudy());
-  };
-
-  const handleMyAccountClick = () => {
-    dispatch(clickMyAccount());
+  const handleMyInfoClick = () => {
     dispatch(clickMyInformation());
   };
 
+  const handleProceedingClick = () => {
+    dispatch(clickProceedingStudy());
+  };
+
+  const handleRecruitingClick = () => {
+    dispatch(clickRecruitingStudy());
+  };
+
+  const handleAppliedForStudy = () => {
+    dispatch(clickAppliedForStudy());
+  };
+
   return (
-    <div className="h-screen w-full flex flex-col box-border">
-      <div className="w-full flex flex-col justify-between items-center pt-3 box-border">
-        <div className="w-full pl-10 border-b border-gray/30 pb-3">
-          <h2 className="text-title font-semibold text-3xl">CosMo&apos;s</h2>
+    <div className={"w-full h-full flex justify-center items-center"}>
+      <div className={"w-5/6 h-[740px]"}>
+        <div className={"mb-5"}>
+          <p className={"text-4xl font-bold text-white ml-2"}>마이 페이지</p>
         </div>
-      </div>
-      <div className="flex w-full h-full box-border">
-        <div className="w-1/6 p-6 border-r border-gray/30">
-          <div className="py-1">
+        <div className={"flex my-3 pb-4 border-b-2 border-[#46494E]"}>
+          <div>
             <span
-              onClick={handleMyStudyClick}
-              className="text-xl text-gray font-medium hover:text-white hover:cursor-pointer"
+              onClick={handleMyInfoClick}
+              className={`${viewMyInformation ? "text-white" : "text-[#818181]"} px-4 border-x text-lg border-white font-medium hover:text-white hover:cursor-pointer`}
             >
-              나의 스터디
+              나의 정보
             </span>
           </div>
-          <div className="py-1">
+          <div>
             <span
-              onClick={handleMyAccountClick}
-              className="text-xl text-gray font-medium hover:text-white hover:cursor-pointer"
+              onClick={handleRecruitingClick}
+              className={`${viewRecruitingStudy ? "text-white" : "text-[#818181]"} px-4 text-lg font-medium hover:text-white hover:cursor-pointer`}
             >
-              회원 정보
+              모집중인 스터디
+            </span>
+          </div>
+          <div>
+            <span
+              onClick={handleAppliedForStudy}
+              className={`${viewAppliedForStudy ? "text-white" : "text-[#818181]"} px-4 border-l text-lg border-white font-medium hover:text-white hover:cursor-pointer`}
+            >
+              내가 신청한 스터디
+            </span>
+          </div>
+          <div>
+            <span
+              onClick={handleProceedingClick}
+              className={`${viewProceedingStudy ? "text-white" : "text-[#818181]"} px-4 border-x text-lg border-white font-medium hover:text-white hover:cursor-pointer`}
+            >
+              진행중인 스터디
             </span>
           </div>
         </div>
-        <div className="w-full">
-          {viewMyStudy && <MyStudy />}
-          {viewMyAccount && <MyAccount />}
-        </div>
+        {viewMyInformation && <MyInformation />}
+        {viewAppliedForStudy && <AppliedForStudies />}
+        {viewProceedingStudy && <ProceedingStudies />}
+        {viewRecruitingStudy && <RecruitingStudies />}
       </div>
     </div>
   );
