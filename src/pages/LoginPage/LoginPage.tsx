@@ -11,18 +11,14 @@ const Login = () => {
 
   const handleLoginClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios
-      .post("http://localhost:8080/api/users/login", {
-        email,
-        password,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          localStorage.setItem("user", JSON.stringify({ email: email }));
-          navigate(`/`);
-          toast.success("로그인 되었습니다.");
-        }
-      });
+    await axios.get("http://43.203.98.60:8080/api/chat/rooms").then((res) => {
+      if (res.status === 200) {
+        // localStorage.setItem("user", JSON.stringify({ email: email }));
+        console.log(res.data);
+        navigate(`/`);
+        toast.success("로그인 되었습니다.");
+      }
+    });
   };
 
   return (
