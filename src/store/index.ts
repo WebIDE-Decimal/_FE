@@ -5,6 +5,7 @@ import viewPage from "./myPage/viewPage/viewPageSlice.ts";
 import modal from "./modal/modalSlice";
 
 import postPage from "./postPage/postPageSlice.ts";
+import chatPage from "./chatPage/chatPageSlice.ts";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     viewPage,
     modal,
     postPage,
+    chatPage,
   },
 });
 
