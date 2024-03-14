@@ -141,14 +141,17 @@ const SignUp = () => {
           <div>
             <button
               onClick={handleSignUpClick}
-              className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md"
+              className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md hover:bg-login"
             >
               회원가입
             </button>
           </div>
           <div className="flex justify-center">
             <span className="text-white/60">이미 계정이 있으세요?</span>
-            <Link to={`/login`} className="ml-2 text-loginBtn font-semibold">
+            <Link
+              to={`/login`}
+              className="ml-2 text-sky-500 font-semibold hover:text-sky-400"
+            >
               로그인
             </Link>
           </div>

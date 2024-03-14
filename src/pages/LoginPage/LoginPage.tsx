@@ -30,7 +30,7 @@ const Login = () => {
       <div className="w-1/2 flex flex-col items-center mb-48">
         <div className="w-full mb-10">
           <h2 className="text-title text-center font-semibold text-5xl">
-            CosMo&apos;s
+            COSMO&apos;s
           </h2>
         </div>
         <div className="w-full text-center">
@@ -63,7 +63,7 @@ const Login = () => {
           <div>
             <button
               onClick={handleLoginClick}
-              className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md"
+              className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md hover:bg-login"
             >
               로그인
             </button>
@@ -78,10 +78,16 @@ const Login = () => {
               <span className="ml-2 text-white/80">로그인 상태 유지</span>
             </label>
             <div>
-              <Link to={`/reset`} className="mr-2 text-white/80">
+              <Link
+                to={`/reset`}
+                className="mr-2 text-white/80 hover:text-white hover:font-medium"
+              >
                 비밀번호 재설정
               </Link>
-              <Link to={`/signup`} className="ml-2 text-white/80">
+              <Link
+                to={`/signup`}
+                className="ml-2 text-white/80 hover:text-white hover:font-medium"
+              >
                 회원가입
               </Link>
             </div>
