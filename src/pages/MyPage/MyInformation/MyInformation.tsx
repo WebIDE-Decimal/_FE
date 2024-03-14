@@ -39,7 +39,7 @@ const MyInformation = () => {
       <div className={"flex w-1/3 h-full flex-col justify-center items-center"}>
         <div>
           <img
-            className={"w-52 h-52"}
+            className={"w-52 h-52 rounded-full"}
             src={img ? img : defaultImg}
             alt={"profile image"}
           />
