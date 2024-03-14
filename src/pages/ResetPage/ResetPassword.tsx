@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const ResetPassword = () => {
   return (
-    <div className="bg-back ml-20 w-full min-h-screen flex flex-col justify-center items-center">
+    <div className="bg-back w-full min-h-screen flex flex-col justify-center items-center">
       <div className="w-1/4 flex flex-col items-center mb-48">
         <div className="w-full mb-4">
           <h2 className="text-title text-center font-semibold text-5xl">
