@@ -17,7 +17,7 @@ const AlertModal = ({ text, type, id }: AlertModalProps) => {
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const handleCancleClick = (
+  const handleCancelClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ const AlertModal = ({ text, type, id }: AlertModalProps) => {
           {type}
         </button>
         <button
-          onClick={handleCancleClick}
+          onClick={handleCancelClick}
           className="px-2 mx-2 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
         >
           취소하기

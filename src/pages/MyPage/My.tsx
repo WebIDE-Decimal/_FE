@@ -1,4 +1,4 @@
-import Information from "./Information/Information.tsx";
+import MyInformation from "./MyInformation/MyInformation.tsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
 import {
   clickAppliedForStudy,
@@ -75,7 +75,7 @@ const My = () => {
             </span>
           </div>
         </div>
-        {viewMyInformation && <Information />}
+        {viewMyInformation && <MyInformation />}
         {viewAppliedForStudy && <AppliedForStudies />}
         {viewProceedingStudy && <ProceedingStudies />}
         {viewRecruitingStudy && <RecruitingStudies />}
