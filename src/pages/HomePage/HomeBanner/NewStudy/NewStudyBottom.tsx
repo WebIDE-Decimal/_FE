@@ -16,7 +16,7 @@ const NewStudyBottom = () => {
             <div>
               <p
                 className={
-                  "text-lg text-white font-medium hover:cursor-pointer"
+                  "text-lg text-white/80 hover:cursor-pointer hover:text-white hover:font-medium"
                 }
               >
                 모두 보기{">"}

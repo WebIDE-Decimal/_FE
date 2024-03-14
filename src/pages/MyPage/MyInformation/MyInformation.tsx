@@ -1,7 +1,7 @@
 import defaultImg from "../../../assets/user.png";
 import React, { useRef, useState } from "react";
 
-const Information = () => {
+const MyInformation = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [img, setImg] = useState("");
   const [password, setPassword] = useState("");
@@ -53,8 +53,11 @@ const Information = () => {
             <p className={"text-white font-bold mb-3"}>이메일</p>
             <div className={"flex items-center"}>
               <input
-                className={"w-1/2 bg-[#CBD5E1] rounded h-8"}
+                className={
+                  "w-1/2 bg-[#CBD5E1] pl-2 rounded h-8 cursor-default focus:outline-none"
+                }
                 type={"text"}
+                readOnly={true}
               />
               <div
                 className={
@@ -71,7 +74,7 @@ const Information = () => {
             <p className={"text-white font-bold mb-3"}>닉네임</p>
             <div className={"flex items-center"}>
               <input
-                className={"w-1/2 bg-[#CBD5E1] rounded h-8"}
+                className={"w-1/2 pl-2 bg-[#CBD5E1] rounded h-8"}
                 type={"text"}
               />
               <div
@@ -89,7 +92,7 @@ const Information = () => {
             <p className={"text-white font-bold mb-3"}>기존 비밀번호</p>
             <div className={"flex items-center"}>
               <input
-                className={"w-1/2 bg-[#CBD5E1] rounded h-8"}
+                className={"w-1/2 pl-2 bg-[#CBD5E1] rounded h-8"}
                 type={"password"}
               />
             </div>
@@ -154,4 +157,4 @@ const Information = () => {
   );
 };
 
-export default Information;
+export default MyInformation;
