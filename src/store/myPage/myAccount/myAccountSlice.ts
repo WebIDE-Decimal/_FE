@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface MyAccount {
+interface MyAccountSlice {
   nickName: string;
   email: string;
   introduce: string;
 }
 
-const initialState: MyAccount = {
+const initialState: MyAccountSlice = {
   nickName: "김개똥",
   email: "abcdefg@naver.com",
   introduce:

@@ -1,15 +1,30 @@
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
 import defaultUser from "../../assets/user.png";
+import PostCategories from "./PostCategories/PostCategories.tsx";
+import RecruitDescription from "./PostCategories/RecruitDescription/RecruitDescription.tsx";
+import ApplyManagement from "./PostCategories/ApplyManagement/ApplyManagement.tsx";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal.tsx";
 
 const Post = () => {
   const { posts } = useAppSelector((state) => state.posts);
   const { id } = useParams();
   const post = { ...posts.filter((post) => post.id === id)[0] };
+  const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
+    (state) => state.postPage,
+  );
+  const { viewAlertModal } = useAppSelector((state) => state.modal);
 
   return (
     <div className={"h-full"}>
       <div className="flex justify-center h-full items-center">
+        {viewAlertModal && (
+          <AlertModal
+            text={"게시글을 삭제하시겠습니까?"}
+            type={"삭제하기"}
+            id={id}
+          />
+        )}
         <div
           className={
             "w-3/4 flex justify-between bg-studyCardBg/80 h-[700px] rounded-lg shadow-cardShadow px-6"
@@ -27,7 +42,7 @@ const Post = () => {
                 className={"w-3 h-3 bg-[#4CAF50] mr-2 rounded-full"}
               ></button>
             </div>
-            <div className={"w-full mt-5"}>
+            <div className={"w-full mt-5 pb-4 mb-4 border-b border-[#46494E]"}>
               <div>
                 <p className={"text-4xl font-bold text-white/80"}>
                   {post.title}
@@ -42,55 +57,11 @@ const Post = () => {
                     지원하기
                   </button>
                 </div>
-              </div>
-              <div
-                className={
-                  "flex w-full justify-end pb-4 mb-4 border-b border-[#46494E]"
-                }
-              >
-                <div className={"border-x border-white"}>
-                  <span
-                    className={
-                      "mx-3 text-lg text-[#818181] font-medium hover:text-[#fdfdfd] hover:cursor-pointer"
-                    }
-                  >
-                    모집 내용
-                  </span>
-                </div>
-                <div>
-                  <span
-                    className={
-                      "px-3 text-lg text-[#818181] font-medium hover:text-[#fdfdfd] hover:cursor-pointer"
-                    }
-                  >
-                    지원 관리
-                  </span>
-                </div>
-                <div className={"border-x border-white"}>
-                  <span
-                    className={
-                      "px-3 text-lg text-[#818181] font-medium hover:text-[#fdfdfd] hover:cursor-pointer"
-                    }
-                  >
-                    스터디 설정
-                  </span>
-                </div>
+                <PostCategories id={id} />
               </div>
             </div>
-            <div className={"h-80 w-full"}>
-              <p className={"text-white font-bold text-xl mb-4"}>모집 내용</p>
-              <p className={"pl-4 text-white font-light"}>{post.content}</p>
-            </div>
-            <div className={"w-full"}>
-              <p className={"text-white font-bold text-xl mb-4"}>지원 현황</p>
-              <div className={"flex w-1/2 items-center justify-between"}>
-                <p className={"text-white font-light"}>JAVA 스터디원</p>
-                <span className={"text-white font-light"}>3</span>
-                <button className={"bg-[#4CAF50] text-white rounded px-1 py-1"}>
-                  지원자 확인
-                </button>
-              </div>
-            </div>
+            {viewRecruitDescription && <RecruitDescription post={post} />}
+            {viewApplyManagement && <ApplyManagement />}
           </div>
           <div className={"w-1/3 mt-9"}>
             <img

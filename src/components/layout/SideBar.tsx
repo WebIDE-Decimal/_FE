@@ -3,7 +3,7 @@ import { MdFolderOpen, MdOutlineAccountCircle } from "react-icons/md";
 import { SiWechat } from "react-icons/si";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
-import { clickMyStudy } from "../../store/myPage/viewPage/viewPage";
+import { clickMyStudy } from "../../store/myPage/viewPage/viewPageSlice.ts";
 
 const SideBar = () => {
   const dispatch = useAppDispatch();

@@ -9,6 +9,7 @@ import Write from "./pages/WritePage/Write";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import My from "./pages/MyPage/My";
+import Home from "./pages/HomePage/Home.tsx";
 import Recruit from "./pages/RecruitPage/Recruit.tsx";
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Recruit />} />
+          <Route index element={<Home />} />
+          <Route path="/recruit" element={<Recruit />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset" element={<ResetPassword />} />

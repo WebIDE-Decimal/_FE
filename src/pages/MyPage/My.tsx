@@ -5,7 +5,7 @@ import {
   clickMyInformation,
   clickProceedingStudy,
   clickRecruitingStudy,
-} from "../../store/myPage/viewPage/viewPage.ts";
+} from "../../store/myPage/viewPage/viewPageSlice.ts";
 import AppliedForStudies from "./AppliedForStudies/AppliedForStudies.tsx";
 import ProceedingStudies from "./ProceedingStudies/ProceedingStudies.tsx";
 import RecruitingStudies from "./RecruitingStudys/RecruitingStudies.tsx";

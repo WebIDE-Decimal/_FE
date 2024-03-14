@@ -1,10 +1,6 @@
-const AppliedForStudy = () => {
-  const truncate = (str: string, n: number) => {
-    return str?.length > n ? str.substr(0, n - 1) + "..." : str;
-  };
-
+const StudyCard = () => {
   return (
-    <div className={"w-1/3 px-4 pt-4 flex mb-10 justify-center"}>
+    <div className={"w-2/5 px-4 pt-4 flex mx-4 mb-10 justify-center"}>
       <li
         className={
           "bg-studyCardBg/80 w-full h-48 flex-shrink-0 rounded-lg shadow-cardShadow hover:shadow-hoverShadow"
@@ -21,4 +17,4 @@ const AppliedForStudy = () => {
   );
 };
 
-export default AppliedForStudy;
+export default StudyCard;

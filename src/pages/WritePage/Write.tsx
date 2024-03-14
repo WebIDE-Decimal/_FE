@@ -5,6 +5,7 @@ import { v4 } from "uuid";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { addPost, editPost } from "../../store/posts/posts.slice";
 import { toast } from "react-toastify";
+import { clickStudySettingModal } from "../../store/postPage/postPageSlice.ts";
 
 const Write = () => {
   const { id } = useParams();
@@ -85,6 +86,7 @@ const Write = () => {
     };
 
     dispatch(editPost(editedPost));
+    dispatch(clickStudySettingModal(false));
     navigate(`/post/${post.id}`);
     toast.success("글이 수정되었습니다.");
   };
@@ -127,9 +129,9 @@ const Write = () => {
               />
             </div>
           </div>
-          <div className="flex w-1/5 items-center px-2">
+          <div className="flex w-1/4 items-center px-2">
             <p className="text-xl flex-grow font-bold text-white">모집 인원</p>
-            <div className="flex w-1/2 justify-between">
+            <div className="flex w-2/4 justify-between">
               <button className="text-white text-xl" onClick={handleMinusClick}>
                 <SlMinus />
               </button>
@@ -154,7 +156,7 @@ const Write = () => {
             <div className="flex justify-end">
               {post.id ? (
                 <div
-                  className="text-btnwhite flex items-center mt-1 bg-loginBtn px-4 py-3 rounded-lg"
+                  className="text-white mb-6 flex items-center mt-1 bg-darkgreen px-16 py-3 font-bold rounded"
                   onClick={handleEditClick}
                 >
                   <button>수정하기</button>
