@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import My from "./pages/MyPage/My";
 import Home from "./pages/HomePage/Home.tsx";
 import Recruit from "./pages/RecruitPage/Recruit.tsx";
+import Chat from "./pages/ChatPage/Chat.tsx";
+import VideoChat from "./pages/VideoChatPage/VideoChat.tsx";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
           <Route path="write" element={<Write />} />
           <Route path="write/:id" element={<Write />} />
           <Route path="mypage" element={<My />} />
+          <Route path="chat" element={<Chat />} />
+          <Route path="videoChat" element={<VideoChat />} />
         </Route>
       </Routes>
     </div>

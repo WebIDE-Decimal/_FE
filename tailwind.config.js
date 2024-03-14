@@ -29,6 +29,7 @@ export default {
         skyBlue: "#00bfff",
         studyCardBg: "#333333",
         darkgreen: "#4CAF50",
+        navBarBg: "#01061B",
       },
       dropShadow: {
         shadow: "5px 5px 5px rgba(255, 255, 255, 0.4)",
@@ -39,6 +40,9 @@ export default {
           "10px 0 10px -10px rgba(255, 255, 255, 0.3), -10px 0 10px -10px rgba(255, 255, 255, 0.3)",
         cardShadow: "0px 0px 10px rgba(255, 255, 255, 0.25)",
         hoverShadow: "0px 0px 12px rgba(255, 255, 255, 0.4)",
+      },
+      backgroundImage: {
+        logo: "url('/assets/images/main_logo.png')",
       },
     },
   },

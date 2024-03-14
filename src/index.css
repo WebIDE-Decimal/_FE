@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: normal;
+  src: url("../src/assets/fonts/PretendardVariable.ttf") format("truetype");
+}
+
+body {
+  font-family: "Pretendard Variable";
+}

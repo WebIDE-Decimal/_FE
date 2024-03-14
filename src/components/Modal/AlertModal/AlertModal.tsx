@@ -18,14 +18,14 @@ const AlertModal = ({ text, type, id }: AlertModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleCancelClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     dispatch(toggleAlertModal(false));
   };
 
   const handleOkClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (type === "삭제하기") {
@@ -36,6 +36,10 @@ const AlertModal = ({ text, type, id }: AlertModalProps) => {
     } else if (type === "회원 탈퇴") {
       toast.info("계정이 삭제되었습니다.");
       navigate(`/`);
+      dispatch(toggleAlertModal(false));
+    } else if (type === "채팅방나가기") {
+      toast.info("채팅방을 나왔습니다.");
+      navigate(`/chat`);
       dispatch(toggleAlertModal(false));
     }
   };
