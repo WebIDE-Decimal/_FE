@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom";
-import { useAppSelector } from "../../hooks/redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import defaultUser from "../../assets/user.png";
 import PostCategories from "./PostCategories/PostCategories.tsx";
 import RecruitDescription from "./PostCategories/RecruitDescription/RecruitDescription.tsx";
 import ApplyManagement from "./PostCategories/ApplyManagement/ApplyManagement.tsx";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal.tsx";
+import React from "react";
+import { toggleApplyStudyModal } from "../../store/modal/modalSlice.ts";
+import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyModal.tsx";
 
 const Post = () => {
   const { posts } = useAppSelector((state) => state.posts);
@@ -13,14 +16,26 @@ const Post = () => {
   const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
     (state) => state.postPage
   );
-  const { viewAlertModal } = useAppSelector((state) => state.modal);
+  const { viewAlertModal, viewApplyStudyModal } = useAppSelector(
+    (state) => state.modal,
+  );
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const handleApplyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(toggleApplyStudyModal(true));
+  };
 
   if (!id || !post) {
     return <div>게시글을 찾을 수 없습니다.</div>;
   }
   return (
-    <div className={"h-full"}>
-      <div className="flex justify-center h-full items-center">
+    <div className={"h-full flex w-full"}>
+      <div
+        className={
+          "flex w-full h-full pb-12 min-h-screen justify-center items-center"
+        }
+      >
         {viewAlertModal && (
           <AlertModal
             text={"게시글을 삭제하시겠습니까?"}
@@ -28,14 +43,19 @@ const Post = () => {
             id={id}
           />
         )}
+        {viewApplyStudyModal && <ApplyStudyModal />}
         <div
           className={
-            "w-3/4 flex justify-between bg-studyCardBg/80 h-[700px] rounded-lg shadow-cardShadow px-6"
+            "w-3/4 flex mt-28 justify-between bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6"
           }
         >
-          <div className={"w-2/3"}>
+          <div className={"w-2/3 flex flex-col"}>
             <div className={"mt-4"}>
               <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`../recruit`);
+                }}
                 className={
                   "w-3 h-3 bg-[#F44336] mr-2 rounded-full hover:bg-red-600"
                 }
@@ -43,15 +63,20 @@ const Post = () => {
             </div>
             <div className={"w-full mt-5 pb-4 mb-4 border-b border-[#46494E]"}>
               <div>
-                <p className={"text-4xl font-bold text-white/80"}>
-                  {post.title}
-                </p>
+                <div className={"w-full"}>
+                  <p className={"text-4xl font-bold text-white/80"}>
+                    {post.title}
+                  </p>
+                </div>
                 <p className={"mt-3 text-white font-bold text-lg"}>모집 현황</p>
                 <div className={"flex w-1/2 items-center justify-between my-3"}>
                   <p className={"text-white"}>JAVA 스터디원</p>
                   <p className={"text-white"}>1/3</p>
                   <button
-                    className={"bg-[#4CAF50] text-white rounded px-2 py-1"}
+                    onClick={handleApplyClick}
+                    className={
+                      "bg-[#4CAF50]/90 hover:bg-[#4CAF50] text-white rounded px-2 py-1"
+                    }
                   >
                     지원하기
                   </button>

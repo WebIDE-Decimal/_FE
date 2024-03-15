@@ -9,7 +9,7 @@ const Nav = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <nav className="flex fixed flex-row justify-between bg-navBarBg items-center w-screen">
+    <nav className="flex fixed flex-row justify-between z-10 bg-navBarBg items-center w-screen">
       <div className="flex flex-row items-center mt-2">
         <Link to={`/`}>
           <img className="w-24 ml-10" src={mainLogo} alt="main logo" />

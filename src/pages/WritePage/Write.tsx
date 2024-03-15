@@ -11,7 +11,7 @@ const Write = () => {
   const { id } = useParams();
   const { posts } = useAppSelector((state) => state.posts);
   const post = { ...posts.filter((post) => post.id === id)[0] };
-  const [peopleNumber, setPeopleNumber] = useState(post?.recruit || 1);
+  const [totalPeople, setTotalPeople] = useState(post?.totalPeople || 1);
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
   const dispatch = useAppDispatch();
@@ -23,17 +23,17 @@ const Write = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    if (peopleNumber === 1) {
+    if (totalPeople === 1) {
       return;
     }
-    setPeopleNumber(peopleNumber - 1);
+    setTotalPeople(totalPeople - 1);
   };
 
   const handlePlusClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    setPeopleNumber(peopleNumber + 1);
+    setTotalPeople(totalPeople + 1);
   };
 
   const handleRecruitClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -41,13 +41,13 @@ const Write = () => {
 
     if (title === "") {
       titleRef.current?.focus();
-      toast.warning("스터디 이름을 입력하세요!");
+      toast.warning("스터디 이름을 입력하세요!😠");
       return;
     }
 
     if (content === "") {
       contentRef.current?.focus();
-      toast.warning("스터디 설명을 입력하세요!");
+      toast.warning("스터디 설명을 입력하세요!😠");
       return;
     }
 
@@ -55,26 +55,26 @@ const Write = () => {
       id: v4(),
       title,
       author: "정개똥",
-      recruit: peopleNumber,
+      totalPeople,
       content,
     };
 
     dispatch(addPost(newPost));
     navigate(`/recruit`);
-    toast.success("모집 글이 등록되었습니다.");
+    toast.success("모집 글이 등록되었습니다.👏");
   };
 
   const handleEditClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
     if (title === "") {
       titleRef.current?.focus();
-      toast.warning("스터디 이름을 입력하세요!");
+      toast.warning("스터디 이름을 입력하세요!😠");
       return;
     }
 
     if (content === "") {
       contentRef.current?.focus();
-      toast.warning("스터디 설명을 입력하세요!");
+      toast.warning("스터디 설명을 입력하세요!😠");
       return;
     }
 
@@ -82,28 +82,34 @@ const Write = () => {
       id: post.id,
       title,
       content,
-      recruit: peopleNumber,
+      totalPeople,
     };
 
     dispatch(editPost(editedPost));
     dispatch(clickStudySettingModal(false));
     navigate(`/post/${post.id}`);
-    toast.success("글이 수정되었습니다.");
+    toast.success("글이 수정되었습니다.👌");
   };
 
   const handleCloseClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (post.id) {
+      navigate(-1);
+      return;
+    }
     navigate(`../recruit`);
   };
 
   return (
     <div className={"h-full"}>
-      <div className="flex justify-center h-full items-center">
+      <div className="flex justify-center h-full items-center mt-24">
         <form className="w-3/4 bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6">
           <div className={"mt-4"}>
             <button
               onClick={handleCloseClick}
-              className={"w-3 h-3 bg-[#F44336] mr-2 rounded-full"}
+              className={
+                "w-3 h-3 bg-[#F44336] mr-2 rounded-full hover:bg-red-600"
+              }
             ></button>
           </div>
           <div className="pt-6 pb-3 px-2">
@@ -138,7 +144,7 @@ const Write = () => {
               >
                 <SlMinus />
               </button>
-              <p className="text-2xl text-green">{peopleNumber}</p>
+              <p className="text-2xl text-green">{totalPeople}</p>
               <button
                 className="text-white/80 text-xl hover:text-white"
                 onClick={handlePlusClick}
@@ -153,7 +159,7 @@ const Write = () => {
             <div className="mt-3">
               <textarea
                 ref={contentRef}
-                className="resize-none placeholder:text-[#64758B] placeholder:text-lg text-white w-full h-96 bg-[#1b1b1b] rounded-lg p-4 text-lg"
+                className="resize-none placeholder:text-[#64758B] placeholder:text-lg text-white w-full h-80 bg-[#1b1b1b] rounded-lg p-4 text-lg"
                 placeholder="COSMS's 에서 스터디 기반으로 회원을 모집하고 공부해보세요."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}

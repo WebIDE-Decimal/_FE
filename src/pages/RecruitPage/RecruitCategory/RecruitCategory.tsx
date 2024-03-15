@@ -9,7 +9,7 @@ const RecruitCategory = () => {
   });
 
   return (
-    <div className={"w-1/3 my-3"}>
+    <div className={"w-1/3 my-3 mb-12"}>
       <div className={"float-right h-full border-r border-gray/30 pr-16"}>
         <div className={"pb-4"}>
           <input
