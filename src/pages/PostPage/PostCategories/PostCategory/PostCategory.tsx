@@ -8,7 +8,7 @@ import StudySettingModal from "../../../../components/Modal/StudySettingModal/St
 
 interface PostCategoryProps {
   text: string;
-  id: string;
+  id?: string;
 }
 
 const PostCategory = ({ text, id }: PostCategoryProps) => {

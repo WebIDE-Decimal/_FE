@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { toggleAlertModal } from "../../../store/modal/modalSlice.ts";
 
 interface StudySettingProps {
-  id: string;
+  id?: string;
 }
 
 const StudySettingModal = ({ id }: StudySettingProps) => {
