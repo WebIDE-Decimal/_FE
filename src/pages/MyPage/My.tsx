@@ -36,8 +36,8 @@ const My = () => {
   };
 
   return (
-    <div className={"w-full h-full flex justify-center items-center"}>
-      <div className={"w-5/6 h-[740px]"}>
+    <div className={"w-full h-full flex justify-center items-center mt-14"}>
+      <div className={"w-5/6 mt-20"}>
         <div className={"mb-5"}>
           <p className={"text-4xl font-bold text-white ml-2"}>마이 페이지</p>
         </div>

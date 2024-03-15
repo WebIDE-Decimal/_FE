@@ -4,13 +4,13 @@ import HomeBannerBg from "../../../../assets/HomeBannerBg.png";
 const NewStudy = () => {
   return (
     <div className={"flex w-full justify-center items-center h-full"}>
-      <div className={"flex justify-between h-5/6 w-3/5"}>
-        <div className={"relative"}>
-          <div className={"h-5/6 w-5/6"}>
-            <img src={HomeBannerBg} />
+      <div className={"flex justify-between h-full w-3/5 items-center"}>
+        <div className={"h-full relative"}>
+          <div className={"h-full w-5/6"}>
+            <img src={HomeBannerBg} alt={"HomeBannerImg"} />
           </div>
-          <div className={"h-5/6 w-5/6 absolute left-14 bottom-20"}>
-            <img src={newSaly} />
+          <div className={"h-full w-5/6 absolute left-14 bottom-20"}>
+            <img src={newSaly} alt={"MainBanner-img"} />
           </div>
         </div>
         <div

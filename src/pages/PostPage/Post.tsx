@@ -26,8 +26,12 @@ const Post = () => {
   }, []);
 
   return (
-    <div className={"h-full"}>
-      <div className="flex justify-center h-full items-center">
+    <div className={"h-full flex w-full"}>
+      <div
+        className={
+          "flex w-full h-full pb-12 min-h-screen justify-center items-center"
+        }
+      >
         {viewAlertModal && (
           <AlertModal
             text={"게시글을 삭제하시겠습니까?"}
@@ -37,15 +41,15 @@ const Post = () => {
         )}
         <div
           className={
-            "w-3/4 flex justify-between bg-studyCardBg/80 h-[700px] rounded-lg shadow-cardShadow px-6"
+            "w-3/4 flex mt-20 justify-between bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6"
           }
         >
-          <div className={"w-2/3"}>
+          <div className={"w-2/3 flex flex-col"}>
             <div className={"mt-4"}>
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate(-1);
+                  navigate(`../recruit`);
                 }}
                 className={
                   "w-3 h-3 bg-[#F44336] mr-2 rounded-full hover:bg-red-600"
@@ -54,7 +58,7 @@ const Post = () => {
             </div>
             <div className={"w-full mt-5 pb-4 mb-4 border-b border-[#46494E]"}>
               <div>
-                <div className={"max-h-[43px] w-full"}>
+                <div className={"w-full"}>
                   <p className={"text-4xl font-bold text-white/80"}>
                     {post.title}
                   </p>

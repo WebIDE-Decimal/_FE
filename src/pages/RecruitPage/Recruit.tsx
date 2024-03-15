@@ -8,11 +8,13 @@ const Recruit = () => {
     <>
       <div className={"w-full flex flex-col h-full"}>
         <div
-          className={"bg-studyBanner w-full flex justify-center items-center"}
+          className={
+            "bg-studyBanner pt-14 w-full flex justify-center items-center"
+          }
         >
-          <div className={"flex w-4/5 items-center"}>
-            <div className={" flex-grow flex items-center"}>
-              <img className={""} src={saly} />
+          <div className={"flex w-3/5 items-center"}>
+            <div className={"flex-grow flex items-center"}>
+              <img src={saly} alt={"RecruitPage-Banner-Img"} />
               <div className={"w-1/2"}>
                 <p className={"text-4xl float-right text-white font-bold"}>
                   마음에 드는 모임이 없다면
@@ -33,7 +35,7 @@ const Recruit = () => {
             </Link>
           </div>
         </div>
-        <div className={"w-6/7 flex h-full my-12"}>
+        <div className={"w-6/7 flex mt-12"}>
           <RecruitCategory />
           <StudyList />
         </div>

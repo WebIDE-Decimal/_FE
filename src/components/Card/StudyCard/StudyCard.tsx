@@ -1,6 +1,6 @@
 const StudyCard = () => {
   return (
-    <div className={"w-2/5 px-4 pt-4 flex mx-4 mb-10 justify-center"}>
+    <div className={"w-full px-4 pt-4 flex mx-1 mb-10 justify-center"}>
       <li
         className={
           "bg-studyCardBg/80 w-full h-48 flex-shrink-0 rounded-lg hover:cursor-pointer shadow-cardShadow hover:shadow-hoverShadow"
