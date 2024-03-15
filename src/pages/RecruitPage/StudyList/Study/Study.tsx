@@ -1,6 +1,21 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  // post 객체에 포함된 다른 필요한 필드들을 여기에 추가하세요.
+}
 
-const Study = ({ post }) => {
+interface RecruitDescriptionProps {
+  post: Post;
+}
+const Study = ({ post }: RecruitDescriptionProps) => {
+  const navigate = useNavigate();
+
+  const handlePostClick = () => {
+    navigate(`../post/${post.id}`);
+  };
+
   const truncate = (str: string, n: number) => {
     return str?.length > n ? str.substring(0, n - 1) + "..." : str;
   };
