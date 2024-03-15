@@ -18,36 +18,42 @@ const ApplyStudyModal = () => {
   return (
     <div
       ref={modalRef}
-      className="fixed flex flex-col rounded-xl justify-center bg-modal-bg z-10 py-3 px-4 w-1/3"
+      className="fixed flex w-[472px] h-[795px] mt-4 flex-col rounded-xl bg-[#444444] z-10"
     >
-      <div className="w-full">
-        <div className="flex w-full my-1 items-center justify-center">
-          <p className="text-3xl font-semibold">스터디 지원하기</p>
-          <span
+      <div className="w-full flex flex-col">
+        <div className={"mt-4 mx-4"}>
+          <button
             onClick={handleCloseClick}
-            className="absolute right-0 pr-3 text-2xl hover:font-semibold hover:text-white hover:cursor-pointer"
-          >
-            X
-          </span>
+            className={"w-3 h-3 bg-[#F44336] rounded-full"}
+          ></button>
         </div>
-        <div className="my-2">
-          <p className="font-medium text-lg">지원자 닉네임: </p>
+        <div className={"px-7"}>
+          <div className="flex w-full my-4 items-center">
+            <p className="text-3xl font-bold text-[#FFFFFF]/80">
+              스터디 지원하기
+            </p>
+          </div>
+          <div>
+            <p className="text-xl text-white font-bold mb-4">모집 대상</p>
+            <p className="font-medium text-white mb-4">JAVA 스터디원 1/3</p>
+          </div>
+          <div>
+            <p className={"my-4 text-xl mb-4 font-bold text-white"}>
+              지원 동기
+            </p>
+            <textarea
+              value={myIntroduction}
+              onChange={(e) => setMyIntroduction(e.target.value)}
+              className="w-full mb-4 h-[365px] bg-[#333333] p-2 resize-none text-white rounded-lg"
+              placeholder="지원 동기를 작성해 주세요."
+            />
+          </div>
+          <div>
+            <button className="px-3 bg-darkgreen rounded py-2 text-white font-bold">
+              지원하기
+            </button>
+          </div>
         </div>
-        <div>
-          <p className="font-medium text-lg mb-2">지원자 소개: </p>
-          <textarea
-            value={myIntroduction}
-            onChange={(e) => setMyIntroduction(e.target.value)}
-            className="w-full h-36 p-2 resize-none rounded-lg placeholder:text-lg"
-            placeholder="지원 계기, 사용 가능한 기술, 경력 등을 알려주세요."
-          />
-        </div>
-      </div>
-
-      <div className="flex justify-center">
-        <button className="px-4 bg-gold my-6 rounded-lg py-3 text-navy font-semibold text-lg">
-          신청하기
-        </button>
       </div>
     </div>
   );

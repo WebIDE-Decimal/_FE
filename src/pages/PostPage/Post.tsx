@@ -1,10 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import defaultUser from "../../assets/user.png";
 import PostCategories from "./PostCategories/PostCategories.tsx";
 import RecruitDescription from "./PostCategories/RecruitDescription/RecruitDescription.tsx";
 import ApplyManagement from "./PostCategories/ApplyManagement/ApplyManagement.tsx";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal.tsx";
+import React from "react";
+import { toggleApplyStudyModal } from "../../store/modal/modalSlice.ts";
+import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyModal.tsx";
 
 const Post = () => {
   const { posts } = useAppSelector((state) => state.posts);
@@ -13,8 +16,15 @@ const Post = () => {
   const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
     (state) => state.postPage,
   );
-  const { viewAlertModal } = useAppSelector((state) => state.modal);
+  const { viewAlertModal, viewApplyStudyModal } = useAppSelector(
+    (state) => state.modal,
+  );
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const handleApplyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(toggleApplyStudyModal(true));
+  };
 
   return (
     <div className={"h-full flex w-full"}>
@@ -30,9 +40,10 @@ const Post = () => {
             id={id}
           />
         )}
+        {viewApplyStudyModal && <ApplyStudyModal />}
         <div
           className={
-            "w-3/4 flex mt-20 justify-between bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6"
+            "w-3/4 flex mt-28 justify-between bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6"
           }
         >
           <div className={"w-2/3 flex flex-col"}>
@@ -59,6 +70,7 @@ const Post = () => {
                   <p className={"text-white"}>JAVA 스터디원</p>
                   <p className={"text-white"}>1/3</p>
                   <button
+                    onClick={handleApplyClick}
                     className={
                       "bg-[#4CAF50]/90 hover:bg-[#4CAF50] text-white rounded px-2 py-1"
                     }
