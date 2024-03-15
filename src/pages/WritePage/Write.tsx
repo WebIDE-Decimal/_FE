@@ -41,13 +41,13 @@ const Write = () => {
 
     if (title === "") {
       titleRef.current?.focus();
-      toast.warning("스터디 이름을 입력하세요!");
+      toast.warning("스터디 이름을 입력하세요!😠");
       return;
     }
 
     if (content === "") {
       contentRef.current?.focus();
-      toast.warning("스터디 설명을 입력하세요!");
+      toast.warning("스터디 설명을 입력하세요!😠");
       return;
     }
 
@@ -61,20 +61,20 @@ const Write = () => {
 
     dispatch(addPost(newPost));
     navigate(`/recruit`);
-    toast.success("모집 글이 등록되었습니다.");
+    toast.success("모집 글이 등록되었습니다.👏");
   };
 
   const handleEditClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
     if (title === "") {
       titleRef.current?.focus();
-      toast.warning("스터디 이름을 입력하세요!");
+      toast.warning("스터디 이름을 입력하세요!😠");
       return;
     }
 
     if (content === "") {
       contentRef.current?.focus();
-      toast.warning("스터디 설명을 입력하세요!");
+      toast.warning("스터디 설명을 입력하세요!😠");
       return;
     }
 
@@ -88,7 +88,7 @@ const Write = () => {
     dispatch(editPost(editedPost));
     dispatch(clickStudySettingModal(false));
     navigate(`/post/${post.id}`);
-    toast.success("글이 수정되었습니다.");
+    toast.success("글이 수정되었습니다.👌");
   };
 
   const handleCloseClick = (e: React.FormEvent<HTMLButtonElement>) => {
