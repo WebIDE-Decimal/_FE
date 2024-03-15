@@ -18,23 +18,23 @@ const AlertModal = ({ text, type, id }: AlertModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleCancelClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     dispatch(toggleAlertModal(false));
   };
 
   const handleOkClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     if (type === "삭제하기") {
       dispatch(removePost(id));
       dispatch(toggleAlertModal(false));
       navigate(`/recruit`);
-      toast.info("모집 글이 삭제되었습니다.");
+      toast.info("모집 글이 삭제되었습니다.✔");
     } else if (type === "회원 탈퇴") {
-      toast.info("계정이 삭제되었습니다.");
+      toast.info("계정이 삭제되었습니다.😢");
       navigate(`/`);
       dispatch(toggleAlertModal(false));
     } else if (type === "채팅방나가기") {

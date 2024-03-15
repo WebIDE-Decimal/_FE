@@ -1,6 +1,9 @@
 import PostCategory from "./PostCategory/PostCategory.tsx";
 
-const PostCategories = ({ id }) => {
+interface PostCategoriesProps {
+  id?: string;
+}
+const PostCategories = ({ id }: PostCategoriesProps) => {
   return (
     <div className={"flex w-full justify-end"}>
       <PostCategory text={"모집 내용"} />

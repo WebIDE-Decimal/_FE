@@ -3,15 +3,13 @@ import NewStudyBottom from "./NewStudy/NewStudyBottom.tsx";
 
 const HomeBanner = () => {
   return (
-    <div className={"w-full h-full"}>
-      <div
-        className={"w-full h-1/2 flex justify-center items-center bg-[#2F3031]"}
-      >
+    <div className={"w-full h-full flex flex-col"}>
+      <div className={"w-full py-14 bg-[#2F3031]"}>
         <NewStudy />
       </div>
-      <ul className={"w-full h-1/2 flex justify-center items-center"}>
+      <div className={"w-full py-14 flex items-center justify-center"}>
         <NewStudyBottom />
-      </ul>
+      </div>
     </div>
   );
 };
