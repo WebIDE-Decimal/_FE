@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { CSSProperties, useRef } from "react";
 import useOnClickOutside from "../../../hooks/useOnClickOutside.ts";
 import { useAppDispatch } from "../../../hooks/redux.ts";
 import { clickStudySettingModal } from "../../../store/postPage/postPageSlice.ts";
@@ -7,9 +7,10 @@ import { toggleAlertModal } from "../../../store/modal/modalSlice.ts";
 
 interface StudySettingProps {
   id?: string;
+  modalPosition: { x: number; y: number };
 }
 
-const StudySettingModal = ({ id }: StudySettingProps) => {
+const StudySettingModal = ({ id, modalPosition }: StudySettingProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
@@ -22,8 +23,20 @@ const StudySettingModal = ({ id }: StudySettingProps) => {
     dispatch(clickStudySettingModal(false));
   };
 
+  console.log(modalPosition);
+
+  const modalStyle: CSSProperties = {
+    position: "absolute",
+    left: `${modalPosition.x}px`,
+    top: `${modalPosition.y}px`,
+  };
+
   return (
-    <div ref={modalRef} className={"fixed z-10 mt-2 bg-white rounded-lg"}>
+    <div
+      ref={modalRef}
+      style={modalStyle}
+      className={`z-10 bg-white rounded-lg`}
+    >
       <div className={"pr-4 pl-4 py-2"}>
         <Link to={`../../write/${id}`}>
           <p className={"hover:cursor-pointer hover:font-semibold"}>수정하기</p>
