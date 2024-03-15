@@ -11,7 +11,7 @@ const Write = () => {
   const { id } = useParams();
   const { posts } = useAppSelector((state) => state.posts);
   const post = { ...posts.filter((post) => post.id === id)[0] };
-  const [peopleNumber, setPeopleNumber] = useState(post?.recruit || 1);
+  const [totalPeople, setTotalPeople] = useState(post?.totalPeople || 1);
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
   const dispatch = useAppDispatch();
@@ -23,17 +23,17 @@ const Write = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    if (peopleNumber === 1) {
+    if (totalPeople === 1) {
       return;
     }
-    setPeopleNumber(peopleNumber - 1);
+    setTotalPeople(totalPeople - 1);
   };
 
   const handlePlusClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    setPeopleNumber(peopleNumber + 1);
+    setTotalPeople(totalPeople + 1);
   };
 
   const handleRecruitClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -55,7 +55,7 @@ const Write = () => {
       id: v4(),
       title,
       author: "정개똥",
-      recruit: peopleNumber,
+      totalPeople,
       content,
     };
 
@@ -82,7 +82,7 @@ const Write = () => {
       id: post.id,
       title,
       content,
-      recruit: peopleNumber,
+      totalPeople,
     };
 
     dispatch(editPost(editedPost));
@@ -138,7 +138,7 @@ const Write = () => {
               >
                 <SlMinus />
               </button>
-              <p className="text-2xl text-green">{peopleNumber}</p>
+              <p className="text-2xl text-green">{totalPeople}</p>
               <button
                 className="text-white/80 text-xl hover:text-white"
                 onClick={handlePlusClick}

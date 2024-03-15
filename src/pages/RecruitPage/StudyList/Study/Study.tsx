@@ -23,8 +23,13 @@ const Study = ({ post }) => {
               {truncate(post.content, 160)}
             </p>
           </div>
-          <div className={"flex justify-end items-center mr-3 mb-2"}>
-            <span className={"text-[#898686]"}>모집인원 1/3</span>
+          <div className={"flex justify-end items-center mr-4 mb-2"}>
+            <p className={"text-[#898686]"}>
+              모집인원{" "}
+              <span>
+                {post.joinedPeople ? post.joinedPeople : 0} / {post.totalPeople}
+              </span>
+            </p>
           </div>
         </li>
       </Link>

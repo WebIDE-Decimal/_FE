@@ -1,11 +1,10 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
 import defaultUser from "../../assets/user.png";
 import PostCategories from "./PostCategories/PostCategories.tsx";
 import RecruitDescription from "./PostCategories/RecruitDescription/RecruitDescription.tsx";
 import ApplyManagement from "./PostCategories/ApplyManagement/ApplyManagement.tsx";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal.tsx";
-import { useEffect } from "react";
 
 const Post = () => {
   const { posts } = useAppSelector((state) => state.posts);
@@ -16,14 +15,6 @@ const Post = () => {
   );
   const { viewAlertModal } = useAppSelector((state) => state.modal);
   const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const scrollPosition = location.state?.fromRecruitPageScrollPosition;
-    if (scrollPosition !== undefined) {
-      window.scrollTo(0, scrollPosition);
-    }
-  }, []);
 
   return (
     <div className={"h-full flex w-full"}>
