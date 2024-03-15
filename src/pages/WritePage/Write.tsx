@@ -93,6 +93,10 @@ const Write = () => {
 
   const handleCloseClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (post.id) {
+      navigate(-1);
+      return;
+    }
     navigate(`../recruit`);
   };
 
