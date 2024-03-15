@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_API_URL;
+
 // Axios 인스턴스 생성
 const api = axios.create({
-  baseURL: "http://43.203.98.60:8080/api", // 백엔드 api 서버 주소
+  baseURL: baseURL, // 백엔드 api 서버 주소
   headers: {
     "Content-Type": "application/json",
   },
