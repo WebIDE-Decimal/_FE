@@ -1,14 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 interface Post {
   id: string;
   title: string;
   content: string;
-  // post 객체에 포함된 다른 필요한 필드들을 여기에 추가하세요.
+  joinedPeople: number; // joinedPeople을 number 타입으로 변경
+  totalPeople: number;
 }
 
 interface RecruitDescriptionProps {
   post: Post;
 }
+
 const Study = ({ post }: RecruitDescriptionProps) => {
   const navigate = useNavigate();
 
