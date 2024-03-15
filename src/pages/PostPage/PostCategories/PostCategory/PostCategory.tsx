@@ -24,8 +24,10 @@ const PostCategory = ({ text, id }: PostCategoryProps) => {
       dispatch(clickApplyManagement());
     } else {
       const { clientX, clientY } = e;
-      const xPosition = clientX - 87 > 0 ? clientX - 87 : 0;
-      setModalPosition({ x: xPosition, y: clientY });
+      const x =
+        clientX - 87 > 0 ? clientX - 87 + window.scrollX : window.scrollX;
+      const y = clientY + window.scrollY;
+      setModalPosition({ x, y });
       dispatch(clickStudySettingModal(true));
     }
   };
