@@ -3,10 +3,10 @@ import Nav from "./Nav";
 const Layout = () => {
   return (
     <div className="flex">
-      <div className="">
+      <div>
         <Nav />
       </div>
-      <div className="bg-back w-full pt-20 min-h-screen">
+      <div className="bg-back mt-14 w-full min-h-screen">
         <Outlet />
       </div>
     </div>
