@@ -107,7 +107,9 @@ const Write = () => {
           <div className={"mt-4"}>
             <button
               onClick={handleCloseClick}
-              className={"w-3 h-3 bg-[#F44336] mr-2 rounded-full"}
+              className={
+                "w-3 h-3 bg-[#F44336] mr-2 rounded-full hover:bg-red-600"
+              }
             ></button>
           </div>
           <div className="pt-6 pb-3 px-2">
