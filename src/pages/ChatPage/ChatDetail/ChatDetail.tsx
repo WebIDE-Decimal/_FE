@@ -1,9 +1,15 @@
-import React from "react";
+import React from "react"; // Children 제거
 import userImage from "../../../assets/images/def_userInfo.png";
 import { GrSend } from "react-icons/gr";
 
+interface paramProps {
+  isReceived: boolean;
+  time: string;
+  children: React.ReactNode; // children 타입을 ReactNode로 변경
+}
+
 // 메시지 아이템을 렌더링하는 컴포넌트
-const MessageItem = ({ isReceived, time, children }) => {
+const MessageItem = ({ isReceived, time, children }: paramProps) => {
   const containerClasses = `flex items-center ${isReceived ? "justify-start" : "justify-end"} p-4`;
   const messageClasses = `flex-1 max-w-xs p-3 rounded-br-lg rounded-bl-lg ${isReceived ? "bg-chatPBg rounded-tr-lg text-white" : "bg-title rounded-tl-lg text-white"}`;
   const timeClasses = "text-xs text-chatUserTime";
@@ -39,8 +45,9 @@ const MessageItem = ({ isReceived, time, children }) => {
 
 const ChatDetail = () => {
   return (
-    <div className="flex flex-col h-full overflow-auto ">
+    <div className="flex flex-col h-full overflow-auto">
       <div className="flex-1 overflow-y-auto">
+        {/* 예제 메시지 */}
         <MessageItem isReceived={true} time="02:07 AM">
           <p>받은 내용</p>
         </MessageItem>
