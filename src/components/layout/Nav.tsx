@@ -8,11 +8,6 @@ import { CiSearch } from "react-icons/ci";
 const Nav = () => {
   const dispatch = useAppDispatch();
 
-  const handleMyPageClick = () => {
-    // If you have an action to dispatch when "채팅" or "유저" is clicked, do it here.
-    // dispatch(clickMyStudy());
-  };
-
   return (
     <nav className="flex fixed flex-row justify-between z-10 bg-navBarBg items-center w-screen">
       <div className="flex flex-row items-center mt-2">
@@ -24,13 +19,16 @@ const Nav = () => {
         </Link>
         <Link to={`/recruit`} className="my-1 text-white px-4 py-2">
           스터디
+        </Link>{" "}
+        <Link to={`/ide`} className="my-1 text-white px-4 py-2">
+          IDE
         </Link>
       </div>
       <div className="flex items-center ">
         <Link to={`/`} className="my-1 text-white px-4 py-2">
           <CiSearch />
         </Link>
-        <Link to={`/`} className="my-1 text-white px-4 py-2">
+        <Link to={`/chat`} className="my-1 text-white px-4 py-2">
           <CiChat1 />
         </Link>
         <Link to={`/mypage`} className="my-1 text-white px-4 py-2">

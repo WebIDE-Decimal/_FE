@@ -25,7 +25,7 @@ const UserInfo = () => {
       )}
       <div className="flex items-center">
         <img className="w-8 h-8 mr-4 rounded-full" src={userImage} alt="User" />
-        <div className="text-white">유저 이름</div>
+        <div className="text-white text-lg">유저 이름</div>
       </div>
       <div onClick={showModal} className="cursor-pointer">
         <CiCircleMore className="text-2xl text-white" />

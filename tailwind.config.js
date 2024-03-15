@@ -30,6 +30,13 @@ export default {
         studyCardBg: "#333333",
         darkgreen: "#4CAF50",
         navBarBg: "#01061B",
+        chatBorder: "#BCBCBC",
+        chatSelectedBg: "#154A6B",
+        chatBgBorder: "#303030",
+        chatUserName: "#DADADA",
+        chatUserTime: "#A0A0A0",
+        chatPBg: "#292929",
+        roomTreeBg: "#525252",
       },
       dropShadow: {
         shadow: "5px 5px 5px rgba(255, 255, 255, 0.4)",
