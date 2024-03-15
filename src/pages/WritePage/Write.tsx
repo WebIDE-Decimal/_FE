@@ -98,7 +98,7 @@ const Write = () => {
 
   return (
     <div className={"h-full"}>
-      <div className="flex justify-center h-full items-center">
+      <div className="flex justify-center h-full items-center mt-24">
         <form className="w-3/4 bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6">
           <div className={"mt-4"}>
             <button
@@ -153,7 +153,7 @@ const Write = () => {
             <div className="mt-3">
               <textarea
                 ref={contentRef}
-                className="resize-none placeholder:text-[#64758B] placeholder:text-lg text-white w-full h-96 bg-[#1b1b1b] rounded-lg p-4 text-lg"
+                className="resize-none placeholder:text-[#64758B] placeholder:text-lg text-white w-full h-80 bg-[#1b1b1b] rounded-lg p-4 text-lg"
                 placeholder="COSMS's 에서 스터디 기반으로 회원을 모집하고 공부해보세요."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}

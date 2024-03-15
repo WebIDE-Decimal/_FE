@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
 import defaultUser from "../../assets/user.png";
 import PostCategories from "./PostCategories/PostCategories.tsx";
 import RecruitDescription from "./PostCategories/RecruitDescription/RecruitDescription.tsx";
 import ApplyManagement from "./PostCategories/ApplyManagement/ApplyManagement.tsx";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal.tsx";
+import { useEffect } from "react";
 
 const Post = () => {
   const { posts } = useAppSelector((state) => state.posts);
@@ -14,10 +15,23 @@ const Post = () => {
     (state) => state.postPage,
   );
   const { viewAlertModal } = useAppSelector((state) => state.modal);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const scrollPosition = location.state?.fromRecruitPageScrollPosition;
+    if (scrollPosition !== undefined) {
+      window.scrollTo(0, scrollPosition);
+    }
+  }, []);
 
   return (
-    <div className={"h-full"}>
-      <div className="flex justify-center h-full items-center">
+    <div className={"h-full flex w-full"}>
+      <div
+        className={
+          "flex w-full h-full pb-12 min-h-screen justify-center items-center"
+        }
+      >
         {viewAlertModal && (
           <AlertModal
             text={"게시글을 삭제하시겠습니까?"}
@@ -27,12 +41,16 @@ const Post = () => {
         )}
         <div
           className={
-            "w-3/4 flex justify-between bg-studyCardBg/80 h-[700px] rounded-lg shadow-cardShadow px-6"
+            "w-3/4 flex mt-20 justify-between bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6"
           }
         >
-          <div className={"w-2/3"}>
+          <div className={"w-2/3 flex flex-col"}>
             <div className={"mt-4"}>
               <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`../recruit`);
+                }}
                 className={
                   "w-3 h-3 bg-[#F44336] mr-2 rounded-full hover:bg-red-600"
                 }
@@ -40,15 +58,19 @@ const Post = () => {
             </div>
             <div className={"w-full mt-5 pb-4 mb-4 border-b border-[#46494E]"}>
               <div>
-                <p className={"text-4xl font-bold text-white/80"}>
-                  {post.title}
-                </p>
+                <div className={"w-full"}>
+                  <p className={"text-4xl font-bold text-white/80"}>
+                    {post.title}
+                  </p>
+                </div>
                 <p className={"mt-3 text-white font-bold text-lg"}>모집 현황</p>
                 <div className={"flex w-1/2 items-center justify-between my-3"}>
                   <p className={"text-white"}>JAVA 스터디원</p>
                   <p className={"text-white"}>1/3</p>
                   <button
-                    className={"bg-[#4CAF50] text-white rounded px-2 py-1"}
+                    className={
+                      "bg-[#4CAF50]/90 hover:bg-[#4CAF50] text-white rounded px-2 py-1"
+                    }
                   >
                     지원하기
                   </button>

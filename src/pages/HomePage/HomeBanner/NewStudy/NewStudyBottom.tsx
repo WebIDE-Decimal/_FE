@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const NewStudyBottom = () => {
   return (
-    <div className={"w-4/5 h-5/6"}>
-      <div className={"w-full h-full flex flex-col"}>
-        <div className={"flex justify-between items-center"}>
+    <div className={"w-4/6 flex items-center justify-center"}>
+      <div className={"w-full flex flex-col"}>
+        <div className={"flex justify-between"}>
           <div>
             <p className={"text-white font-medium text-3xl"}>신규 스터디</p>
             <span className={"text-lg text-[#898686] font-medium"}>
@@ -24,7 +24,10 @@ const NewStudyBottom = () => {
             </div>
           </Link>
         </div>
-        <div className={"w-full h-5/6 flex justify-center items-center"}>
+        <div
+          className={"w-full mt-10 list-none flex justify-center items-center"}
+        >
+          <StudyCard />
           <StudyCard />
           <StudyCard />
         </div>
