@@ -23,8 +23,6 @@ const StudySettingModal = ({ id, modalPosition }: StudySettingProps) => {
     dispatch(clickStudySettingModal(false));
   };
 
-  console.log(modalPosition);
-
   const modalStyle: CSSProperties = {
     position: "absolute",
     left: `${modalPosition.x}px`,
