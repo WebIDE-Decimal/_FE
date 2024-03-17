@@ -1,12 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
-  const handleLoginClick = async (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+
     e.preventDefault();
   };
 
