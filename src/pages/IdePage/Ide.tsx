@@ -10,6 +10,10 @@ import { Editor } from "./Editor/Editor";
 import ChatDetail from "../ChatPage/ChatDetail/ChatDetail";
 import TeamUsersList from "./TeamUsersList/TeamUsersList";
 
+interface fileIconProps {
+  type: string;
+  isSelected: boolean;
+}
 // 파일 정보를 배열로 정의
 const folders = [
   {
@@ -28,7 +32,7 @@ const Ide = () => {
   const [selectedTab, setSelectedTab] = useState("chat");
 
   // 파일 확장자에 따른 아이콘을 반환하는 함수
-  const getFileIcon = (type, isSelected) => {
+  const getFileIcon = (type: string, isSelected: boolean) => {
     switch (type) {
       case "js":
         return isSelected ? <BsFileEarmarkFill /> : <BsFiletypeJs />;
