@@ -6,6 +6,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+
     e.preventDefault();
   };
 
