@@ -1,24 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
+  const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 
-  const handleLoginClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios.get("http://43.203.98.60:8080/api/chat/rooms").then((res) => {
-      if (res.status === 200) {
-        // localStorage.setItem("user", JSON.stringify({ email: email }));
-        console.log(res.data);
-        navigate(`/`);
-        toast.success("로그인 되었습니다.");
-      }
-    });
   };
 
   return (
