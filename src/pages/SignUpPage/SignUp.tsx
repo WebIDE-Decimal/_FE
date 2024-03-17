@@ -14,7 +14,7 @@ const SignUp = () => {
   const pattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-]+$/;
 
   const emailValidChk = () => {
-    if (pattern.test(email) === false) {
+    if (!pattern.test(email)) {
       setCheckEmail("");
     } else {
       setCheckEmail("true");
