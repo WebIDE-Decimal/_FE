@@ -11,10 +11,10 @@ import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyMo
 
 const Post = () => {
   const { posts } = useAppSelector((state) => state.posts);
-  const { id } = useParams<{ id?: string }>(); // id가 undefined일 수도 있음을 명시
-  const post = posts.find((post) => post.id.toString() === id); // id가 undefined일 수 있으므로, toString()을 사용하여 타입 에러 방지 및 비교
+  const { id } = useParams<{ id?: string }>();
+  const post = posts.find((post) => post.id.toString() === id);
   const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
-    (state) => state.postPage
+    (state) => state.postPage,
   );
   const { viewAlertModal, viewApplyStudyModal } = useAppSelector(
     (state) => state.modal,

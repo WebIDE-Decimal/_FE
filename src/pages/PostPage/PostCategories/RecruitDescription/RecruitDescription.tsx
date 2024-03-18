@@ -1,9 +1,5 @@
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  // post 객체에 포함된 다른 필요한 필드들을 여기에 추가하세요.
-}
+import React from "react";
+import { Post } from "../../../../store/posts/post.type.ts";
 
 interface RecruitDescriptionProps {
   post: Post;
