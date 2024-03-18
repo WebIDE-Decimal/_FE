@@ -38,11 +38,14 @@ const SignUp = () => {
 
   const handleSignUpClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/api/users/signup", {
-      email,
-      password,
-      nickname,
-    });
+    await axios
+      .post("https://groomcosmos.site/api/users/signup", {
+        email,
+        password,
+        nickname,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
     navigate(`/login`);
     toast.success("회원 가입이 완료되었습니다.");
   };

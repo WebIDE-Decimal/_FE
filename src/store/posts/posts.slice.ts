@@ -1,42 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Post } from "./post.type.ts";
 
-const dummyList = [
-  {
-    id: "a",
-    title: "ide 프로젝트 하실분 구합니다.",
-    author: "김개똥",
-    totalPeople: 4,
-    joinedPeople: 2,
-    content: "아무것도 모르는 나에게 자바스크립트를 알려줄 노예들 구한다.",
-  },
-  {
-    id: "b",
-    title: "프로젝트 하실분 구합니다.",
-    author: "이개똥",
-    totalPeople: 2,
-    joinedPeople: 1,
-    content: "아무것도 모르는 나에게 리액트를 알려줄 노예들 구한다.",
-  },
-  {
-    id: "c",
-    title: "프로젝트 하실분 구합니다.",
-    author: "박개똥",
-    totalPeople: 6,
-    joinedPeople: 4,
-    content: "아무것도 모르는 나에게 자바를 알려줄 노예들 구한다.",
-  },
-  {
-    id: "d",
-    title: "프로젝트 하실분 구합니다.",
-    author: "최개똥",
-    totalPeople: 3,
-    joinedPeople: 1,
-    content:
-      "코딩노예 구합니다. 무임금, 숙식 니들끼리 해결, 더 이상의 자세한 질문은 받지 않겠다.코딩노예 구합니다. 무임금, 숙식 니들끼리 해결, 더 이상의 자세한 질문은 받지 않겠다.코딩노예 구합니다. 무임금, 숙식 니들끼리 해결, 더 이상의 자세한 질문은 받지 않겠다.코딩노예 구합니다. 무임금, 숙식 니들끼리 해결, 더 이상의 자세한 질문은 받지 않겠다.",
-  },
-];
-
-const initialState = { posts: dummyList };
+const initialState: { posts: Post[] } = { posts: [] };
 
 const postsSlice = createSlice({
   name: "posts",

@@ -1,12 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLoginClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    await axios
+      .post(`https://groomcosmos.site/api/login`, { email, password })
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem("accessTK", res.headers.access_token);
+          navigate(`/`);
+          toast.success("로그인 되었습니다.😉");
+        }
+      });
   };
 
   return (

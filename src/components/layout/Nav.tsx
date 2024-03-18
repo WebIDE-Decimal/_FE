@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/redux";
 import mainLogo from "../../assets/images/main_logo.png";
 import user from "../../assets/images/def_userInfo.png";
-import { CiChat1 } from "react-icons/ci";
-import { CiSearch } from "react-icons/ci";
+import { CiChat1, CiSearch } from "react-icons/ci";
 
 const Nav = () => {
-  const dispatch = useAppDispatch();
+  const isLogin = !!localStorage.getItem("accessTK");
 
   return (
     <nav className="flex fixed flex-row justify-between z-10 bg-navBarBg items-center w-screen">
@@ -31,9 +29,15 @@ const Nav = () => {
         <Link to={`/chat`} className="my-1 text-white px-4 py-2">
           <CiChat1 />
         </Link>
-        <Link to={`/mypage`} className="my-1 text-white px-4 py-2">
-          <img className="w-8 mr-8 " src={user} alt="user Image" />
-        </Link>
+        {isLogin ? (
+          <Link to={`/mypage`} className="my-1 text-white px-4 py-2">
+            <img className="w-8 mr-8 " src={user} alt="user Image" />
+          </Link>
+        ) : (
+          <Link to={`/login`} className="my-1 text-white px-4 py-2">
+            <img className="w-8 mr-8 " src={user} alt="user Image" />
+          </Link>
+        )}
       </div>
     </nav>
   );
