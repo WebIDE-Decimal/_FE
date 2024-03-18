@@ -14,10 +14,10 @@ const Post = () => {
   const { id } = useParams<{ id?: string }>();
   const post = posts.find((post) => post.id.toString() === id);
   const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
-    (state) => state.postPage,
+    (state) => state.postPage
   );
   const { viewAlertModal, viewApplyStudyModal } = useAppSelector(
-    (state) => state.modal,
+    (state) => state.modal
   );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

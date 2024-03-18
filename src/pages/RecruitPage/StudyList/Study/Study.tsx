@@ -1,12 +1,17 @@
-import { Link } from "react-router-dom";
-import { Post } from "../../../../store/posts/post.type.ts";
-import { FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  joinedPeople: number; // joinedPeople을 number 타입으로 변경
+  totalPeople: number;
+}
 
-interface StudyProps {
+interface RecruitDescriptionProps {
   post: Post;
 }
 
-const Study: FC<StudyProps> = ({ post }) => {
+const Study = ({ post }) => {
   const truncate = (str: string, n: number) => {
     return str?.length > n ? str.substring(0, n - 1) + "..." : str;
   };

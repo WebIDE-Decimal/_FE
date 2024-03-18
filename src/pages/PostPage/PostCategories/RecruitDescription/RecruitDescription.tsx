@@ -1,11 +1,23 @@
+
 import React from "react";
 import { Post } from "../../../../store/posts/post.type.ts";
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  // post 객체에 포함된 다른 필요한 필드들을 여기에 추가하세요.
+}
 
 interface RecruitDescriptionProps {
   post: Post;
 }
 
-const RecruitDescription: React.FC<RecruitDescriptionProps> = ({ post }) => {
+
+interface RecruitDescriptionProps {
+  post: Post;
+}
+
+const RecruitDescription: React.FC<RecruitDescriptionProps>: React.FC<RecruitDescriptionProps> = ({ post }) => {
   return (
     <>
       <div className={"w-full h-full"}>
