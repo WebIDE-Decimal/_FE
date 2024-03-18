@@ -16,14 +16,18 @@ const Nav = () => {
           Q&A
         </Link>
         <Link to={`/recruit`} className="my-1 text-white px-4 py-2">
-          스터디
-        </Link>{" "}
+          스터디 모집 게시판
+        </Link>
         <Link to={`/ide`} className="my-1 text-white px-4 py-2">
           IDE
         </Link>
-        <Link to={`/videochat`} className="my-1 text-white px-4 py-2">
-          VideoChat
+        <Link to={`/Mypage`} className="my-1 text-white px-4 py-2">
+          내 스터디 목록
         </Link>
+
+        {/* <Link to={`/videochat`} className="my-1 text-white px-4 py-2">
+          VideoChat
+        </Link> */}
       </div>
       <div className="flex items-center ">
         <Link to={`/`} className="my-1 text-white px-4 py-2">
@@ -37,9 +41,14 @@ const Nav = () => {
             <img className="w-8 mr-8 " src={user} alt="user Image" />
           </Link>
         ) : (
-          <Link to={`/login`} className="my-1 text-white px-4 py-2">
-            <img className="w-8 mr-8 " src={user} alt="user Image" />
-          </Link>
+          <>
+            <Link to={`/login`} className="my-1 text-white px-4 py-2">
+              로그인
+            </Link>
+            <Link to={`/signup`} className="my-1 text-white px-4 py-2">
+              회원가입
+            </Link>
+          </>
         )}
       </div>
     </nav>
