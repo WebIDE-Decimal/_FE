@@ -1,6 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  joinedPeople: number; // joinedPeople을 number 타입으로 변경
+  totalPeople: number;
+}
 
-const Study = ({ post }) => {
+interface RecruitDescriptionProps {
+  post: Post;
+}
+
+const Study = ({ post }: RecruitDescriptionProps) => {
+  const navigate = useNavigate();
+
+  const handlePostClick = () => {
+    navigate(`../post/${post.id}`);
+  };
+
   const truncate = (str: string, n: number) => {
     return str?.length > n ? str.substring(0, n - 1) + "..." : str;
   };

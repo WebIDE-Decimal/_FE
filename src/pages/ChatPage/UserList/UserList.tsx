@@ -4,17 +4,22 @@ import userImage from "../../../assets/images/def_userInfo.png";
 import chatIcon from "../../../assets/images/chatIcon.png";
 import { MdMessage } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
+interface Chat {
+  id: string;
+  name: string;
+  time: string;
+}
 
 const UserList = () => {
-  const [chats, setChats] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredChats, setFilteredChats] = useState([]);
+  const [chats, setChats] = useState<Chat[]>([]);
+  const [selectedChat, setSelectedChat] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
 
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const data = await getChatsList();
+        const data: Chat[] = await getChatsList(); // API 호출 결과 타입을 Chat[]로 가정
         setChats(data);
         setFilteredChats(data); // 초기 상태에서는 모든 chats를 보여줍니다.
       } catch (error) {
@@ -29,9 +34,9 @@ const UserList = () => {
     const delayDebounce = setTimeout(() => {
       if (searchTerm) {
         const filtered = chats.filter((chat) =>
-          chat?.name.toLowerCase().includes(searchTerm.toLowerCase())
+          chat.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredChats(filtered.length > 0 ? filtered : "no-results");
+        setFilteredChats(filtered);
       } else {
         setFilteredChats(chats);
       }
@@ -61,8 +66,10 @@ const UserList = () => {
         </div>
       </div>
       <div className="flex-1 overflow-y-auto pt-4">
-        {filteredChats === "no-results" ? (
-          <div className="text-center p-4">검색어를 다시 입력하세요</div>
+        {filteredChats.length === 0 ? (
+          <div className="text-center p-4 text-white">
+            검색어를 다시 입력하세요
+          </div>
         ) : filteredChats.length > 0 ? (
           filteredChats.map((chat) => (
             <div
