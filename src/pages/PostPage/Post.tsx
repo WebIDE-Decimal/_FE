@@ -87,12 +87,23 @@ const Post = () => {
             {viewRecruitDescription && <RecruitDescription post={post} />}
             {viewApplyManagement && <ApplyManagement />}
           </div>
-          <div className={"w-1/3 mt-9"}>
-            <img
-              className={"float-right w-40 h-40"}
-              src={defaultUser}
-              alt={"Author Image"}
-            />
+          <div className={"flex flex-col items-center w-1/3 mt-9"}>
+            <div>
+              <img
+                className={"float-right w-56 h-56"}
+                src={defaultUser}
+                alt={"Author Image"}
+              />
+            </div>
+            <div className={"flex mt-4 w-full items-center justify-center"}>
+              <button
+                className={
+                  "bg-[#FFC107] rounded font-bold text-white px-6 py-3"
+                }
+              >
+                1 : 1 채팅하기
+              </button>
+            </div>
           </div>
         </div>
       </div>

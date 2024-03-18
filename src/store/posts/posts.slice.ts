@@ -1,7 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Post } from "./post.type.ts";
 
-const initialState: { posts: Post[] } = { posts: [] };
+const initialState: { posts: Post[] } = {
+  posts: [
+    {
+      id: "a",
+      writerId: 123,
+      title: "자바스크립트",
+      content: "123 자바스크립트",
+      recruited: 6,
+      state: "모집중",
+      target: "java 스터디원",
+      localDateTime: "123",
+    },
+  ],
+};
 
 const postsSlice = createSlice({
   name: "posts",
