@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaFolder } from "react-icons/fa";
 import {
   BsFiletypeJs,
@@ -9,27 +9,47 @@ import {
 import { Editor } from "./Editor/Editor";
 import ChatDetail from "../ChatPage/ChatDetail/ChatDetail";
 import TeamUsersList from "./TeamUsersList/TeamUsersList";
+import { getAllFolders } from "../../api/ideAPI";
 
-interface fileIconProps {
+interface File {
+  id: number;
+  fileName: string;
+  conrtent: string;
+  folder: Folder;
   type: string;
   isSelected: boolean;
 }
-// 파일 정보를 배열로 정의
-const folders = [
-  {
-    name: "User1",
-    isSelected: true,
-    files: [{ name: "User1 file.js", type: "js", isSelected: true }],
-  },
-  {
-    name: "User2",
-    isSelected: false,
-    files: [{ name: "User2 file.java", type: "java", isSelected: false }],
-  },
-  // 다른 폴더와 파일들...
-];
+interface Folder {
+  id: number;
+  folderName: string;
+  parentFolder: Folder;
+  childFolders: Folder[];
+  files: File[];
+  depth: number;
+}
+
+interface FolderProps {
+  folderName: string;
+  parentFolder: Folder;
+  depth: number;
+}
+
 const Ide = () => {
   const [selectedTab, setSelectedTab] = useState("chat");
+  const [folders, setFolders] = useState<Folder[]>([]);
+
+  // useEffect(() => {
+  //   const fetchFolders = async () => {
+  //     try {
+  //       const fetchedFolders = await getAllFolders();
+  //       setFolders(fetchedFolders);
+  //     } catch (error) {
+  //       console.error("Failed to fetch folders:", error);
+  //     }
+  //   };
+
+  //   fetchFolders();
+  // }, []);
 
   // 파일 확장자에 따른 아이콘을 반환하는 함수
   const getFileIcon = (type: string, isSelected: boolean) => {
@@ -53,17 +73,17 @@ const Ide = () => {
             <FaFolder /> <span>스터디 이름</span>
           </div>
           {folders.map((folder) => (
-            <div key={folder.name}>
+            <div key={folder.id}>
               <div className="mb-4 flex items-center gap-2 text-l text-white">
-                <FaFolder /> <span>{folder.name}</span>
+                <FaFolder /> <span>{folder.folderName}</span>
               </div>
               {folder?.files?.map((file) => (
                 <div
-                  key={file.name}
+                  key={file.fileName}
                   className={`flex items-center mb-2 pl-4 ${file.isSelected ? "bg-gray-200" : "text-white"}`}
                 >
                   {getFileIcon(file.type, file.isSelected)}
-                  <p className="ml-2">{file.name}</p>
+                  <p className="ml-2">{file.fileName}</p>
                 </div>
               ))}
             </div>

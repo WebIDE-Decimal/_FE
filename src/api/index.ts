@@ -8,6 +8,6 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // 인스턴스에 withCredentials 설정
 });
-
 export default api;
