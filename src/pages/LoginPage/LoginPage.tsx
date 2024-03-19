@@ -1,18 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
+import { useAppDispatch } from "../../hooks/redux.ts";
 import api from "../../api";
 import { clickLogin } from "../../store/user/user.slice.ts";
 import { toast } from "react-toastify";
-import KakaoSocialLogin from "../../components/SocialLogin/KakaoLogin/KakaoLogin.tsx";
+import KakaoSocialLogin from "../../components/SocialLogin/KakaoLogin/KakaoSocialLogin.tsx";
+import NaverSocialLogin from "../../components/SocialLogin/NaverLogin/NaverSocialLogin.tsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user);
-  console.log(user);
+  const navigate = useNavigate();
+
   const handleLoginClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await api
@@ -22,7 +23,7 @@ const Login = () => {
           console.log(res);
           const { access_token } = res.headers;
           dispatch(clickLogin(access_token));
-          // navigate("/");
+          navigate("/");
           toast.success("로그인 되었습니다.");
         }
       })
@@ -42,8 +43,10 @@ const Login = () => {
         <div className="w-full text-center">
           <div className={"flex flex-col justify-center items-center"}>
             <span className="text-gray/80 mb-2">다른 서비스로 로그인</span>
-
-            <KakaoSocialLogin />
+            <div className={"flex items-center justify-center"}>
+              <KakaoSocialLogin />
+              <NaverSocialLogin />
+            </div>
           </div>
           <div className="container my-3 mx-auto text-center flex items-center">
             <div className="flex-grow border-t border-gray"></div>

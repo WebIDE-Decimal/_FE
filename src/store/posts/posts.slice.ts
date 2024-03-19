@@ -1,45 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Post } from "./post.type.ts";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "../../api";
 
-const initialState: { posts: Post[] } = {
-  posts: [
-    {
-      id: "a",
-      writerId: 123,
-      title: "자바스크립트",
-      content: "123 자바스크립트",
-      recruited: 6,
-      state: "모집중",
-      target: "java 스터디원",
-      localDateTime: "123",
-    },
-  ],
+// interface PostsState {
+//   isLoading: boolean;
+//   posts: Post[];
+//   error: string;
+// }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const fetchPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  async (_, thunkAPI) => {
+    try {
+      const response = await api.get("/recruit");
+      return response.data.results;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        "게시글을 불러오는데 에러가 발생했습니다.",
+      );
+    }
+  },
+);
+
+const initialState = {
+  isLoading: false,
+  posts: [],
+  error: "",
 };
 
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {
-    addPost: (state, { payload }) => {
-      state.posts.unshift(payload);
-    },
-    removePost: (state, { payload }) => {
-      state.posts = state.posts.filter((post) => post.id !== payload);
-    },
-    editPost: (state, { payload }) => {
-      state.posts = state.posts.map((post) =>
-        post.id === payload.id
-          ? {
-              ...post,
-              title: payload.title,
-              totalPeople: payload.totalPeople,
-              content: payload.content,
-            }
-          : post,
-      );
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPosts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.posts = action.payload;
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
-export const { removePost, addPost, editPost } = postsSlice.actions;
 export default postsSlice.reducer;

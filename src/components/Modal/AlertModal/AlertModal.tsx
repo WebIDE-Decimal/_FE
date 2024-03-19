@@ -29,7 +29,6 @@ const AlertModal = ({ text, type, id }: AlertModalProps) => {
   ) => {
     e.preventDefault();
     if (type === "삭제하기") {
-      dispatch(removePost(id));
       dispatch(toggleAlertModal(false));
       navigate(`/recruit`);
       toast.info("모집 글이 삭제되었습니다.✔");

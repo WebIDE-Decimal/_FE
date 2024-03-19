@@ -1,11 +1,10 @@
 import React, { useRef, useState } from "react";
 import { SlMinus, SlPlus } from "react-icons/sl";
 import { useNavigate, useParams } from "react-router-dom";
-import { v4 } from "uuid";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { addPost, editPost } from "../../store/posts/posts.slice";
 import { toast } from "react-toastify";
 import { clickStudySettingModal } from "../../store/postPage/postPageSlice.ts";
+import api from "../../api";
 
 const Write = () => {
   const { id } = useParams();
@@ -15,6 +14,7 @@ const Write = () => {
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
   const [overPeople, setOverPeople] = useState(false);
+  const [target, setTarget] = useState(post?.target || "");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
@@ -44,7 +44,9 @@ const Write = () => {
     setTotalPeople(totalPeople + 1);
   };
 
-  const handleRecruitClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleRecruitClick = async (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+  ) => {
     e.preventDefault();
 
     if (title === "") {
@@ -59,17 +61,13 @@ const Write = () => {
       return;
     }
 
-    const newPost = {
-      id: v4(),
-      title,
-      author: "정개똥",
-      totalPeople,
-      content,
-    };
-
-    dispatch(addPost(newPost));
-    navigate(`/recruit`);
-    toast.success("모집 글이 등록되었습니다.👏");
+    const newPost = {};
+    await api
+      .post("/recruit", newPost)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    // navigate(`/recruit`);
+    // toast.success("모집 글이 등록되었습니다.👏");
   };
 
   const handleEditClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -86,14 +84,6 @@ const Write = () => {
       return;
     }
 
-    const editedPost = {
-      id: post.id,
-      title,
-      content,
-      totalPeople,
-    };
-
-    dispatch(editPost(editedPost));
     dispatch(clickStudySettingModal(false));
     navigate(`/post/${post.id}`);
     toast.success("글이 수정되었습니다.👌");
@@ -137,6 +127,8 @@ const Write = () => {
             <span className="text-xl text-white font-bold">모집 대상</span>
             <div className="my-3">
               <input
+                onChange={(e) => setTarget(e.target.value)}
+                value={target}
                 className="w-full text-white h-12 text-xl bg-[#1b1b1b] rounded-lg pl-4 placeholder:text-lg placeholder:text-[#64758B] placeholder:font-medium"
                 type="text"
                 placeholder="JAVA, JavaScript, Node.js ..."

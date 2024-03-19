@@ -13,7 +13,7 @@ const KakaoSocialLogin = () => {
 
   return (
     <>
-      <button onClick={handleKakaoLoginClick}>
+      <button className={"mr-2"} onClick={handleKakaoLoginClick}>
         <img
           src={kakaoImg}
           alt={"카카오 로그인"}
