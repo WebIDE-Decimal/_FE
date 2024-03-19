@@ -1,10 +1,23 @@
 import { Link } from "react-router-dom";
 import mainLogo from "../../assets/images/main_logo.png";
-import user from "../../assets/images/def_userInfo.png";
+import userImg from "../../assets/images/def_userInfo.png";
 import { CiChat1, CiSearch } from "react-icons/ci";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
+import React from "react";
+import api from "../../api";
+import { clickLogout } from "../../store/user/user.slice.ts";
 
 const Nav = () => {
-  const isLogin = !!localStorage.getItem("accessTK");
+  const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const handleLogoutClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await api
+      .post("/logout")
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    dispatch(clickLogout(""));
+  };
 
   return (
     <nav className="flex fixed flex-row justify-between z-10 bg-navBarBg items-center w-screen">
@@ -23,19 +36,27 @@ const Nav = () => {
         </Link>
       </div>
       <div className="flex items-center ">
+        {/*임시 로그아웃 버튼*/}
+        {user.accessToken && (
+          <div>
+            <button className={"bg-darkgreen"} onClick={handleLogoutClick}>
+              로그아웃
+            </button>
+          </div>
+        )}
         <Link to={`/`} className="my-1 text-white px-4 py-2">
           <CiSearch />
         </Link>
         <Link to={`/chat`} className="my-1 text-white px-4 py-2">
           <CiChat1 />
         </Link>
-        {isLogin ? (
+        {user.accessToken !== "" ? (
           <Link to={`/mypage`} className="my-1 text-white px-4 py-2">
-            <img className="w-8 mr-8 " src={user} alt="user Image" />
+            <img className="w-8 mr-8 " src={userImg} alt="user Image" />
           </Link>
         ) : (
           <Link to={`/login`} className="my-1 text-white px-4 py-2">
-            <img className="w-8 mr-8 " src={user} alt="user Image" />
+            <img className="w-8 mr-8 " src={userImg} alt="user Image" />
           </Link>
         )}
       </div>

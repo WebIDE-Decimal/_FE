@@ -44,10 +44,12 @@ const SignUp = () => {
         password,
         nickname,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        navigate(`/login`);
+        toast.success("회원 가입이 완료되었습니다.");
+        console.log(res);
+      })
       .catch((err) => console.log(err));
-    navigate(`/login`);
-    toast.success("회원 가입이 완료되었습니다.");
   };
 
   return (
