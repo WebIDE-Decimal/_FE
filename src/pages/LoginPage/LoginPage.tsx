@@ -1,25 +1,35 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
+import api from "../../api";
+import { clickLogin } from "../../store/user/user.slice.ts";
 import { toast } from "react-toastify";
+import KakaoSocialLogin from "../../components/SocialLogin/KakaoLogin/KakaoLogin.tsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.user);
+  console.log(user);
   const handleLoginClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios
-      .post(`https://groomcosmos.site/api/login`, { email, password })
+    await api
+      .post("/login", { email, password })
       .then((res) => {
         if (res.status === 200) {
-          localStorage.setItem("accessTK", res.headers.access_token);
-          navigate(`/`);
-          toast.success("로그인 되었습니다.😉");
+          console.log(res);
+          const { access_token } = res.headers;
+          dispatch(clickLogin(access_token));
+          // navigate("/");
+          toast.success("로그인 되었습니다.");
         }
-      });
+      })
+      .catch((err) => console.log(err));
   };
+
+  axios.defaults.withCredentials = true;
 
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center">
@@ -30,7 +40,11 @@ const Login = () => {
           </h2>
         </div>
         <div className="w-full text-center">
-          <span className="text-gray/80">다른 서비스로 로그인</span>
+          <div className={"flex flex-col justify-center items-center"}>
+            <span className="text-gray/80 mb-2">다른 서비스로 로그인</span>
+
+            <KakaoSocialLogin />
+          </div>
           <div className="container my-3 mx-auto text-center flex items-center">
             <div className="flex-grow border-t border-gray"></div>
             <span className="text-gray mx-2">또는</span>
