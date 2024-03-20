@@ -8,7 +8,11 @@ interface UserState {
 
 const initialState: UserState = {
   isLoading: false,
-  user: { accessToken: "" },
+  user: {
+    accessToken: localStorage.getItem("access_token")
+      ? localStorage.getItem("access_token")!
+      : "",
+  },
   error: "",
 };
 

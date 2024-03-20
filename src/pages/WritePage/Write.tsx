@@ -19,6 +19,7 @@ const Write = () => {
   const navigate = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const targetRef = useRef<HTMLInputElement>(null);
 
   const handleMinusClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -58,6 +59,12 @@ const Write = () => {
     if (content === "") {
       contentRef.current?.focus();
       toast.warning("스터디 설명을 입력하세요!😠");
+      return;
+    }
+
+    if (target === "") {
+      targetRef.current?.focus();
+      toast.warning("모집 대상을 입력하세요!😠");
       return;
     }
 
@@ -127,6 +134,7 @@ const Write = () => {
             <span className="text-xl text-white font-bold">모집 대상</span>
             <div className="my-3">
               <input
+                ref={targetRef}
                 onChange={(e) => setTarget(e.target.value)}
                 value={target}
                 className="w-full text-white h-12 text-xl bg-[#1b1b1b] rounded-lg pl-4 placeholder:text-lg placeholder:text-[#64758B] placeholder:font-medium"

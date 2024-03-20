@@ -3,7 +3,7 @@ import React from "react";
 
 const NaverSocialLogin = () => {
   const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
-  const redirectURL = "https://localhost:5173";
+  const redirectURL = "http://localhost:5173";
   const naverURL = `https://nid.naver.com/oauth2.0/authorize?client_id=${clientId}&redirect_uri=${redirectURL}&response_type=code`;
 
   const handleNaverLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
