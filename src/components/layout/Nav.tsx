@@ -10,6 +10,7 @@ import { clickLogout } from "../../store/user/user.slice.ts";
 const Nav = () => {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  console.log("token", user.accessToken);
   const handleLogoutClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await api
