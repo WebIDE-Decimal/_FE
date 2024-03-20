@@ -12,19 +12,22 @@ const Nav = () => {
         <Link to={`/`}>
           <img className="w-24 ml-10" src={mainLogo} alt="main logo" />
         </Link>
-        <Link to={`/`} className="my-1 text-white px-4 py-2">
+        {/* <Link to={`/`} className="my-1 text-white px-4 py-2">
           Q&A
-        </Link>
+        </Link> */}
         <Link to={`/recruit`} className="my-1 text-white px-4 py-2">
           스터디 모집 게시판
         </Link>
         <Link to={`/ide`} className="my-1 text-white px-4 py-2">
           IDE
         </Link>
-        <Link to={`/Mypage`} className="my-1 text-white px-4 py-2">
-          내 스터디 목록
-        </Link>
-
+        {isLogin ? (
+          <Link to={`/Mypage`} className="my-1 text-white px-4 py-2">
+            내 스터디 목록
+          </Link>
+        ) : (
+          <></>
+        )}
         {/* <Link to={`/videochat`} className="my-1 text-white px-4 py-2">
           VideoChat
         </Link> */}
