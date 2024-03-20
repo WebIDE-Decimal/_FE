@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../../api";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -38,8 +38,8 @@ const SignUp = () => {
 
   const handleSignUpClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios
-      .post("https://groomcosmos.site/api/users/signup", {
+    await api
+      .post("/users/signup", {
         email,
         password,
         nickname,

@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
 import React from "react";
 import api from "../../api";
 import { clickLogout } from "../../store/user/user.slice.ts";
+import axios from "axios";
 
 const Nav = () => {
   const { user } = useAppSelector((state) => state.user);
