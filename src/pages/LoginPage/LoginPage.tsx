@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAppDispatch } from "../../hooks/redux.ts";
 import api from "../../api";
@@ -13,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const handleLoginClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -29,6 +30,10 @@ const Login = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, []);
 
   axios.defaults.withCredentials = true;
 
@@ -57,6 +62,7 @@ const Login = () => {
         <form className="w-full">
           <div className="my-4">
             <input
+              ref={emailRef}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
