@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../api";
@@ -10,7 +10,7 @@ const SignUp = () => {
   const [nickname, setNickname] = useState("");
   const [checkEmail, setCheckEmail] = useState("a");
   const navigate = useNavigate();
-
+  const emailRef = useRef<HTMLInputElement>(null);
   const pattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-]+$/;
 
   const emailValidChk = () => {
@@ -27,6 +27,10 @@ const SignUp = () => {
     e.preventDefault();
     emailValidChk();
   };
+
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (checkEmail === "") {
@@ -77,6 +81,7 @@ const SignUp = () => {
             }`}
           >
             <input
+              ref={emailRef}
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
               type="text"
               placeholder="이메일 또는 아이디"
