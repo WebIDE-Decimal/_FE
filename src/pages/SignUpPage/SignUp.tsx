@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import api from "../../api";
 import useEmailCheck from "../../hooks/useCheck/useEmailCheck.ts";
 import usePasswordCheck from "../../hooks/useCheck/usePasswordCheck.ts";
+import useNicknameCheck from "../../hooks/useCheck/useNicknameCheck.ts";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -12,15 +13,19 @@ const SignUp = () => {
   const [nickname, setNickname] = useState("");
   const [checkEmail, setCheckEmail] = useState(false);
   const [checkValidPassword, setCheckValidPassword] = useState(false);
+  const [validNickname, setValidNickname] = useState(false);
+
   const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
   const emailCheckButtonRef = useRef<HTMLButtonElement>(null);
+  const nicknameCheckButtonRef = useRef<HTMLButtonElement>(null);
   const handleEmailClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
   };
 
+  // 이메일 유효성 검사
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const emailCheck = useEmailCheck(email);
@@ -37,6 +42,8 @@ const SignUp = () => {
     }
   }, [email]);
 
+  // 비밀번호 유효성 검사
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const passwordCheck = usePasswordCheck(password);
@@ -47,6 +54,25 @@ const SignUp = () => {
     }
   }, [password]);
 
+  // 닉네임 유효성 검사
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const nicknameCheck = useNicknameCheck(nickname);
+    console.log(nicknameCheck);
+    if (nicknameCheck) {
+      setValidNickname(true);
+      if (nicknameCheckButtonRef.current !== null) {
+        nicknameCheckButtonRef.current.disabled = false;
+      }
+    } else {
+      setValidNickname(false);
+      if (nicknameCheckButtonRef.current !== null) {
+        nicknameCheckButtonRef.current.disabled = true;
+      }
+    }
+  }, [nickname]);
+
+  // 화면 진입 했을때 email 입력창에 포커스
   useEffect(() => {
     emailRef.current?.focus();
   }, []);
@@ -158,26 +184,35 @@ const SignUp = () => {
           <div
             className={`${
               checkPassword !== "" && checkPassword !== password
-                ? "flex mt-2 mb-4 items-center relative"
-                : "flex my-4 items-center relative"
+                ? "flex flex-col mt-2 mb-4 items-center relative"
+                : "flex flex-col my-4 items-center relative"
             }`}
           >
-            <input
-              className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
-              placeholder="닉네임"
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-            />
-            <button
-              ref={emailCheckButtonRef}
-              type={"button"}
-              className={`absolute right-3 text-white/80 px-2 py-1 rounded-md bg-loginBtn disabled:bg-gray disabled:cursor-not-allowed`}
-              onClick={handleEmailClick}
-              disabled={true}
-            >
-              인증
-            </button>
+            <div className={"flex w-full items-center"}>
+              <input
+                className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
+                placeholder="닉네임"
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+              />
+              <button
+                ref={nicknameCheckButtonRef}
+                type={"button"}
+                className={`absolute right-3 text-white/80 px-2 py-1 rounded-md bg-loginBtn disabled:bg-gray disabled:cursor-not-allowed`}
+                onClick={handleEmailClick}
+                disabled={true}
+              >
+                인증
+              </button>
+            </div>
+            {!validNickname && nickname !== "" && (
+              <div className={"w-full mt-2"}>
+                <p className={"text-softwarning"}>
+                  닉네임은 2자 이상 15자 이하의 공백이 없는 문자여야 합니다.
+                </p>
+              </div>
+            )}
           </div>
 
           <div>
