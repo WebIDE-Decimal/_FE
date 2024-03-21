@@ -6,6 +6,7 @@ import modal from "./modal/modalSlice";
 
 import postPage from "./postPage/postPageSlice.ts";
 import chatPage from "./chatPage/chatPageSlice.ts";
+import openViduReducer from "./openVidu/openViduSlice.ts";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     modal,
     postPage,
     chatPage,
+    openViduReducer,
   },
 });
 

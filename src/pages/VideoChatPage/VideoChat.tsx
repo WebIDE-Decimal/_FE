@@ -1,7 +1,8 @@
 import React from "react";
+import VideoComponent from "./VideoComponent";
 
 const VideoChat = () => {
-  return <div>VideoChat</div>;
+  return <VideoComponent />;
 };
 
 export default VideoChat;
