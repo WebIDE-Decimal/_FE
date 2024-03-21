@@ -2,43 +2,54 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../api";
+import useEmailCheck from "../../hooks/useCheck/useEmailCheck.ts";
+import usePasswordCheck from "../../hooks/useCheck/usePasswordCheck.ts";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  const [checkEmail, setCheckEmail] = useState("a");
+  const [checkEmail, setCheckEmail] = useState(false);
+  const [checkValidPassword, setCheckValidPassword] = useState(false);
   const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
-  const pattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-]+$/;
-
-  const emailValidChk = () => {
-    if (!pattern.test(email)) {
-      setCheckEmail("");
-    } else {
-      setCheckEmail("true");
-    }
-  };
-
+  const emailCheckButtonRef = useRef<HTMLButtonElement>(null);
   const handleEmailClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    emailValidChk();
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const emailCheck = useEmailCheck(email);
+    if (emailCheck) {
+      setCheckEmail(true);
+      if (emailCheckButtonRef.current !== null) {
+        emailCheckButtonRef.current.disabled = false;
+      }
+    } else {
+      setCheckEmail(false);
+      if (emailCheckButtonRef.current !== null) {
+        emailCheckButtonRef.current.disabled = true;
+      }
+    }
+  }, [email]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const passwordCheck = usePasswordCheck(password);
+    if (passwordCheck) {
+      setCheckValidPassword(true);
+    } else {
+      setCheckValidPassword(false);
+    }
+  }, [password]);
 
   useEffect(() => {
     emailRef.current?.focus();
   }, []);
-
-  useEffect(() => {
-    if (checkEmail === "") {
-      setTimeout(() => {
-        setCheckEmail("a");
-      }, 3000);
-    }
-  }, [checkEmail]);
 
   const handleSignUpClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -75,7 +86,7 @@ const SignUp = () => {
         <form className="w-full">
           <div
             className={`${
-              checkEmail === ""
+              !checkEmail
                 ? "flex mt-4 mb-2 items-center relative"
                 : "flex my-4 items-center relative"
             }`}
@@ -89,20 +100,23 @@ const SignUp = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <button
-              className="absolute right-3 bg-gray text-white/80 px-2 py-1 rounded-md hover:bg-loginBtn"
+              ref={emailCheckButtonRef}
+              type={"button"}
+              className={`absolute right-3 text-white/80 px-2 py-1 rounded-md bg-loginBtn disabled:bg-gray disabled:cursor-not-allowed`}
               onClick={handleEmailClick}
+              disabled={true}
             >
               인증
             </button>
           </div>
-          {!checkEmail && (
+          {!checkEmail && email !== "" && (
             <div>
               <span className="text-softwarning">
                 올바른 이메일 형식이 아닙니다.
               </span>
             </div>
           )}
-          <div className={`${checkEmail === "" ? "mt-2 mb-4" : "my-4"}`}>
+          <div className={`${checkEmail ? "mt-2 mb-4" : "my-4"}`}>
             <input
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
               placeholder="비밀번호"
@@ -111,6 +125,14 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {!checkValidPassword && password !== "" && (
+            <div>
+              <span className="text-softwarning">
+                비밀번호는 영문, 숫자, 특수기호를 1개 이상씩 포함한 8~15자여야
+                합니다.
+              </span>
+            </div>
+          )}
           <div
             className={`${
               checkPassword !== "" && checkPassword !== password
@@ -128,7 +150,7 @@ const SignUp = () => {
           </div>
           {checkPassword !== "" && checkPassword !== password && (
             <div>
-              <span className="text-warning/90">
+              <span className="text-warning font-medium">
                 비밀번호가 일치하지 않습니다.
               </span>
             </div>
@@ -136,8 +158,8 @@ const SignUp = () => {
           <div
             className={`${
               checkPassword !== "" && checkPassword !== password
-                ? "mt-2 mb-4"
-                : "my-4"
+                ? "flex mt-2 mb-4 items-center relative"
+                : "flex my-4 items-center relative"
             }`}
           >
             <input
@@ -147,7 +169,17 @@ const SignUp = () => {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
             />
+            <button
+              ref={emailCheckButtonRef}
+              type={"button"}
+              className={`absolute right-3 text-white/80 px-2 py-1 rounded-md bg-loginBtn disabled:bg-gray disabled:cursor-not-allowed`}
+              onClick={handleEmailClick}
+              disabled={true}
+            >
+              인증
+            </button>
           </div>
+
           <div>
             <button
               onClick={handleSignUpClick}
