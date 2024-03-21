@@ -99,7 +99,7 @@ const Login = () => {
             {incorrect && (
               <div>
                 <p className={"text-softwarning"}>
-                  아이디 또는 비밀번호가 올바르지 않습니다.
+                  이메일 또는 비밀번호를 확인해주세요.
                 </p>
               </div>
             )}
