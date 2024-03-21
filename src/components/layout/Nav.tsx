@@ -10,13 +10,15 @@ import { clickLogout } from "../../store/user/user.slice.ts";
 const Nav = () => {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const handleLogoutClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  console.log(user.accessToken);
+  const handleLogoutClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     await api
       .post("/logout")
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-    dispatch(clickLogout(""));
+      .then((res) => res.status === 200 && dispatch(clickLogout("")))
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -44,13 +46,6 @@ const Nav = () => {
         </Link> */}
       </div>
       <div className="flex items-center ">
-        {user.accessToken && (
-          <div>
-            <button className={"bg-darkgreen"} onClick={handleLogoutClick}>
-              로그아웃
-            </button>
-          </div>
-        )}
         <Link to={`/`} className="my-1 text-white px-4 py-2">
           <CiSearch />
         </Link>
@@ -59,23 +54,27 @@ const Nav = () => {
         </Link>
 
         {user.accessToken ? (
-          <>
-            <Link to={`/mypage`} className="my-1 text-white px-4 py-2">
-              <img className="w-8 mr-8 " src={userimg} alt="user Image" />
-            </Link>
-            <Link to={`/`} className="my-1 text-white px-4 py-2">
-              로그아웃
-            </Link>
-          </>
+          <div className={"flex items-center mr-3"}>
+            <div className={"mx-4 my-2"}>
+              <Link to={`/mypage`} className="my-1 text-white">
+                <img className="w-8 " src={userimg} alt="user Image" />
+              </Link>
+            </div>
+            <div onClick={handleLogoutClick} className={"mx-4 my-2"}>
+              <Link to={`/`} className="my-1 text-white">
+                로그아웃
+              </Link>
+            </div>
+          </div>
         ) : (
-          <>
-            <Link to={`/login`} className="my-1 text-white px-4 py-2">
+          <div className={"mr-3"}>
+            <Link to={`/login`} className="text-white mx-4 my-2">
               로그인
             </Link>
-            <Link to={`/signup`} className="my-1 text-white px-4 py-2">
+            <Link to={`/signup`} className="text-white mx-4 my-2">
               회원가입
             </Link>
-          </>
+          </div>
         )}
       </div>
     </nav>

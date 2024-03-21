@@ -68,7 +68,15 @@ const Write = () => {
       return;
     }
 
-    const newPost = {};
+    const newPost = {
+      writerId: 123,
+      content,
+      title,
+      target,
+      state: "모집중",
+      recruited: totalPeople,
+      localDateTime: new Date().toISOString(),
+    };
     await api
       .post("/recruit", newPost)
       .then((res) => console.log(res))

@@ -11,6 +11,7 @@ import NaverSocialLogin from "../../components/SocialLogin/NaverLogin/NaverSocia
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [incorrect, setIncorrect] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
@@ -32,14 +33,17 @@ const Login = () => {
       .post("/login", { email, password })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
           const { access_token } = res.headers;
           dispatch(clickLogin(access_token));
           navigate("/");
           toast.success("로그인 되었습니다.");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 401) {
+          email !== "" && password !== "" && setIncorrect(true);
+        }
+      });
   };
 
   useEffect(() => {
@@ -92,6 +96,13 @@ const Login = () => {
             />
           </div>
           <div>
+            {incorrect && (
+              <div>
+                <p className={"text-softwarning"}>
+                  이메일 또는 비밀번호를 확인해주세요.
+                </p>
+              </div>
+            )}
             <button
               onClick={handleLoginClick}
               className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md hover:bg-login"
