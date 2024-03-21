@@ -1,67 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "../../api";
 
-const dummyList = [
-  {
-    id: "a",
-    title: "ide 프로젝트 하실분 구합니다.",
-    author: "김개똥",
-    totalPeople: 4,
-    joinedPeople: 2,
-    content: "아무것도 모르는 나에게 자바스크립트를 알려줄 노예들 구한다.",
-  },
-  {
-    id: "b",
-    title: "프로젝트 하실분 구합니다.",
-    author: "이개똥",
-    totalPeople: 2,
-    joinedPeople: 1,
-    content: "아무것도 모르는 나에게 리액트를 알려줄 노예들 구한다.",
-  },
-  {
-    id: "c",
-    title: "프로젝트 하실분 구합니다.",
-    author: "박개똥",
-    totalPeople: 6,
-    joinedPeople: 4,
-    content: "아무것도 모르는 나에게 자바를 알려줄 노예들 구한다.",
-  },
-  {
-    id: "d",
-    title: "프로젝트 하실분 구합니다.",
-    author: "최개똥",
-    totalPeople: 3,
-    joinedPeople: 1,
-    content:
-      "코딩노예 구합니다. 무임금, 숙식 니들끼리 해결, 더 이상의 자세한 질문은 받지 않겠다.코딩노예 구합니다. 무임금, 숙식 니들끼리 해결, 더 이상의 자세한 질문은 받지 않겠다.코딩노예 구합니다. 무임금, 숙식 니들끼리 해결, 더 이상의 자세한 질문은 받지 않겠다.코딩노예 구합니다. 무임금, 숙식 니들끼리 해결, 더 이상의 자세한 질문은 받지 않겠다.",
-  },
-];
+// interface PostsState {
+//   isLoading: boolean;
+//   posts: Post[];
+//   error: string;
+// }
 
-const initialState = { posts: dummyList };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const fetchPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  async (_, thunkAPI) => {
+    try {
+      const response = await api.get("/recruit");
+      return response.data.results;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        "게시글을 불러오는데 에러가 발생했습니다.",
+      );
+    }
+  },
+);
+
+const initialState = {
+  isLoading: false,
+  posts: [],
+  error: "",
+};
 
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {
-    addPost: (state, { payload }) => {
-      state.posts.unshift(payload);
-    },
-    removePost: (state, { payload }) => {
-      state.posts = state.posts.filter((post) => post.id !== payload);
-    },
-    editPost: (state, { payload }) => {
-      state.posts = state.posts.map((post) =>
-        post.id === payload.id
-          ? {
-              ...post,
-              title: payload.title,
-              totalPeople: payload.totalPeople,
-              content: payload.content,
-            }
-          : post,
-      );
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPosts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.posts = action.payload;
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
-export const { removePost, addPost, editPost } = postsSlice.actions;
 export default postsSlice.reducer;

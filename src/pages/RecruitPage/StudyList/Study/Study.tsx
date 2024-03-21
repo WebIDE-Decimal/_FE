@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
+import { Post } from "../../../../store/posts/post.type.ts";
+import { FC } from "react";
 
-const Study = ({ post }) => {
+interface StudyProps {
+  post: Post;
+}
+
+const Study: FC<StudyProps> = ({ post }) => {
   const truncate = (str: string, n: number) => {
     return str?.length > n ? str.substring(0, n - 1) + "..." : str;
   };
+
   return (
     <div className={"w-full pt-4 flex mb-10 justify-center"}>
       <Link className={"w-3/5"} to={`../../../post/${post.id}`}>
@@ -27,7 +34,7 @@ const Study = ({ post }) => {
             <p className={"text-[#898686]"}>
               모집인원{" "}
               <span>
-                {post.joinedPeople ? post.joinedPeople : 0} / {post.totalPeople}
+                {/*{post.joinedPeople ? post.joinedPeople : 0} / {post.totalPeople}*/}
               </span>
             </p>
           </div>

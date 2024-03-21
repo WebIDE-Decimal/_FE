@@ -11,10 +11,10 @@ import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyMo
 
 const Post = () => {
   const { posts } = useAppSelector((state) => state.posts);
-  const { id } = useParams<{ id?: string }>(); // id가 undefined일 수도 있음을 명시
-  const post = posts.find((post) => post.id.toString() === id); // id가 undefined일 수 있으므로, toString()을 사용하여 타입 에러 방지 및 비교
+  const { id } = useParams<{ id?: string }>();
+  const post = posts.find((post) => post.id.toString() === id);
   const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
-    (state) => state.postPage
+    (state) => state.postPage,
   );
   const { viewAlertModal, viewApplyStudyModal } = useAppSelector(
     (state) => state.modal,
@@ -87,12 +87,23 @@ const Post = () => {
             {viewRecruitDescription && <RecruitDescription post={post} />}
             {viewApplyManagement && <ApplyManagement />}
           </div>
-          <div className={"w-1/3 mt-9"}>
-            <img
-              className={"float-right w-40 h-40"}
-              src={defaultUser}
-              alt={"Author Image"}
-            />
+          <div className={"flex flex-col items-center w-1/3 mt-9"}>
+            <div>
+              <img
+                className={"float-right w-56 h-56"}
+                src={defaultUser}
+                alt={"Author Image"}
+              />
+            </div>
+            <div className={"flex mt-4 w-full items-center justify-center"}>
+              <button
+                className={
+                  "bg-[#FFC107] rounded font-bold text-white px-6 py-3"
+                }
+              >
+                1 : 1 채팅하기
+              </button>
+            </div>
           </div>
         </div>
       </div>

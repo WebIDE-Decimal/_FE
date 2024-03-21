@@ -1,23 +1,25 @@
 import React, { useRef, useState } from "react";
 import { SlMinus, SlPlus } from "react-icons/sl";
 import { useNavigate, useParams } from "react-router-dom";
-import { v4 } from "uuid";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { addPost, editPost } from "../../store/posts/posts.slice";
 import { toast } from "react-toastify";
 import { clickStudySettingModal } from "../../store/postPage/postPageSlice.ts";
+import api from "../../api";
 
 const Write = () => {
   const { id } = useParams();
   const { posts } = useAppSelector((state) => state.posts);
   const post = { ...posts.filter((post) => post.id === id)[0] };
-  const [totalPeople, setTotalPeople] = useState(post?.totalPeople || 1);
+  const [totalPeople, setTotalPeople] = useState(post?.recruited || 1);
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
+  const [overPeople, setOverPeople] = useState(false);
+  const [target, setTarget] = useState(post?.target || "");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const targetRef = useRef<HTMLInputElement>(null);
 
   const handleMinusClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -26,6 +28,9 @@ const Write = () => {
     if (totalPeople === 1) {
       return;
     }
+    if (totalPeople === 10) {
+      setOverPeople(false);
+    }
     setTotalPeople(totalPeople - 1);
   };
 
@@ -33,10 +38,16 @@ const Write = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
+    if (totalPeople >= 10) {
+      setOverPeople(true);
+      return;
+    }
     setTotalPeople(totalPeople + 1);
   };
 
-  const handleRecruitClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleRecruitClick = async (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+  ) => {
     e.preventDefault();
 
     if (title === "") {
@@ -51,17 +62,27 @@ const Write = () => {
       return;
     }
 
-    const newPost = {
-      id: v4(),
-      title,
-      author: "정개똥",
-      totalPeople,
-      content,
-    };
+    if (target === "") {
+      targetRef.current?.focus();
+      toast.warning("모집 대상을 입력하세요!😠");
+      return;
+    }
 
-    dispatch(addPost(newPost));
-    navigate(`/recruit`);
-    toast.success("모집 글이 등록되었습니다.👏");
+    const newPost = {
+      writerId: 123,
+      content,
+      title,
+      target,
+      state: "모집중",
+      recruited: totalPeople,
+      localDateTime: new Date().toISOString(),
+    };
+    await api
+      .post("/recruit", newPost)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    // navigate(`/recruit`);
+    // toast.success("모집 글이 등록되었습니다.👏");
   };
 
   const handleEditClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -78,14 +99,6 @@ const Write = () => {
       return;
     }
 
-    const editedPost = {
-      id: post.id,
-      title,
-      content,
-      totalPeople,
-    };
-
-    dispatch(editPost(editedPost));
     dispatch(clickStudySettingModal(false));
     navigate(`/post/${post.id}`);
     toast.success("글이 수정되었습니다.👌");
@@ -129,28 +142,38 @@ const Write = () => {
             <span className="text-xl text-white font-bold">모집 대상</span>
             <div className="my-3">
               <input
+                ref={targetRef}
+                onChange={(e) => setTarget(e.target.value)}
+                value={target}
                 className="w-full text-white h-12 text-xl bg-[#1b1b1b] rounded-lg pl-4 placeholder:text-lg placeholder:text-[#64758B] placeholder:font-medium"
                 type="text"
                 placeholder="JAVA, JavaScript, Node.js ..."
               />
             </div>
           </div>
-          <div className="flex w-1/4 items-center px-2">
-            <p className="text-xl flex-grow font-bold text-white">모집 인원</p>
-            <div className="flex w-2/4 justify-between">
-              <button
-                className="text-white/80 text-xl hover:text-white"
-                onClick={handleMinusClick}
-              >
-                <SlMinus />
-              </button>
-              <p className="text-2xl text-green">{totalPeople}</p>
-              <button
-                className="text-white/80 text-xl hover:text-white"
-                onClick={handlePlusClick}
-              >
-                <SlPlus />
-              </button>
+          <div className="flex w-full items-center px-2">
+            <p className="text-xl w-32 font-bold text-white">모집 인원</p>
+            <div className="flex w-1/4 items-center">
+              <div className={"flex items-center"}>
+                <button
+                  className="text-white/80 text-xl hover:text-white mr-8"
+                  onClick={handleMinusClick}
+                >
+                  <SlMinus />
+                </button>
+                <p className="text-2xl text-green">{totalPeople}</p>
+                <button
+                  className="text-white/80 text-xl ml-8 hover:text-white"
+                  onClick={handlePlusClick}
+                >
+                  <SlPlus />
+                </button>
+              </div>
+              {overPeople && (
+                <p className={"ml-4 text-warning"}>
+                  최대 모집 인원은 10명 입니다.
+                </p>
+              )}
             </div>
           </div>
           <div className={"border-b mt-3 border-[#46494E]"} />

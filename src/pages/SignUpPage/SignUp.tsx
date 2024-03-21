@@ -1,50 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../../api";
+import useEmailCheck from "../../hooks/useCheck/useEmailCheck.ts";
+import usePasswordCheck from "../../hooks/useCheck/usePasswordCheck.ts";
+import useNicknameCheck from "../../hooks/useCheck/useNicknameCheck.ts";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  const [checkEmail, setCheckEmail] = useState("a");
+  const [checkEmail, setCheckEmail] = useState(false);
+  const [checkValidPassword, setCheckValidPassword] = useState(false);
+  const [validNickname, setValidNickname] = useState(false);
+
   const navigate = useNavigate();
-
-  const pattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-]+$/;
-
-  const emailValidChk = () => {
-    if (pattern.test(email) === false) {
-      setCheckEmail("");
-    } else {
-      setCheckEmail("true");
-    }
-  };
-
+  const emailRef = useRef<HTMLInputElement>(null);
+  const emailCheckButtonRef = useRef<HTMLButtonElement>(null);
+  const nicknameCheckButtonRef = useRef<HTMLButtonElement>(null);
   const handleEmailClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    emailValidChk();
   };
 
+  // 이메일 유효성 검사
   useEffect(() => {
-    if (checkEmail === "") {
-      setTimeout(() => {
-        setCheckEmail("a");
-      }, 3000);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const emailCheck = useEmailCheck(email);
+    if (emailCheck) {
+      setCheckEmail(true);
+      if (emailCheckButtonRef.current !== null) {
+        emailCheckButtonRef.current.disabled = false;
+      }
+    } else {
+      setCheckEmail(false);
+      if (emailCheckButtonRef.current !== null) {
+        emailCheckButtonRef.current.disabled = true;
+      }
     }
-  }, [checkEmail]);
+  }, [email]);
+
+  // 비밀번호 유효성 검사
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const passwordCheck = usePasswordCheck(password);
+    if (passwordCheck) {
+      setCheckValidPassword(true);
+    } else {
+      setCheckValidPassword(false);
+    }
+  }, [password]);
+
+  // 닉네임 유효성 검사
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const nicknameCheck = useNicknameCheck(nickname);
+    console.log(nicknameCheck);
+    if (nicknameCheck) {
+      setValidNickname(true);
+      if (nicknameCheckButtonRef.current !== null) {
+        nicknameCheckButtonRef.current.disabled = false;
+      }
+    } else {
+      setValidNickname(false);
+      if (nicknameCheckButtonRef.current !== null) {
+        nicknameCheckButtonRef.current.disabled = true;
+      }
+    }
+  }, [nickname]);
+
+  // 화면 진입 했을때 email 입력창에 포커스
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, []);
 
   const handleSignUpClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/api/users/signup", {
-      email,
-      password,
-      nickname,
-    });
-    navigate(`/login`);
-    toast.success("회원 가입이 완료되었습니다.");
+    await api
+      .post("/users/signup", {
+        email,
+        password,
+        nickname,
+      })
+      .then((res) => {
+        navigate(`/login`);
+        toast.success("회원가입 되었습니다.🎉");
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -66,12 +112,13 @@ const SignUp = () => {
         <form className="w-full">
           <div
             className={`${
-              checkEmail === ""
+              !checkEmail
                 ? "flex mt-4 mb-2 items-center relative"
                 : "flex my-4 items-center relative"
             }`}
           >
             <input
+              ref={emailRef}
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
               type="text"
               placeholder="이메일 또는 아이디"
@@ -79,20 +126,23 @@ const SignUp = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <button
-              className="absolute right-3 bg-gray text-white/80 px-2 py-1 rounded-md hover:bg-loginBtn"
+              ref={emailCheckButtonRef}
+              type={"button"}
+              className={`absolute right-3 text-white/80 px-2 py-1 rounded-md bg-loginBtn disabled:bg-gray disabled:cursor-not-allowed`}
               onClick={handleEmailClick}
+              disabled={true}
             >
               인증
             </button>
           </div>
-          {!checkEmail && (
+          {!checkEmail && email !== "" && (
             <div>
               <span className="text-softwarning">
                 올바른 이메일 형식이 아닙니다.
               </span>
             </div>
           )}
-          <div className={`${checkEmail === "" ? "mt-2 mb-4" : "my-4"}`}>
+          <div className={`${checkEmail ? "mt-2 mb-4" : "my-4"}`}>
             <input
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
               placeholder="비밀번호"
@@ -101,6 +151,14 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {!checkValidPassword && password !== "" && (
+            <div>
+              <span className="text-softwarning">
+                비밀번호는 영문, 숫자, 특수기호를 1개 이상씩 포함한 8~15자여야
+                합니다.
+              </span>
+            </div>
+          )}
           <div
             className={`${
               checkPassword !== "" && checkPassword !== password
@@ -118,7 +176,7 @@ const SignUp = () => {
           </div>
           {checkPassword !== "" && checkPassword !== password && (
             <div>
-              <span className="text-warning/90">
+              <span className="text-warning font-medium">
                 비밀번호가 일치하지 않습니다.
               </span>
             </div>
@@ -126,18 +184,37 @@ const SignUp = () => {
           <div
             className={`${
               checkPassword !== "" && checkPassword !== password
-                ? "mt-2 mb-4"
-                : "my-4"
+                ? "flex flex-col mt-2 mb-4 items-center relative"
+                : "flex flex-col my-4 items-center relative"
             }`}
           >
-            <input
-              className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
-              placeholder="닉네임"
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-            />
+            <div className={"flex w-full items-center"}>
+              <input
+                className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
+                placeholder="닉네임"
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+              />
+              <button
+                ref={nicknameCheckButtonRef}
+                type={"button"}
+                className={`absolute right-3 text-white/80 px-2 py-1 rounded-md bg-loginBtn disabled:bg-gray disabled:cursor-not-allowed`}
+                onClick={handleEmailClick}
+                disabled={true}
+              >
+                인증
+              </button>
+            </div>
+            {!validNickname && nickname !== "" && (
+              <div className={"w-full mt-2"}>
+                <p className={"text-softwarning"}>
+                  닉네임은 2자 이상 15자 이하의 공백이 없는 문자여야 합니다.
+                </p>
+              </div>
+            )}
           </div>
+
           <div>
             <button
               onClick={handleSignUpClick}

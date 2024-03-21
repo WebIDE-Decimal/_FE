@@ -3,7 +3,7 @@ import posts from "./posts/posts.slice";
 import myAccount from "./myPage/myAccount/myAccountSlice.ts";
 import viewPage from "./myPage/viewPage/viewPageSlice.ts";
 import modal from "./modal/modalSlice";
-
+import user from "./user/user.slice.ts";
 import postPage from "./postPage/postPageSlice.ts";
 import chatPage from "./chatPage/chatPageSlice.ts";
 import openViduReducer from "./openVidu/openViduSlice.ts";
@@ -16,7 +16,11 @@ export const store = configureStore({
     modal,
     postPage,
     chatPage,
+
+    user,
+
     openViduReducer,
+
   },
 });
 

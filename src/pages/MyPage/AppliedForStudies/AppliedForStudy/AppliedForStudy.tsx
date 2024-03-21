@@ -1,8 +1,4 @@
 const AppliedForStudy = () => {
-  const truncate = (str: string, n: number) => {
-    return str?.length > n ? str.substr(0, n - 1) + "..." : str;
-  };
-
   return (
     <div className={"w-1/3 px-4 pt-4 flex mb-10 justify-center"}>
       <li
