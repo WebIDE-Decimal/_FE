@@ -24,7 +24,8 @@ const userSlice = createSlice({
       state.user.accessToken = payload;
       localStorage.setItem("access_token", payload);
     },
-    clickLogout: () => {
+    clickLogout: (state, { payload }) => {
+      state.user.accessToken = payload;
       localStorage.removeItem("access_token");
     },
   },

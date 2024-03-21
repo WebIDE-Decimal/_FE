@@ -10,15 +10,15 @@ import { clickLogout } from "../../store/user/user.slice.ts";
 const Nav = () => {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  console.log(user.accessToken);
   const handleLogoutClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     await api
       .post("/logout")
-      .then((res) => console.log(res))
+      .then((res) => res.status === 200 && dispatch(clickLogout("")))
       .catch((err) => {
         console.log(err);
       });
-    dispatch(clickLogout());
   };
 
   return (

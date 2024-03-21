@@ -61,7 +61,7 @@ const SignUp = () => {
       })
       .then((res) => {
         navigate(`/login`);
-        toast.success("회원 가입이 완료되었습니다.");
+        toast.success("회원가입 되었습니다.🎉");
         console.log(res);
       })
       .catch((err) => console.log(err));
