@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api";
+import { Post } from "./post.type.ts";
 
-// interface PostsState {
-//   isLoading: boolean;
-//   posts: Post[];
-//   error: string;
-// }
+interface PostsState {
+  isLoading: boolean;
+  posts: Post[];
+  error: string;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const fetchPosts = createAsyncThunk(
@@ -13,7 +14,7 @@ export const fetchPosts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await api.get("/recruit");
-      return response.data.results;
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         "게시글을 불러오는데 에러가 발생했습니다.",
@@ -22,7 +23,7 @@ export const fetchPosts = createAsyncThunk(
   },
 );
 
-const initialState = {
+const initialState: PostsState = {
   isLoading: false,
   posts: [],
   error: "",
