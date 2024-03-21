@@ -14,9 +14,20 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleLoginClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (email === "") {
+      emailRef.current?.focus();
+      toast.warning("이메일을 입력하세요.");
+      return;
+    }
+    if (password === "") {
+      passwordRef.current?.focus();
+      toast.warning("비밀번호를 입력하세요.");
+    }
+
     await api
       .post("/login", { email, password })
       .then((res) => {
@@ -72,6 +83,7 @@ const Login = () => {
           </div>
           <div className="my-4">
             <input
+              ref={passwordRef}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
