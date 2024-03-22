@@ -5,24 +5,41 @@ import api from "../../api";
 import useEmailCheck from "../../hooks/useCheck/useEmailCheck.ts";
 import usePasswordCheck from "../../hooks/useCheck/usePasswordCheck.ts";
 import useNicknameCheck from "../../hooks/useCheck/useNicknameCheck.ts";
+import axios from "axios";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  const [checkEmail, setCheckEmail] = useState(false);
+  const [checkEmail, setCheckEmail] = useState({
+    checkPattern: false,
+    sendMail: false,
+    emailChecked: false,
+  });
   const [checkValidPassword, setCheckValidPassword] = useState(false);
   const [validNickname, setValidNickname] = useState(false);
-
   const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
   const emailCheckButtonRef = useRef<HTMLButtonElement>(null);
   const nicknameCheckButtonRef = useRef<HTMLButtonElement>(null);
-  const handleEmailClick = (
+
+  const handleEmailClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
+    await axios
+      .post("http://localhost:8080/api/verify-email/send", {
+        email,
+        resend: false,
+        type: "email",
+      })
+      .then((res) => {
+        if (res.data === "인증 메일 전송 완료") {
+          setCheckEmail({ ...checkEmail, sendMail: true });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   // 이메일 유효성 검사
@@ -30,20 +47,16 @@ const SignUp = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const emailCheck = useEmailCheck(email);
     if (emailCheck) {
-      setCheckEmail(true);
-      if (emailCheckButtonRef.current !== null) {
-        emailCheckButtonRef.current.disabled = false;
-      }
+      setCheckEmail({
+        ...checkEmail,
+        checkPattern: true,
+      });
     } else {
-      setCheckEmail(false);
-      if (emailCheckButtonRef.current !== null) {
-        emailCheckButtonRef.current.disabled = true;
-      }
+      setCheckEmail({ ...checkEmail, checkPattern: false });
     }
   }, [email]);
 
   // 비밀번호 유효성 검사
-
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const passwordCheck = usePasswordCheck(password);
@@ -58,17 +71,10 @@ const SignUp = () => {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const nicknameCheck = useNicknameCheck(nickname);
-    console.log(nicknameCheck);
     if (nicknameCheck) {
       setValidNickname(true);
-      if (nicknameCheckButtonRef.current !== null) {
-        nicknameCheckButtonRef.current.disabled = false;
-      }
     } else {
       setValidNickname(false);
-      if (nicknameCheckButtonRef.current !== null) {
-        nicknameCheckButtonRef.current.disabled = true;
-      }
     }
   }, [nickname]);
 
@@ -85,10 +91,9 @@ const SignUp = () => {
         password,
         nickname,
       })
-      .then((res) => {
+      .then(() => {
         navigate(`/login`);
         toast.success("회원가입 되었습니다.🎉");
-        console.log(res);
       })
       .catch((err) => console.log(err));
   };
@@ -112,7 +117,7 @@ const SignUp = () => {
         <form className="w-full">
           <div
             className={`${
-              !checkEmail
+              !checkEmail.checkPattern
                 ? "flex mt-4 mb-2 items-center relative"
                 : "flex my-4 items-center relative"
             }`}
@@ -123,26 +128,47 @@ const SignUp = () => {
               type="text"
               placeholder="이메일 또는 아이디"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (checkEmail.sendMail) {
+                  setCheckEmail({
+                    checkPattern: false,
+                    sendMail: false,
+                    emailChecked: false,
+                  });
+                }
+              }}
             />
+
             <button
               ref={emailCheckButtonRef}
               type={"button"}
-              className={`absolute right-3 text-white/80 px-2 py-1 rounded-md bg-loginBtn disabled:bg-gray disabled:cursor-not-allowed`}
+              className={`${!checkEmail.checkPattern ? "bg-gray" : "bg-loginBtn"} absolute right-3 z-10 text-white/80 px-2 py-1 rounded-md`}
               onClick={handleEmailClick}
-              disabled={true}
             >
               인증
             </button>
           </div>
-          {!checkEmail && email !== "" && (
+          {!checkEmail.checkPattern && email !== "" ? (
             <div>
               <span className="text-softwarning">
                 올바른 이메일 형식이 아닙니다.
               </span>
             </div>
-          )}
-          <div className={`${checkEmail ? "mt-2 mb-4" : "my-4"}`}>
+          ) : checkEmail.sendMail ? (
+            <div className={"flex"}>
+              <span className="text-softwarning mr-2">
+                인증 메일이 발송되었습니다. 메일함을 확인하세요.
+              </span>
+            </div>
+          ) : checkEmail.emailChecked ? (
+            <div>
+              <span className="text-softwarning">메일이 인증되었습니다.</span>
+            </div>
+          ) : null}
+          <div
+            className={`${!checkEmail.checkPattern && email !== "" ? "mt-2" : "mt-4"}`}
+          >
             <input
               className="w-full h-12 pl-4 rounded-md placeholder:font-medium placeholder:text-lg"
               placeholder="비밀번호"
@@ -199,9 +225,7 @@ const SignUp = () => {
               <button
                 ref={nicknameCheckButtonRef}
                 type={"button"}
-                className={`absolute right-3 text-white/80 px-2 py-1 rounded-md bg-loginBtn disabled:bg-gray disabled:cursor-not-allowed`}
-                onClick={handleEmailClick}
-                disabled={true}
+                className={`${!validNickname ? "bg-gray" : "bg-loginBtn"} absolute right-3 z-10 text-white/80 px-2 py-1 rounded-md`}
               >
                 인증
               </button>
@@ -214,7 +238,6 @@ const SignUp = () => {
               </div>
             )}
           </div>
-
           <div>
             <button
               onClick={handleSignUpClick}
