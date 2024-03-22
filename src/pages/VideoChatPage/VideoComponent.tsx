@@ -158,9 +158,9 @@ function VideoComponent() {
   }, [session, OV, sessionId, OPENVIDU_SERVER_URL]);
 
   return (
-    <div>
-      <h1>진행화면</h1>
-      <>
+    <div className="max-w-9xl mx-auto flex justify-center mt-16 text-white">
+      <div className="w-3/5">
+        <h1 className="text-2xl mb-4">진행화면</h1>
         {!session && (
           <Form
             joinSession={joinSession}
@@ -169,19 +169,24 @@ function VideoComponent() {
           />
         )}
         {session && (
-          <>
-            <Session
-              publisher={publisher as Publisher}
-              subscriber={subscriber as Subscriber}
-            />
-            <ChatComponent
-              session={session}
-              publisher={publisher as Publisher}
-              subscriber={subscriber as Subscriber}
-            />
-          </>
+          <Session
+            publisher={publisher as Publisher}
+            subscriber={subscriber as Subscriber}
+          />
         )}
-      </>
+      </div>
+      {session && (
+        <div
+          className="w-2/5 border-l border-gray-300 p-4 overflow-y-auto"
+          style={{ minHeight: "calc(100vh - 100px)", maxHeight: "100px" }}
+        >
+          <ChatComponent
+            session={session}
+            publisher={publisher as Publisher}
+            subscriber={subscriber as Subscriber}
+          />
+        </div>
+      )}
     </div>
   );
 }

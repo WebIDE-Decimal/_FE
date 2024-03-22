@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Publisher, Subscriber } from "openvidu-browser";
 import Video from "./Video";
 import ChatComponent from "./ChatComponent";
@@ -35,13 +34,14 @@ function Session({ subscriber, publisher }: SessionProps) {
             display: "grid",
             gridTemplateColumns: gridPlacement === "center" ? "1fr" : "1fr 1fr",
             gap: "20px",
+            width: "100%", // Full width
           }}
         >
           <div>
             <Video streamManager={publisher} />
           </div>
           {subscribers.map((subscriberItem) => (
-            <div key={subscriberItem.id}>
+            <div key={subscriberItem.stream.streamId}>
               <Video streamManager={subscriberItem} />
             </div>
           ))}
@@ -51,7 +51,11 @@ function Session({ subscriber, publisher }: SessionProps) {
     );
   };
 
-  return <>{renderSubscribers()}</>;
+  return (
+    <div style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
+      {renderSubscribers()}
+    </div>
+  );
 }
 
 export default Session;

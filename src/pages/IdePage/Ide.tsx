@@ -46,15 +46,15 @@ const Ide = () => {
   };
 
   return (
-    <div className="max-w-9xl mx-auto h-full px-4 sm:px-6 lg:px-8">
-      <div className="flex h-full w-full max-w-9xl mx-auto">
+    <div className="flex md:order-2 mt-16 space-x-3 md:space-x-0 rtl:space-x-reverse mb-2 mx-auto rounded border border-chatBgBorder">
+      <div className="flex h-full w-full mx-auto" style={{ height: "90vh" }}>
         <div className="basis-1/5 bg-roomTreeBg p-4">
-          <div className="mb-4 flex items-center gap-2 text-xl text-white">
+          <div className="mb-4 flex items-center gap-2 text-l text-white">
             <FaFolder /> <span>스터디 이름</span>
           </div>
           {folders.map((folder) => (
             <div key={folder.name}>
-              <div className="mb-4 flex items-center gap-2 text-l text-white">
+              <div className="mb-4 flex items-center gap-2 text-m text-white">
                 <FaFolder /> <span>{folder.name}</span>
               </div>
               {folder?.files?.map((file) => (
@@ -74,7 +74,7 @@ const Ide = () => {
         </div>
         <div className="basis-1/5 h-full bg-roomTreeBg overflow-hidden">
           <div className="flex flex-col h-full">
-            <div className="flex items-center text-xl justify-center pt-4 pb-4">
+            <div className="flex items-center justify-center pt-4 pb-4">
               <div
                 onClick={() => setSelectedTab("chat")}
                 className={`flex cursor-pointer w-1/3 h-12 items-center justify-center ${selectedTab === "chat" ? "bg-title text-white" : "bg-chatPBg text-white"}`}
