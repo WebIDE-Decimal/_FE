@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getChatsList } from "../../../api/chatAPI";
 import userImage from "../../../assets/images/def_userInfo.png";
 import chatIcon from "../../../assets/images/chatIcon.png";
 import { MdMessage } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
+import { useAppSelector } from "../../../hooks/redux";
+import {
+  getMemberProfile,
+  getUserSessions,
+  initializeSession,
+  inviteUserToSession,
+} from "../../../api/chatAPI";
+
 interface Chat {
   id: string;
   name: string;
@@ -15,20 +22,29 @@ const UserList = () => {
   const [selectedChat, setSelectedChat] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
+  const { user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const data: Chat[] = await getChatsList(); // API 호출 결과 타입을 Chat[]로 가정
-        setChats(data);
-        setFilteredChats(data); // 초기 상태에서는 모든 chats를 보여줍니다.
+        const properties = { customSessionId: "testSession1" };
+        const member = await getMemberProfile(user);
+        const invite = await inviteUserToSession("testSession1", "2");
+        // const test = await getUserSessions("2");
+        // console.log(test);
+        if (member !== undefined) {
+          await initializeSession({ properties, member });
+          // const data = await getUserSessions(member.id.toString() || "1"); // 채팅 목록 가져오기
+          // setChats(data); // 채팅 목록 업데이트
+          // setFilteredChats(data); // 필터된 채팅 목록 업데이트
+        }
       } catch (error) {
         console.error("채팅 목록을 불러오는 중 에러 발생:", error);
       }
     };
 
     fetchChats();
-  }, []);
+  }, [user]); // user가 변경될 때마다 다시 호출
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -70,11 +86,15 @@ const UserList = () => {
           <div className="text-center p-4 text-white">
             검색어를 다시 입력하세요
           </div>
-        ) : filteredChats.length > 0 ? (
+        ) : (
           filteredChats.map((chat) => (
             <div
               key={chat.id}
-              className={`flex items-center p-4 cursor-pointer ${selectedChat === chat.id ? "bg-chatSelectedBg text-white" : "bg-transparent text-chatBorder"}`}
+              className={`flex items-center p-4 cursor-pointer ${
+                selectedChat === chat.id
+                  ? "bg-chatSelectedBg text-white"
+                  : "bg-transparent text-chatBorder"
+              }`}
               onClick={() => setSelectedChat(chat.id)}
             >
               <img
@@ -88,8 +108,6 @@ const UserList = () => {
               </div>
             </div>
           ))
-        ) : (
-          <div className="text-center p-4">대화를 시작해보세요</div>
         )}
       </div>
     </div>
