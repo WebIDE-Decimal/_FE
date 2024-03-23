@@ -1,12 +1,21 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux.ts";
+import {
+  toggleFinished,
+  toggleRecruiting,
+  toggleTotal,
+} from "../../../store/posts/postCategories.slice.ts";
 
 const RecruitCategory = () => {
-  const [checkbox, setCheckbox] = useState({
-    total: true,
-    proceeding: false,
-    finished: false,
-  });
+  const dispatch = useAppDispatch();
+  const { total, recruiting, finished } = useAppSelector(
+    (state) => state.postCategories,
+  );
+
+  useEffect(() => {
+    dispatch(toggleTotal({ total: true, recruiting: false, finished: false }));
+  }, []);
 
   return (
     <div className={"w-1/3 my-3 mb-12"}>
@@ -16,9 +25,15 @@ const RecruitCategory = () => {
             id={"total-check"}
             className={"w-5 hover:cursor-pointer"}
             type={"checkbox"}
-            checked={checkbox.total}
+            checked={total}
             onChange={() =>
-              setCheckbox({ total: true, proceeding: false, finished: false })
+              dispatch(
+                toggleTotal({
+                  total: true,
+                  recruiting: false,
+                  finished: false,
+                }),
+              )
             }
           />
           <label
@@ -35,9 +50,15 @@ const RecruitCategory = () => {
             id={"recruiting"}
             className={"w-5 hover:cursor-pointer"}
             type={"checkbox"}
-            checked={checkbox.proceeding}
+            checked={recruiting}
             onChange={() =>
-              setCheckbox({ total: false, proceeding: true, finished: false })
+              dispatch(
+                toggleRecruiting({
+                  total: false,
+                  recruiting: true,
+                  finished: false,
+                }),
+              )
             }
           />
           <label
@@ -54,9 +75,15 @@ const RecruitCategory = () => {
             id={"finished"}
             className={"w-5 hover:cursor-pointer"}
             type={"checkbox"}
-            checked={checkbox.finished}
+            checked={finished}
             onChange={() =>
-              setCheckbox({ total: false, proceeding: false, finished: true })
+              dispatch(
+                toggleFinished({
+                  total: false,
+                  recruiting: false,
+                  finished: true,
+                }),
+              )
             }
           />
           <label

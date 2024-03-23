@@ -7,20 +7,21 @@ import user from "./user/user.slice.ts";
 import postPage from "./postPage/postPageSlice.ts";
 import chatPage from "./chatPage/chatPageSlice.ts";
 import openViduReducer from "./openVidu/openViduSlice.ts";
+import postCategories from "./posts/postCategories.slice.ts";
+import post from "./posts/post.slice.ts";
 
 export const store = configureStore({
   reducer: {
     posts,
     myAccount,
+    post,
     viewPage,
     modal,
     postPage,
     chatPage,
-
     user,
-
     openViduReducer,
-
+    postCategories,
   },
 });
 

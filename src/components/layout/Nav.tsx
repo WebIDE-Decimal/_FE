@@ -10,7 +10,7 @@ import { clickLogout } from "../../store/user/user.slice.ts";
 const Nav = () => {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  console.log(user.accessToken);
+
   const handleLogoutClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     await api
@@ -49,6 +49,7 @@ const Nav = () => {
         <Link to={`/`} className="my-1 text-white px-4 py-2">
           <CiSearch />
         </Link>
+
         <Link to={`/chat`} className="my-1 text-white px-4 py-2">
           <CiChat1 />
         </Link>

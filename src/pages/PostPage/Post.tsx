@@ -5,14 +5,14 @@ import PostCategories from "./PostCategories/PostCategories.tsx";
 import RecruitDescription from "./PostCategories/RecruitDescription/RecruitDescription.tsx";
 import ApplyManagement from "./PostCategories/ApplyManagement/ApplyManagement.tsx";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal.tsx";
-import React from "react";
+import React, { useEffect } from "react";
 import { toggleApplyStudyModal } from "../../store/modal/modalSlice.ts";
 import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyModal.tsx";
+import { fetchPost } from "../../store/posts/post.slice.ts";
 
 const Post = () => {
-  const { posts } = useAppSelector((state) => state.posts);
-  const { id } = useParams<{ id?: string }>();
-  const post = posts.find((post) => post.id.toString() === id);
+  const { post } = useAppSelector((state) => state.post);
+  const { id } = useParams();
   const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
     (state) => state.postPage,
   );
@@ -26,9 +26,14 @@ const Post = () => {
     dispatch(toggleApplyStudyModal(true));
   };
 
-  if (!id || !post) {
-    return <div>게시글을 찾을 수 없습니다.</div>;
+  useEffect(() => {
+    dispatch(fetchPost(Number(id)));
+  }, []);
+
+  if (!id) {
+    return <div>존재하지 않는 게시글 입니다.</div>;
   }
+
   return (
     <div className={"h-full flex w-full"}>
       <div
@@ -43,7 +48,7 @@ const Post = () => {
             id={id}
           />
         )}
-        {viewApplyStudyModal && <ApplyStudyModal />}
+        {viewApplyStudyModal && <ApplyStudyModal id={id} />}
         <div
           className={
             "w-3/4 flex mt-28 justify-between bg-studyCardBg/80 rounded-lg shadow-cardShadow px-6"
@@ -85,7 +90,7 @@ const Post = () => {
               </div>
             </div>
             {viewRecruitDescription && <RecruitDescription post={post} />}
-            {viewApplyManagement && <ApplyManagement />}
+            {viewApplyManagement && <ApplyManagement id={id} />}
           </div>
           <div className={"flex flex-col items-center w-1/3 mt-9"}>
             <div>

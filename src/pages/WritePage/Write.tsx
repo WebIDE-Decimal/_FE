@@ -8,8 +8,7 @@ import api from "../../api";
 
 const Write = () => {
   const { id } = useParams();
-  const { posts } = useAppSelector((state) => state.posts);
-  const post = { ...posts.filter((post) => post.id === id)[0] };
+  const { post } = useAppSelector((state) => state.post);
   const [totalPeople, setTotalPeople] = useState(post?.recruited || 1);
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
@@ -69,23 +68,23 @@ const Write = () => {
     }
 
     const newPost = {
-      writerId: 123,
       content,
       title,
       target,
-      state: "모집중",
       recruited: totalPeople,
-      localDateTime: new Date().toISOString(),
     };
     await api
       .post("/recruit", newPost)
-      .then((res) => console.log(res))
+      .then((res) => {
+        navigate(`/recruit`);
+        toast.success("모집 글이 등록되었습니다.👏");
+      })
       .catch((err) => console.log(err));
-    // navigate(`/recruit`);
-    // toast.success("모집 글이 등록되었습니다.👏");
   };
 
-  const handleEditClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleEditClick = async (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     if (title === "") {
       titleRef.current?.focus();
@@ -99,9 +98,21 @@ const Write = () => {
       return;
     }
 
-    dispatch(clickStudySettingModal(false));
-    navigate(`/post/${post.id}`);
-    toast.success("글이 수정되었습니다.👌");
+    const editPost = {
+      content,
+      title,
+      target,
+      recruited: totalPeople,
+    };
+
+    await api
+      .put(`/recruit/${id}`, editPost)
+      .then(() => {
+        dispatch(clickStudySettingModal(false));
+        navigate(`/post/${post.id}`);
+        toast.success("글이 수정되었습니다.👌");
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleCloseClick = (e: React.FormEvent<HTMLButtonElement>) => {
