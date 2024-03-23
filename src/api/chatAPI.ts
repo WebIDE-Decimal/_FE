@@ -20,12 +20,30 @@ enum Authority {
   ROLE_ADMIN = "ROLE_ADMIN",
 }
 
-interface videoChatDto {
+interface VideoChatDto {
   properties: Properties;
   member: Member;
+  isPublisher: boolean;
 }
-// 로그인된 유저 정보 가져오기
 
+interface ChatMessageDto {
+  id: number;
+  sessionId: string;
+  senderId: string;
+  message: string;
+}
+interface CustomUserDetails {
+  member: Member;
+  authorities: string[]; // 사용자의 권한을 문자열 배열로 정의합니다.
+  password: string;
+  username: string;
+  accountNonExpired: boolean;
+  accountNonLocked: boolean;
+  credentialsNonExpired: boolean;
+  enabled: boolean;
+}
+
+// 로그인된 유저 정보 가져오기
 export const getMemberProfile = async (user: any) => {
   if (!user || !user.accessToken) {
     console.error("Access token is missing.");
@@ -51,32 +69,120 @@ export const getMemberProfile = async (user: any) => {
 };
 
 // 세션 생성
-export const initializeSession = async (videoChatDto: videoChatDto) => {
-  return api.post(`${BASE_URL}/sessions`, videoChatDto);
+export const initializeSession = async (
+  videoChatDto: VideoChatDto | undefined,
+  customUserDetails: CustomUserDetails
+): Promise<string> => {
+  try {
+    const response = await api.post<string>(
+      `${BASE_URL}/sessions`,
+      videoChatDto,
+      {
+        headers: {
+          Authorization: `Bearer ${customUserDetails.token}`, // 사용자 토큰을 여기에 삽입해주세요
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("error creating session");
+  }
 };
 
 // 세션 연결
 export const createConnection = async (
   sessionId: string,
-  videoChatDto: videoChatDto
-) => {
-  return api.post(
-    `${BASE_URL}/sessions/${sessionId}/connections`,
-    videoChatDto
-  );
+  videoChatDto: VideoChatDto | undefined,
+  customUserDetails: CustomUserDetails
+): Promise<string> => {
+  try {
+    const response = await api.post<string>(
+      `${BASE_URL}/sessions/${sessionId}/connections`,
+      videoChatDto,
+      {
+        headers: {
+          Authorization: `Bearer ${customUserDetails.token}`, // 사용자 토큰을 여기에 삽입해주세요
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("error creating connection");
+  }
 };
 
-// 특정 사용자를 세션 초대
+// 특정 사용자를 session에 초대(추가)
 export const inviteUserToSession = async (
   sessionId: string,
   inviteeId: string
-) => {
-  return api.post(`${BASE_URL}/sessions/${sessionId}/invite`, null, {
-    params: { inviteeId },
-  });
+): Promise<void> => {
+  try {
+    await api.post(
+      `${BASE_URL}/sessions/${sessionId}/invite?inviteeId=${inviteeId}`,
+      null
+    );
+  } catch (error) {
+    throw new Error("error invite user to session");
+  }
+};
+
+// 세션에서 사용자를 제거(삭제)
+export const leaveSession = async (
+  sessionId: string,
+  userId: string
+): Promise<void> => {
+  try {
+    await api.delete(
+      `${BASE_URL}/sessions/${sessionId}/leave?userId=${userId}`
+    );
+  } catch (error) {
+    throw new Error("Error deleting user in session");
+  }
 };
 
 // 사용자가 연결된 모든 세션 가져오기
-export const getUserSessions = async (userId: string) => {
-  return api.get(`${BASE_URL}/${userId}/sessions`);
+export const getUserSessions = async (
+  customUserDetails: CustomUserDetails
+): Promise<string[]> => {
+  try {
+    const response = await api.get<string[]>(`${BASE_URL}/mysessions`, {
+      headers: {
+        Authorization: `Bearer ${customUserDetails.token}`, // 사용자 토큰을 여기에 삽입해주세요
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error get UserSessions");
+  }
+};
+
+// 메세지 저장하기
+export const sendMessage = async (
+  sessionId: string,
+  chatMessageDto: ChatMessageDto
+): Promise<void> => {
+  try {
+    await api.post(
+      `${BASE_URL}/${sessionId}/chat.sendMessage/`,
+      chatMessageDto
+    );
+  } catch (error) {
+    throw new Error("Error sendMessage");
+  }
+};
+
+// 세션에서 메세지 불러오기
+export const getMessages = async (
+  sessionId: string
+): Promise<ChatMessageDto[]> => {
+  try {
+    const response = await api.get<ChatMessageDto[]>(
+      `${BASE_URL}/${sessionId}/chat.getMessages/`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Error getMessages");
+  }
 };

@@ -44,5 +44,6 @@
     "typescript": "^5.2.2",
     "vite": "^5.1.0",
     "vite-plugin-monaco-editor": "^1.1.0"
-  }
+  },
+  "proxy": "http://localhost:8080/"
 }

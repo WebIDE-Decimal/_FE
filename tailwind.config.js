@@ -51,6 +51,9 @@ export default {
       backgroundImage: {
         logo: "url('/assets/images/main_logo.png')",
       },
+      height: {
+        "real-screen": "calc(var(--vh) * 100)",
+      },
     },
   },
   plugins: [],
