@@ -24,13 +24,6 @@ const StudySettingModal = ({ id, modalPosition }: StudySettingProps) => {
   const handleRemoveClick = async () => {
     dispatch(toggleAlertModal(true));
     dispatch(clickStudySettingModal(false));
-    await api.delete(`/recruit/${Number(id)}`).then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        navigate("../../recruit");
-        toast.info("모집글이 삭제되었습니다.");
-      }
-    });
   };
 
   const handleEditClick = () => {
