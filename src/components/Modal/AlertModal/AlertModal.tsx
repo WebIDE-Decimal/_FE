@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../hooks/redux";
 import { toggleAlertModal } from "../../../store/modal/modalSlice";
-import { removePost } from "../../../store/posts/posts.slice";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import api from "../../../api";
 
 interface AlertModalProps {
   text: string;
@@ -24,14 +24,18 @@ const AlertModal = ({ text, type, id }: AlertModalProps) => {
     dispatch(toggleAlertModal(false));
   };
 
-  const handleOkClick = (
+  const handleOkClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     if (type === "삭제하기") {
-      dispatch(toggleAlertModal(false));
-      navigate(`/recruit`);
-      toast.info("모집 글이 삭제되었습니다.✔");
+      await api.delete(`/recruit/${Number(id)}`).then((res) => {
+        if (res.status === 204) {
+          navigate("../../recruit");
+          toast.info("모집글이 삭제되었습니다.");
+          dispatch(toggleAlertModal(false));
+        }
+      });
     } else if (type === "회원 탈퇴") {
       toast.info("계정이 삭제되었습니다.😢");
       navigate(`/`);

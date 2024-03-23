@@ -12,7 +12,6 @@ const StudyList = () => {
   useEffect(() => {
     dispatch(fetchPosts());
   }, []);
-  console.log(posts);
 
   return (
     <div className={"my-3 mx-2 w-full"}>
