@@ -2,10 +2,16 @@ import { useRef, useState } from "react";
 import { useAppDispatch } from "../../../hooks/redux";
 import { toggleApplyStudyModal } from "../../../store/modal/modalSlice";
 import useOnClickOutside from "../../../hooks/useOnClickOutside.ts";
+import api from "../../../api";
+import { toast } from "react-toastify";
 
-const ApplyStudyModal = () => {
+interface ApplyStudyModalProps {
+  id: string;
+}
+
+const ApplyStudyModal = ({ id }: ApplyStudyModalProps) => {
   const dispatch = useAppDispatch();
-  const [myIntroduction, setMyIntroduction] = useState("");
+  const [motivation, setMotivation] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
   const handleCloseClick = () => {
     dispatch(toggleApplyStudyModal(false));
@@ -14,6 +20,19 @@ const ApplyStudyModal = () => {
   useOnClickOutside(modalRef, () => {
     dispatch(toggleApplyStudyModal(false));
   });
+
+  const handleApplyClick = async () => {
+    try {
+      await api.post(`/recruitInfo/${id}`, { motivation }).then((res) => {
+        if (res.status === 201) {
+          toast.success("지원 성공!");
+          dispatch(toggleApplyStudyModal(false));
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div
@@ -42,14 +61,17 @@ const ApplyStudyModal = () => {
               지원 동기
             </p>
             <textarea
-              value={myIntroduction}
-              onChange={(e) => setMyIntroduction(e.target.value)}
+              value={motivation}
+              onChange={(e) => setMotivation(e.target.value)}
               className="w-full mb-4 h-[365px] bg-[#333333] p-2 resize-none text-white rounded-lg"
               placeholder="지원 동기를 작성해 주세요."
             />
           </div>
           <div>
-            <button className="px-3 bg-darkgreen rounded py-2 text-white font-bold">
+            <button
+              onClick={handleApplyClick}
+              className="px-3 bg-darkgreen rounded py-2 text-white font-bold"
+            >
               지원하기
             </button>
           </div>

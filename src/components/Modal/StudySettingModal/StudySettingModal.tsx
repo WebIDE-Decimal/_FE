@@ -4,6 +4,8 @@ import { useAppDispatch } from "../../../hooks/redux.ts";
 import { clickStudySettingModal } from "../../../store/postPage/postPageSlice.ts";
 import { useNavigate } from "react-router-dom";
 import { toggleAlertModal } from "../../../store/modal/modalSlice.ts";
+import api from "../../../api";
+import { toast } from "react-toastify";
 
 interface StudySettingProps {
   id?: string;
@@ -19,9 +21,16 @@ const StudySettingModal = ({ id, modalPosition }: StudySettingProps) => {
     dispatch(clickStudySettingModal(false));
   });
 
-  const handleRemoveClick = () => {
+  const handleRemoveClick = async () => {
     dispatch(toggleAlertModal(true));
     dispatch(clickStudySettingModal(false));
+    await api.delete(`/recruit/${Number(id)}`).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        navigate("../../recruit");
+        toast.info("모집글이 삭제되었습니다.");
+      }
+    });
   };
 
   const handleEditClick = () => {

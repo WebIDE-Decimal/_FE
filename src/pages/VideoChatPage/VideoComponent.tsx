@@ -1,18 +1,18 @@
-import React from "react";
-import { useState, useEffect, useCallback } from "react";
-import {
-  OpenVidu,
-  Session as OVSession,
-  Publisher,
-  Subscriber,
-} from "openvidu-browser";
-import axios, { AxiosError } from "axios";
-import Form from "./Form";
-import Session from "./Session";
-import ChatComponent from "./ChatComponent";
+// import React from "react";
+// import { useState, useEffect, useCallback } from "react";
+// import {
+//   OpenVidu,
+//   Session as OVSession,
+//   Publisher,
+//   Subscriber,
+// } from "openvidu-browser";
+// import axios, { AxiosError } from "axios";
+// import Form from "./Form";
+// import Session from "./Session";
+// import ChatComponent from "./ChatComponent";
 
 function VideoComponent() {
-  const [session, setSession] = useState<OVSession | "">("");
+  /*const [session, setSession] = useState<OVSession | "">("");
   const [sessionId, setSessionId] = useState<string>("");
   const [subscriber, setSubscriber] = useState<Subscriber | null>(null);
   const [publisher, setPublisher] = useState<Publisher | null>(null);
@@ -46,7 +46,7 @@ function VideoComponent() {
   }, [leaveSession]);
 
   const sessionIdChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSessionId(event.target.value);
   };
@@ -78,11 +78,11 @@ function VideoComponent() {
           {
             headers: {
               Authorization: `Basic ${btoa(
-                `OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`
+                `OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`,
               )}`,
               "Content-Type": "application/json",
             },
-          }
+          },
         );
 
         return (response.data as { id: string }).id;
@@ -107,12 +107,12 @@ function VideoComponent() {
             {
               headers: {
                 Authorization: `Basic ${btoa(
-                  `OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`
+                  `OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`,
                 )}`,
 
                 "Content-Type": "application/json",
               },
-            }
+            },
           )
           .then((response) => {
             resolve((response.data as { token: string }).token);
@@ -188,7 +188,7 @@ function VideoComponent() {
         </div>
       )}
     </div>
-  );
+  );*/
 }
 
 export default VideoComponent;

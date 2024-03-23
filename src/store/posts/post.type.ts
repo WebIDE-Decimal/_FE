@@ -1,10 +1,11 @@
 export interface Post {
-  id: string;
-  writerId: number;
+  id: number;
+  isDeleted: boolean;
   title: string;
   content: string;
   recruited: number;
-  state: string;
+  state: boolean;
   target: string;
-  localDateTime: string;
+  createdAt: string;
+  updatedAt: string;
 }

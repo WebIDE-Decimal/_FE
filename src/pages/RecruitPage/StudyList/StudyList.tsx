@@ -4,17 +4,22 @@ import { useEffect } from "react";
 import { fetchPosts } from "../../../store/posts/posts.slice.ts";
 
 const StudyList = () => {
-  const { posts } = useAppSelector((state) => state.posts);
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchPosts());
-  // }, []);
-  // console.log(posts);
+  const { posts, finishedPosts, recruitingPosts } = useAppSelector(
+    (state) => state.posts,
+  );
+  const { total, recruiting } = useAppSelector((state) => state.postCategories);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
+  console.log(posts);
 
   return (
     <div className={"my-3 mx-2 w-full"}>
       <ul className={"list-none"}>
-        {posts?.map((post) => <Study key={post.id} post={post} />)}
+        {(total ? posts : recruiting ? recruitingPosts : finishedPosts)?.map(
+          (post) => <Study key={post.id} post={post} />,
+        )}
       </ul>
     </div>
   );
