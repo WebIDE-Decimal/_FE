@@ -21,9 +21,9 @@ const StudyCard = ({ post }: StudyCardProps) => {
       >
         <div className={"flex ml-3 mt-3"}>
           <p
-            className={`${!post.state ? "text-darkgreen" : "text-gray/90"} font-bold mr-4`}
+            className={`${post.state ? "text-darkgreen" : "text-gray/90"} font-bold mr-4`}
           >
-            {!post.state ? "모집중" : "모집 완료"}
+            {post.state ? "모집중" : "모집 완료"}
           </p>
           <p className={"font-bold text-white/80"}>
             {truncate(post.title, 20)}

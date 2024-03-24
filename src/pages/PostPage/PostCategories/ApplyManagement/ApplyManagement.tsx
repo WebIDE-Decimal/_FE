@@ -3,7 +3,7 @@ import api from "../../../../api";
 import Applicant from "./Applicant/Applicant.tsx";
 
 type ApplyManagementProps = {
-  id: string;
+  id?: string;
   clickComplete: boolean;
 };
 

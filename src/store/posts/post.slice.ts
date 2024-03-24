@@ -27,6 +27,7 @@ const initialState: postType = {
   isLoading: false,
   post: {
     id: 0,
+    applied: true,
     isWriter: false,
     isDeleted: false,
     title: "",

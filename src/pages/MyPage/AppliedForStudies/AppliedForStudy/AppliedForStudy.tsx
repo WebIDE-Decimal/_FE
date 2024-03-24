@@ -21,9 +21,9 @@ const AppliedForStudy: React.FC<AppliedForStudyProps> = ({ study }) => {
         >
           <div className={"flex ml-3 mt-3"}>
             <p
-              className={`${!study.state ? "text-darkgreen" : "text-gray/90"} font-bold mr-4`}
+              className={`${study.state ? "text-darkgreen" : "text-gray/90"} font-bold mr-4`}
             >
-              {!study.state ? "모집중" : "모집 완료"}
+              {study.state ? "모집중" : "모집 완료"}
             </p>
             <p className={"font-bold text-white/80"}>
               {truncate(study.title, 20)}
@@ -34,7 +34,18 @@ const AppliedForStudy: React.FC<AppliedForStudyProps> = ({ study }) => {
               {truncate(study.content, 100)}
             </p>
           </div>
-          <div className={"flex justify-end items-center mr-4 mb-2"}>
+          <div className={"flex justify-between items-center mr-4 mb-2"}>
+            <div className={"mx-3"}>
+              {study.myState === "WAITING" ? (
+                <p className={"text-gray font-semibold"}>수락 대기중</p>
+              ) : study.myState === "APPROVE" ? (
+                <p className={"text-darkgreen font-semibold"}>지원 수락</p>
+              ) : (
+                study.myState === "DISAPPROVE" && (
+                  <p className={"text-red-500 font-semibold"}>지원 거절</p>
+                )
+              )}
+            </div>
             <p className={"text-[#898686]"}>
               모집인원{" "}
               <span>

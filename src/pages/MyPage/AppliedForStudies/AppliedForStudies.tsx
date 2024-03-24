@@ -16,7 +16,6 @@ const AppliedForStudies = () => {
 
     response();
   }, []);
-  console.log(appliedForStudies);
 
   if (appliedForStudies.length === 0) {
     return (

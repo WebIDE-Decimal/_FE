@@ -21,9 +21,9 @@ const RecruitingStudy: FC<RecruitingStudyProps> = ({ study }) => {
         >
           <div className={"flex ml-3 mt-3"}>
             <p
-              className={`${!study.state ? "text-darkgreen" : "text-gray/90"} font-bold mr-4`}
+              className={`${study.state ? "text-darkgreen" : "text-gray/90"} font-bold mr-4`}
             >
-              {!study.state ? "모집중" : "모집 완료"}
+              {study.state ? "모집중" : "모집 완료"}
             </p>
             <p className={"font-bold text-white/80"}>
               {truncate(study.title, 20)}

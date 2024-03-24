@@ -6,7 +6,7 @@ import api from "../../../api";
 import { toast } from "react-toastify";
 
 interface ApplyStudyModalProps {
-  id: string;
+  id?: string;
 }
 
 const ApplyStudyModal = ({ id }: ApplyStudyModalProps) => {

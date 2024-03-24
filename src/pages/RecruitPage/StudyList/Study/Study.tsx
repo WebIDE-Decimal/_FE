@@ -30,9 +30,9 @@ const Study: FC<StudyProps> = ({ post }) => {
         >
           <div className={"flex max-h-[30px] px-6 py-4"}>
             <p
-              className={`${!post.state ? "text-darkgreen" : "text-gray/90"} font-bold pr-4`}
+              className={`${post.state ? "text-darkgreen" : "text-gray/90"} font-bold pr-4`}
             >
-              {post.state ? "모집 완료" : "모집중"}
+              {!post.state ? "모집 완료" : "모집중"}
             </p>
             <p className={"font-bold text-white/80"}>
               {truncate(post.title, 30)}

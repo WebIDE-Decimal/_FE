@@ -10,7 +10,16 @@ const RecruitingStudies = () => {
     const response = async () => {
       await api
         .get(`/recruit/myPost`)
-        .then((res) => setRecruitingStudies(res.data))
+        .then((res) =>
+          res.data
+            .filter((post: Post) => post.state)
+            .sort(
+              (a: Post, b: Post) =>
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime(),
+            ),
+        )
+        .then((res) => setRecruitingStudies(res))
         .catch((err) => console.log(err));
     };
     response();
@@ -26,13 +35,9 @@ const RecruitingStudies = () => {
         }
       >
         {recruitingStudies.length !== 0 &&
-          recruitingStudies
-            .sort(
-              (a, b) =>
-                new Date(b.updatedAt).getTime() -
-                new Date(a.updatedAt).getTime(),
-            )
-            .map((study) => <RecruitingStudy key={study.id} study={study} />)}
+          recruitingStudies.map((study) => (
+            <RecruitingStudy key={study.id} study={study} />
+          ))}
       </ul>
     </div>
   );
