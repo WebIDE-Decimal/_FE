@@ -29,17 +29,14 @@ const StudyCard = ({ post }: StudyCardProps) => {
             {truncate(post.title, 20)}
           </p>
         </div>
-        <div className={"ml-3"}>
+        <div className={"mx-3"}>
           <p className={"font-light text-white"}>
             {truncate(post.content, 100)}
           </p>
         </div>
         <div className={"flex justify-end items-center mr-4 mb-2"}>
           <p className={"text-[#898686]"}>
-            모집인원{" "}
-            <span>
-              {/*{post.joinedPeople ? post.joinedPeople : 0} / {post.totalPeople}*/}
-            </span>
+            모집인원 <span> 0 / {post.recruited}</span>
           </p>
         </div>
       </li>

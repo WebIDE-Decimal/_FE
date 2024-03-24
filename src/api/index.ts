@@ -55,6 +55,8 @@ api.interceptors.response.use(
               return api.put(originalRequest.url, originalRequest.data);
             } else if (originalRequest.method === "delete") {
               return api.delete(originalRequest.url);
+            } else if (originalRequest.method === "patch") {
+              return api.patch(originalRequest.url);
             }
           }
         })
