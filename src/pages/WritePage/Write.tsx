@@ -9,11 +9,11 @@ import api from "../../api";
 const Write = () => {
   const { id } = useParams();
   const { post } = useAppSelector((state) => state.post);
-  const [totalPeople, setTotalPeople] = useState(post?.recruited || 1);
-  const [title, setTitle] = useState(post?.title || "");
-  const [content, setContent] = useState(post?.content || "");
+  const [totalPeople, setTotalPeople] = useState((id && post?.recruited) || 1);
+  const [title, setTitle] = useState((id && post?.title) || "");
+  const [content, setContent] = useState((id && post?.content) || "");
   const [overPeople, setOverPeople] = useState(false);
-  const [target, setTarget] = useState(post?.target || "");
+  const [target, setTarget] = useState((id && post?.target) || "");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
@@ -75,7 +75,7 @@ const Write = () => {
     };
     await api
       .post("/recruit", newPost)
-      .then((res) => {
+      .then(() => {
         navigate(`/recruit`);
         toast.success("모집 글이 등록되었습니다.👏");
       })
@@ -200,7 +200,7 @@ const Write = () => {
               />
             </div>
             <div className="flex justify-end">
-              {post.id ? (
+              {id && post.id ? (
                 <div
                   className="text-white mb-6 flex items-center mt-1 bg-darkgreen px-16 py-3 font-bold rounded"
                   onClick={handleEditClick}

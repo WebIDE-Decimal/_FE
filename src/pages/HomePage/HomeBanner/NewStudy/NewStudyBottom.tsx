@@ -1,7 +1,26 @@
 import StudyCard from "../../../../components/Card/StudyCard/StudyCard.tsx";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux.ts";
+import { useEffect } from "react";
+import { fetchPosts } from "../../../../store/posts/posts.slice.ts";
 
 const NewStudyBottom = () => {
+  const dispatch = useAppDispatch();
+  const { posts } = useAppSelector((state) => state.posts);
+  const newPosts = posts?.slice(0, 3) || [];
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
+
+  if (newPosts.length === 0) {
+    return (
+      <div className={"text-white font-medium text-2xl"}>
+        신규 게시글을 불러오는 중 입니다...
+      </div>
+    );
+  }
+
   return (
     <div className={"w-4/6 flex items-center justify-center"}>
       <div className={"w-full flex flex-col"}>
@@ -27,9 +46,9 @@ const NewStudyBottom = () => {
         <div
           className={"w-full mt-10 list-none flex justify-center items-center"}
         >
-          <StudyCard />
-          <StudyCard />
-          <StudyCard />
+          {newPosts.map((post) => (
+            <StudyCard key={post.id} post={post} />
+          ))}
         </div>
       </div>
     </div>

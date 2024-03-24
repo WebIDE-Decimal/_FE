@@ -1,4 +1,12 @@
-const AppliedForStudy = () => {
+import { Post } from "../../../../store/posts/post.type.ts";
+import React from "react";
+
+type AppliedForStudyProps = {
+  study: Post;
+};
+
+const AppliedForStudy: React.FC<AppliedForStudyProps> = ({ study }) => {
+  console.log(study);
   return (
     <div className={"w-1/3 px-4 pt-4 flex mb-10 justify-center"}>
       <li

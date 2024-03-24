@@ -24,7 +24,7 @@ const Recruit = () => {
                 </p>
               </div>
             </div>
-            <Link to={`../write`}>
+            <Link to={`/write`}>
               <button
                 className={
                   "flex-grow-0 text-white w-48 h-12 font-bold bg-buttonGreen rounded text-center"

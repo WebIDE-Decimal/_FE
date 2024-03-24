@@ -7,12 +7,13 @@ const StudyList = () => {
   const { posts, finishedPosts, recruitingPosts } = useAppSelector(
     (state) => state.posts,
   );
+  console.log(posts);
+
   const { total, recruiting } = useAppSelector((state) => state.postCategories);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchPosts());
   }, []);
-  console.log(posts);
 
   return (
     <div className={"my-3 mx-2 w-full"}>
