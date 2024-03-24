@@ -47,7 +47,7 @@ const Post = () => {
           <AlertModal
             text={"게시글을 삭제하시겠습니까?"}
             type={"삭제하기"}
-            id={id}
+            id={Number(id)}
           />
         )}
         {viewApplyStudyModal && <ApplyStudyModal id={id} />}
@@ -81,7 +81,7 @@ const Post = () => {
                     <p className={"text-white mr-2"}>{post.target}</p>
                     <p className={"text-white ml-2"}>0 / {post.recruited}</p>
                   </div>
-                  {!post.isWriter && (
+                  {!post.isWriter && !post.state && (
                     <button
                       onClick={handleApplyClick}
                       className={

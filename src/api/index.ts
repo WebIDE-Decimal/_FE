@@ -15,7 +15,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
-    if (token && config.url !== "/reissue") {
+    if (token && config.url !== "/reissue" && config.url !== "/login") {
       config.headers["access_token"] = token;
     }
     return config;
@@ -36,34 +36,37 @@ api.interceptors.response.use(
       error.response.status === 401 &&
       !originalRequest._retry
     ) {
-      originalRequest._retry = true;
-      return await api
-        .post("/reissue")
-        .then((res) => {
-          if (res.status === 200) {
-            api.defaults.headers.common["access_token"] =
-              res.headers.access_token;
-            originalRequest.headers["access_token"] = res.headers.access_token;
-            localStorage.setItem("access_token", res.headers.access_token);
-            if (originalRequest.method === "post") {
-              return api.post(originalRequest.url, originalRequest.data);
-            } else if (originalRequest.method === "get") {
-              return api.get(originalRequest.url, {
-                params: originalRequest.params,
-              });
-            } else if (originalRequest.method === "put") {
-              return api.put(originalRequest.url, originalRequest.data);
-            } else if (originalRequest.method === "delete") {
-              return api.delete(originalRequest.url);
-            } else if (originalRequest.method === "patch") {
-              return api.patch(originalRequest.url);
+      if (originalRequest.url !== "/login") {
+        originalRequest._retry = true;
+        return await api
+          .post("/reissue")
+          .then((res) => {
+            if (res.status === 200) {
+              api.defaults.headers.common["access_token"] =
+                res.headers.access_token;
+              originalRequest.headers["access_token"] =
+                res.headers.access_token;
+              localStorage.setItem("access_token", res.headers.access_token);
+              if (originalRequest.method === "post") {
+                return api.post(originalRequest.url, originalRequest.data);
+              } else if (originalRequest.method === "get") {
+                return api.get(originalRequest.url, {
+                  params: originalRequest.params,
+                });
+              } else if (originalRequest.method === "put") {
+                return api.put(originalRequest.url, originalRequest.data);
+              } else if (originalRequest.method === "delete") {
+                return api.delete(originalRequest.url);
+              } else if (originalRequest.method === "patch") {
+                return api.patch(originalRequest.url);
+              }
             }
-          }
-        })
-        .catch((error) => {
-          console.log("토큰 재발급 실패", error);
-          return Promise.reject(error);
-        });
+          })
+          .catch((error) => {
+            console.log("토큰 재발급 실패", error);
+            return Promise.reject(error);
+          });
+      }
     }
     return Promise.reject(error);
   },

@@ -1,6 +1,18 @@
 import RecruitingStudy from "./RecruitingStudy/RecruitingStudy.tsx";
+import { useAppDispatch } from "../../../hooks/redux.ts";
+import { useEffect, useState } from "react";
+import { fetchPosts } from "../../../store/posts/posts.slice.ts";
 
 const RecruitingStudies = () => {
+  const [recruitingStudies, setRecruitingStudies] = useState([]);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPosts())
+      .then((res) => res.payload.filter((study) => study.isWriter))
+      .then((res) => setRecruitingStudies(res));
+  }, []);
+
   return (
     <div className={"w-full flex mt-12"}>
       <ul
@@ -8,7 +20,10 @@ const RecruitingStudies = () => {
           "flex w-full px-4 h-full flex-wrap overflow-y-auto max-h-[500px] hide-scrollbar"
         }
       >
-        <RecruitingStudy />
+        {recruitingStudies.length !== 0 &&
+          recruitingStudies.map((study) => (
+            <RecruitingStudy key={study.id} study={study} />
+          ))}
       </ul>
     </div>
   );

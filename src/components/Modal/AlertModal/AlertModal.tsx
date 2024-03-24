@@ -9,7 +9,7 @@ import api from "../../../api";
 interface AlertModalProps {
   text: string;
   type: string;
-  id?: string;
+  id?: number;
 }
 
 const AlertModal = ({ text, type, id }: AlertModalProps) => {
@@ -29,13 +29,16 @@ const AlertModal = ({ text, type, id }: AlertModalProps) => {
   ) => {
     e.preventDefault();
     if (type === "삭제하기") {
-      await api.delete(`/recruit/${Number(id)}`).then((res) => {
-        if (res.status === 204) {
-          navigate("../../recruit");
-          toast.info("모집글이 삭제되었습니다.");
-          dispatch(toggleAlertModal(false));
-        }
-      });
+      await api
+        .delete(`/recruit/${Number(id)}`)
+        .then((res) => {
+          if (res.status === 204) {
+            navigate("../../recruit");
+            toast.info("모집글이 삭제되었습니다.");
+            dispatch(toggleAlertModal(false));
+          }
+        })
+        .catch((res) => console.log(res));
     } else if (type === "회원 탈퇴") {
       toast.info("계정이 삭제되었습니다.😢");
       navigate(`/`);
