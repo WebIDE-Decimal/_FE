@@ -22,6 +22,7 @@ const Post = () => {
   );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  console.log(post);
 
   const handleApplyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

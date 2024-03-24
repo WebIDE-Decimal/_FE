@@ -47,7 +47,7 @@ const Study: FC<StudyProps> = ({ post }) => {
             <p className={"text-[#898686]"}>
               모집인원{" "}
               <span>
-                {/*{post.joinedPeople ? post.joinedPeople : 0} / {post.totalPeople}*/}
+                {post.applied} / {post.recruited}
               </span>
             </p>
           </div>

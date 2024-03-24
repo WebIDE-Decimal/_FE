@@ -16,6 +16,8 @@ const RecruitingStudies = () => {
     response();
   }, []);
 
+  console.log(recruitingStudies);
+
   return (
     <div className={"w-full flex mt-12"}>
       <ul

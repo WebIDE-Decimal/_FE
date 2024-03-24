@@ -36,7 +36,11 @@ const AppliedForStudy: React.FC<AppliedForStudyProps> = ({ study }) => {
           </div>
           <div className={"flex justify-end items-center mr-4 mb-2"}>
             <p className={"text-[#898686]"}>
-              모집인원 <span> 0 / {study.recruited}</span>
+              모집인원{" "}
+              <span>
+                {" "}
+                {study.applied} / {study.recruited}
+              </span>
             </p>
           </div>
         </li>
