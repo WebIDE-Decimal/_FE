@@ -47,6 +47,7 @@ api.interceptors.response.use(
               originalRequest.headers["access_token"] =
                 res.headers.access_token;
               localStorage.setItem("access_token", res.headers.access_token);
+              originalRequest._retry = false;
               if (originalRequest.method === "post") {
                 return api.post(originalRequest.url, originalRequest.data);
               } else if (originalRequest.method === "get") {

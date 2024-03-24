@@ -13,10 +13,7 @@ const RecruitingStudy: FC<RecruitingStudyProps> = ({ study }) => {
   console.log(study);
   return (
     <div className={"w-1/3 px-4 pt-4 flex mb-10 justify-center"}>
-      <Link
-        to={`../post/${study.id}`}
-        className={"w-full flex mb-10 justify-center"}
-      >
+      <Link to={`../post/${study.id}`} className={"w-full flex justify-center"}>
         <li
           className={
             "bg-studyCardBg/80 flex flex-col justify-between w-full h-48 flex-shrink-0 rounded-lg hover:cursor-pointer shadow-cardShadow hover:shadow-hoverShadow"
