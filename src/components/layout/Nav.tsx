@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import mainLogo from "../../assets/images/main_logo.png";
 import { CiChat1, CiSearch } from "react-icons/ci";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
@@ -6,10 +6,12 @@ import React from "react";
 import api from "../../api";
 import userimg from "../../assets/images/def_userInfo.png";
 import { clickLogout } from "../../store/user/user.slice.ts";
+import { clickMyInformation } from "../../store/myPage/viewPage/viewPageSlice.ts";
 
 const Nav = () => {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleLogoutClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -19,6 +21,12 @@ const Nav = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleMyPageClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigate(`/mypage`);
+    dispatch(clickMyInformation());
   };
 
   return (
@@ -57,9 +65,9 @@ const Nav = () => {
         {user.accessToken ? (
           <div className={"flex items-center mr-3"}>
             <div className={"mx-4 my-2"}>
-              <Link to={`/mypage`} className="my-1 text-white">
+              <button onClick={handleMyPageClick} className="my-1 text-white">
                 <img className="w-8 " src={userimg} alt="user Image" />
-              </Link>
+              </button>
             </div>
             <div onClick={handleLogoutClick} className={"mx-4 my-2"}>
               <Link to={`/`} className="my-1 text-white">
