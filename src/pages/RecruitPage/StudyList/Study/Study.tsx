@@ -1,19 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Post } from "../../../../store/posts/post.type.ts";
 import { FC } from "react";
+import { useAppDispatch } from "../../../../hooks/redux.ts";
+import { clickRecruitDescription } from "../../../../store/postPage/postPageSlice.ts";
 
 interface StudyProps {
   post: Post;
 }
 
 const Study: FC<StudyProps> = ({ post }) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const truncate = (str: string, n: number) => {
     return str?.length > n ? str.substring(0, n - 1) + "..." : str;
   };
 
+  const handlePostClick = () => {
+    navigate(`../../../post/${post.id}`);
+    dispatch(clickRecruitDescription());
+  };
+
   return (
     <div className={"w-full pt-4 flex mb-10 justify-center"}>
-      <Link className={"w-3/5"} to={`../../../post/${post.id}`}>
+      <div onClick={handlePostClick} className={"w-3/5"}>
         <li
           className={
             "bg-studyCardBg/80 w-full h-48 flex flex-col justify-between flex-shrink-0 rounded-lg shadow-cardShadow hover:shadow-hoverShadow"
@@ -43,7 +52,7 @@ const Study: FC<StudyProps> = ({ post }) => {
             </p>
           </div>
         </li>
-      </Link>
+      </div>
     </div>
   );
 };

@@ -1,16 +1,19 @@
 import RecruitingStudy from "./RecruitingStudy/RecruitingStudy.tsx";
-import { useAppDispatch } from "../../../hooks/redux.ts";
 import { useEffect, useState } from "react";
-import { fetchPosts } from "../../../store/posts/posts.slice.ts";
+import api from "../../../api";
+import { Post } from "../../../store/posts/post.type.ts";
 
 const RecruitingStudies = () => {
-  const [recruitingStudies, setRecruitingStudies] = useState([]);
-  const dispatch = useAppDispatch();
+  const [recruitingStudies, setRecruitingStudies] = useState<Post[]>([]);
 
   useEffect(() => {
-    dispatch(fetchPosts())
-      .then((res) => res.payload.filter((study) => study.isWriter))
-      .then((res) => setRecruitingStudies(res));
+    const response = async () => {
+      await api
+        .get(`/recruit/myPost`)
+        .then((res) => setRecruitingStudies(res.data))
+        .catch((err) => console.log(err));
+    };
+    response();
   }, []);
 
   return (
@@ -21,9 +24,13 @@ const RecruitingStudies = () => {
         }
       >
         {recruitingStudies.length !== 0 &&
-          recruitingStudies.map((study) => (
-            <RecruitingStudy key={study.id} study={study} />
-          ))}
+          recruitingStudies
+            .sort(
+              (a, b) =>
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime(),
+            )
+            .map((study) => <RecruitingStudy key={study.id} study={study} />)}
       </ul>
     </div>
   );

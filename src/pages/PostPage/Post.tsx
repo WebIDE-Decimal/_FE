@@ -5,7 +5,7 @@ import PostCategories from "./PostCategories/PostCategories.tsx";
 import RecruitDescription from "./PostCategories/RecruitDescription/RecruitDescription.tsx";
 import ApplyManagement from "./PostCategories/ApplyManagement/ApplyManagement.tsx";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal.tsx";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toggleApplyStudyModal } from "../../store/modal/modalSlice.ts";
 import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyModal.tsx";
 import { fetchPost } from "../../store/posts/post.slice.ts";
@@ -13,6 +13,7 @@ import { fetchPost } from "../../store/posts/post.slice.ts";
 const Post = () => {
   const { post } = useAppSelector((state) => state.post);
   const { id } = useParams();
+  const [clickComplete, setClickComplete] = useState<boolean>(false);
   const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
     (state) => state.postPage,
   );
@@ -21,7 +22,6 @@ const Post = () => {
   );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  console.log(post);
 
   const handleApplyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -35,6 +35,13 @@ const Post = () => {
   if (!id) {
     return <div>존재하지 않는 게시글 입니다.</div>;
   }
+
+  const handleCompleteButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log("지원 완료 클릭");
+
+    setClickComplete(true);
+  };
 
   return (
     <div className={"h-full flex w-full"}>
@@ -81,7 +88,7 @@ const Post = () => {
                     <p className={"text-white mr-2"}>{post.target}</p>
                     <p className={"text-white ml-2"}>0 / {post.recruited}</p>
                   </div>
-                  {!post.isWriter && !post.state && (
+                  {!post.isWriter && !post.state ? (
                     <button
                       onClick={handleApplyClick}
                       className={
@@ -90,13 +97,27 @@ const Post = () => {
                     >
                       지원하기
                     </button>
+                  ) : (
+                    post.isWriter &&
+                    !post.state && (
+                      <button
+                        onClick={handleCompleteButton}
+                        className={
+                          "bg-[#4CAF50]/90 hover:bg-[#4CAF50] text-white rounded px-2 py-1"
+                        }
+                      >
+                        모집 완료
+                      </button>
+                    )
                   )}
                 </div>
-                {!post.isWriter && <PostCategories id={id} />}
+                {post.isWriter && <PostCategories id={id} />}
               </div>
             </div>
             {viewRecruitDescription && <RecruitDescription post={post} />}
-            {viewApplyManagement && <ApplyManagement id={id} />}
+            {viewApplyManagement && (
+              <ApplyManagement clickComplete={clickComplete} id={id} />
+            )}
           </div>
           <div className={"flex flex-col items-center w-1/3 mt-9"}>
             <div>
