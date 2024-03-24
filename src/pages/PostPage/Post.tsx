@@ -21,6 +21,8 @@ const Post = () => {
   );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  console.log(post);
+
   const handleApplyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(toggleApplyStudyModal(true));
@@ -74,19 +76,23 @@ const Post = () => {
                   </p>
                 </div>
                 <p className={"mt-3 text-white font-bold text-lg"}>모집 현황</p>
-                <div className={"flex w-1/2 items-center justify-between my-3"}>
-                  <p className={"text-white"}>JAVA 스터디원</p>
-                  <p className={"text-white"}>1/3</p>
-                  <button
-                    onClick={handleApplyClick}
-                    className={
-                      "bg-[#4CAF50]/90 hover:bg-[#4CAF50] text-white rounded px-2 py-1"
-                    }
-                  >
-                    지원하기
-                  </button>
+                <div className={"flex items-center justify-between my-3"}>
+                  <div className={"flex"}>
+                    <p className={"text-white mr-2"}>{post.target}</p>
+                    <p className={"text-white ml-2"}>0 / {post.recruited}</p>
+                  </div>
+                  {!post.isWriter && (
+                    <button
+                      onClick={handleApplyClick}
+                      className={
+                        "bg-[#4CAF50]/90 hover:bg-[#4CAF50] text-white rounded px-2 py-1"
+                      }
+                    >
+                      지원하기
+                    </button>
+                  )}
                 </div>
-                <PostCategories id={id} />
+                {!post.isWriter && <PostCategories id={id} />}
               </div>
             </div>
             {viewRecruitDescription && <RecruitDescription post={post} />}
@@ -100,15 +106,17 @@ const Post = () => {
                 alt={"Author Image"}
               />
             </div>
-            <div className={"flex mt-4 w-full items-center justify-center"}>
-              <button
-                className={
-                  "bg-[#FFC107] rounded font-bold text-white px-6 py-3"
-                }
-              >
-                1 : 1 채팅하기
-              </button>
-            </div>
+            {!post.isWriter && (
+              <div className={"flex mt-4 w-full items-center justify-center"}>
+                <button
+                  className={
+                    "bg-[#FFC107] rounded font-bold text-white px-6 py-3"
+                  }
+                >
+                  1 : 1 채팅하기
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 export interface Post {
   id: number;
   isDeleted: boolean;
+  isWriter: boolean;
   title: string;
   content: string;
   recruited: number;
