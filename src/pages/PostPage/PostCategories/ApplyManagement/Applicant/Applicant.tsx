@@ -5,9 +5,10 @@ import api from "../../../../../api";
 
 type ApplicantProps = {
   apply: totalAppliesProps;
+  clickComplete: boolean;
 };
 
-const Applicant: FC<ApplicantProps> = ({ apply }) => {
+const Applicant: FC<ApplicantProps> = ({ apply, clickComplete }) => {
   const [clickToggle, setClickToggle] = useState(false);
   const [applyState, setApplyState] = useState(apply.state || null);
   const handleToggleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -47,7 +48,7 @@ const Applicant: FC<ApplicantProps> = ({ apply }) => {
       {clickToggle && (
         <div className={"ml-6"}>
           <p>{apply.motivation}</p>
-          {applyState === "WAITING" ? (
+          {applyState === "WAITING" && !clickComplete ? (
             <div>
               <button
                 onClick={handleAcceptClick}
@@ -64,9 +65,9 @@ const Applicant: FC<ApplicantProps> = ({ apply }) => {
             </div>
           ) : applyState === "APPROVE" ? (
             <p>승인된 지원 입니다.</p>
-          ) : (
+          ) : applyState === "DISAPPROVE" ? (
             <p>거절된 지원 입니다.</p>
-          )}
+          ) : null}
         </div>
       )}
     </div>
