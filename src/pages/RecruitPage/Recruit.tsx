@@ -12,7 +12,7 @@ const Recruit = () => {
             "bg-studyBanner pt-14 w-full flex justify-center items-center"
           }
         >
-          <div className={"flex w-3/5 items-center"}>
+          <div className={"flex w-4/5 items-center"}>
             <div className={"flex-grow flex items-center"}>
               <img src={saly} alt={"RecruitPage-Banner-Img"} />
               <div className={"w-1/2"}>

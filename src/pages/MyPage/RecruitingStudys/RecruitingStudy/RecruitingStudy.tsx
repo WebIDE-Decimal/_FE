@@ -21,9 +21,9 @@ const RecruitingStudy: FC<RecruitingStudyProps> = ({ study }) => {
         >
           <div className={"flex ml-3 mt-3"}>
             <p
-              className={`${!study.state ? "text-darkgreen" : "text-gray/90"} font-bold mr-4`}
+              className={`${study.state ? "text-darkgreen" : "text-gray/90"} font-bold mr-4`}
             >
-              {!study.state ? "모집중" : "모집 완료"}
+              {study.state ? "모집중" : "모집 완료"}
             </p>
             <p className={"font-bold text-white/80"}>
               {truncate(study.title, 20)}
@@ -36,7 +36,11 @@ const RecruitingStudy: FC<RecruitingStudyProps> = ({ study }) => {
           </div>
           <div className={"flex justify-end items-center mr-4 mb-2"}>
             <p className={"text-[#898686]"}>
-              모집인원 <span> 0 / {study.recruited}</span>
+              모집인원{" "}
+              <span>
+                {" "}
+                {study.applied} / {study.recruited}
+              </span>
             </p>
           </div>
         </li>

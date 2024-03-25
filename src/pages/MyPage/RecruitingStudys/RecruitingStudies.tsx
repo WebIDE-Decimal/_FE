@@ -1,17 +1,31 @@
 import RecruitingStudy from "./RecruitingStudy/RecruitingStudy.tsx";
-import { useAppDispatch } from "../../../hooks/redux.ts";
 import { useEffect, useState } from "react";
-import { fetchPosts } from "../../../store/posts/posts.slice.ts";
+import api from "../../../api";
+import { Post } from "../../../store/posts/post.type.ts";
 
 const RecruitingStudies = () => {
-  const [recruitingStudies, setRecruitingStudies] = useState([]);
-  const dispatch = useAppDispatch();
+  const [recruitingStudies, setRecruitingStudies] = useState<Post[]>([]);
 
   useEffect(() => {
-    dispatch(fetchPosts())
-      .then((res) => res.payload.filter((study) => study.isWriter))
-      .then((res) => setRecruitingStudies(res));
+    const response = async () => {
+      await api
+        .get(`/recruit/myPost`)
+        .then((res) =>
+          res.data
+            .filter((post: Post) => post.state)
+            .sort(
+              (a: Post, b: Post) =>
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime(),
+            ),
+        )
+        .then((res) => setRecruitingStudies(res))
+        .catch((err) => console.log(err));
+    };
+    response();
   }, []);
+
+  console.log(recruitingStudies);
 
   return (
     <div className={"w-full flex mt-12"}>

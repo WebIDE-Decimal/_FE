@@ -6,13 +6,14 @@ import api from "../../../api";
 import { toast } from "react-toastify";
 
 interface ApplyStudyModalProps {
-  id: string;
+  id?: string;
 }
 
 const ApplyStudyModal = ({ id }: ApplyStudyModalProps) => {
   const dispatch = useAppDispatch();
   const [motivation, setMotivation] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
+  const motivationRef = useRef<HTMLTextAreaElement>(null);
   const handleCloseClick = () => {
     dispatch(toggleApplyStudyModal(false));
   };
@@ -22,6 +23,12 @@ const ApplyStudyModal = ({ id }: ApplyStudyModalProps) => {
   });
 
   const handleApplyClick = async () => {
+    if (motivationRef.current !== null && motivation.length < 50) {
+      motivationRef.current.focus();
+      toast.info("지원 동기를 50자 이상 작성해주세요.");
+      return;
+    }
+
     try {
       await api.post(`/recruitInfo/${id}`, { motivation }).then((res) => {
         if (res.status === 201) {
@@ -61,10 +68,11 @@ const ApplyStudyModal = ({ id }: ApplyStudyModalProps) => {
               지원 동기
             </p>
             <textarea
+              ref={motivationRef}
               value={motivation}
               onChange={(e) => setMotivation(e.target.value)}
               className="w-full mb-4 h-[365px] bg-[#333333] p-2 resize-none text-white rounded-lg"
-              placeholder="지원 동기를 작성해 주세요."
+              placeholder="지원 동기를 작성해 주세요. (50자 이상)"
             />
           </div>
           <div>
