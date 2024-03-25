@@ -6,7 +6,7 @@ import {
   BsFileEarmark,
   BsFileEarmarkFill,
 } from "react-icons/bs";
-import { Editor } from "./Editor/Editor";
+import Editors from "./Editor/Editors";
 import ChatDetail from "../ChatPage/ChatDetail/ChatDetail";
 import TeamUsersList from "./TeamUsersList/TeamUsersList";
 
@@ -70,7 +70,7 @@ const Ide = () => {
           ))}
         </div>
         <div className="basis-3/5 h-full bg-white">
-          <Editor />
+          <Editors />
         </div>
         <div className="basis-1/5 h-full bg-roomTreeBg overflow-hidden">
           <div className="flex flex-col h-full">
