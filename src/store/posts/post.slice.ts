@@ -27,6 +27,7 @@ const initialState: postType = {
   isLoading: false,
   post: {
     id: 0,
+    applied: true,
     isWriter: false,
     isDeleted: false,
     title: "",
@@ -51,7 +52,7 @@ const postSlice = createSlice({
       })
       .addCase(fetchPost.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.post = payload;
+        state.post = payload[0];
       })
       .addCase(fetchPost.rejected, (state, action) => {
         state.isLoading = false;

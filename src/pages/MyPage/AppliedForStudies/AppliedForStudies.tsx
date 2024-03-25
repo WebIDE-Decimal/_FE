@@ -1,14 +1,15 @@
 import AppliedForStudy from "./AppliedForStudy/AppliedForStudy.tsx";
 import { useEffect, useState } from "react";
 import api from "../../../api";
+import { Post } from "../../../store/posts/post.type.ts";
 
 const AppliedForStudies = () => {
-  const [appliedForStudies, setAppliedForStudies] = useState([]);
+  const [appliedForStudies, setAppliedForStudies] = useState<Post[]>([]);
 
   useEffect(() => {
     const response = async () => {
       await api
-        .get(`/recruitInfo/mypost/info`)
+        .get(`/recruitInfo/myApply`)
         .then((res) => setAppliedForStudies(res.data))
         .catch((err) => console.log(err));
     };

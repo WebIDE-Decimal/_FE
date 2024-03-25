@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../../../api";
 import Applicant from "./Applicant/Applicant.tsx";
 
 type ApplyManagementProps = {
-  id: string;
+  id?: string;
+  clickComplete: boolean;
 };
 
 export type totalAppliesProps = {
@@ -14,7 +15,7 @@ export type totalAppliesProps = {
   createdAt: string;
 };
 
-const ApplyManagement = ({ id }: ApplyManagementProps) => {
+const ApplyManagement = ({ id, clickComplete }: ApplyManagementProps) => {
   const [totalApplies, setTotalApplies] = useState<totalAppliesProps[]>([]);
 
   useEffect(() => {
@@ -33,7 +34,13 @@ const ApplyManagement = ({ id }: ApplyManagementProps) => {
   return (
     <div className={"text-white min-h-[478px]"}>
       {totalApplies.length !== 0 ? (
-        totalApplies.map((apply) => <Applicant key={apply.id} apply={apply} />)
+        totalApplies.map((apply) => (
+          <Applicant
+            clickComplete={clickComplete}
+            key={apply.id}
+            apply={apply}
+          />
+        ))
       ) : (
         <div className={"text-white text-3xl text-center"}>
           지원자가 없습니다.

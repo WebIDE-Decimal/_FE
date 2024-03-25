@@ -1,36 +1,21 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../../../../api";
-import { useAppSelector } from "../../../../hooks/redux";
-import {
-  initializeSession,
-  inviteUserToSession,
-} from "../../../../api/chatAPI";
-import { Post } from "../../../../store/posts/post.type";
+import { Post } from "../../../../store/posts/post.type.ts";
+import React,{useNavigate} from "react";
 
-const ProceedingStudy = () => {
-  const { user } = useAppSelector((state) => state.user);
-  const [posts, setPosts] = useState<Post[]>([]);
+type ProceedingStudyProps = {
+  study: Post;
+};
+
+const ProceedingStudy: React.FC<ProceedingStudyProps> = ({ study }) => {
+  const date = new Date(study.createdAt);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // GET 요청을 보내는 함수
-    const fetchData = async () => {
-      const URL = "recruit/myPost";
-
-      try {
-        const response = await api.get(URL);
-
-        console.log("데이터 가져오기 성공:", response.data);
-        setPosts(response.data);
-      } catch (error) {
-        console.error("데이터 가져오기 실패:", error);
-      }
-    };
-
-    // fetchData 함수 호출
-    fetchData();
-  }, [user.accessToken]);
+  
+  const formattedDate =
+    date.getFullYear() +
+    "년 " +
+    ("0" + (date.getMonth() + 1)).slice(-2) +
+    "월 " +
+    ("0" + date.getDate()).slice(-2) +
+    "일";
 
   // 포스트를 클릭했을 때 세션 생성 및 작성자 초대
   const handlePostClick = async (post: Post) => {
@@ -50,25 +35,26 @@ const ProceedingStudy = () => {
       console.error("세션 생성 및 초대 실패:", error);
     }
   };
-
   return (
     <div className={"w-1/3 px-4 pt-4 flex mb-10 justify-center"}>
-      {posts.map((post, index) => (
-        <li
-          key={index}
-          className={
-            "bg-studyCardBg/80 w-full h-48 flex-shrink-0 rounded-lg shadow-cardShadow hover:shadow-hoverShadow cursor-pointer"
-          }
-          onClick={() => handlePostClick(post)}
-        >
-          <div className={"flex"}>
-            <p className={"font-bold text-white/80"}>{post.title}</p>
-          </div>
-          <div>
-            <p className={"font-light text-white"}>{post.content}</p>
-          </div>
-        </li>
-      ))}
+      <li
+        className={
+          "bg-studyCardBg/80 p-3 w-full flex flex-col justify-between h-48 flex-shrink-0 rounded-lg shadow-cardShadow hover:shadow-hoverShadow"
+                 
+}
+      onClick={() => handlePostClick(study)} >
+        <div className={"flex"}>
+          <p className={"font-bold text-white/80"}>{study.title}</p>
+        </div>
+        <div>
+          <p className={"font-light text-white"}>{study.content}</p>
+        </div>
+        <div>
+          <p className={"font-light text-white"}>
+            스터디 시작일: {formattedDate}
+          </p>
+        </div>
+      </li>
     </div>
   );
 };

@@ -16,7 +16,7 @@ const NewStudyBottom = () => {
   if (newPosts.length === 0) {
     return (
       <div className={"text-white font-medium text-2xl"}>
-        신규 게시글을 불러오는 중 입니다...
+        신규 게시글이 없습니다.
       </div>
     );
   }

@@ -36,7 +36,11 @@ const StudyCard = ({ post }: StudyCardProps) => {
         </div>
         <div className={"flex justify-end items-center mr-4 mb-2"}>
           <p className={"text-[#898686]"}>
-            모집인원 <span> 0 / {post.recruited}</span>
+            모집인원{" "}
+            <span>
+              {" "}
+              {post.applied} / {post.recruited}
+            </span>
           </p>
         </div>
       </li>

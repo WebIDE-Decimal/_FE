@@ -5,9 +5,10 @@ import api from "../../../../../api";
 
 type ApplicantProps = {
   apply: totalAppliesProps;
+  clickComplete: boolean;
 };
 
-const Applicant: FC<ApplicantProps> = ({ apply }) => {
+const Applicant: FC<ApplicantProps> = ({ apply, clickComplete }) => {
   const [clickToggle, setClickToggle] = useState(false);
   const [applyState, setApplyState] = useState(apply.state || null);
   const handleToggleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,16 +40,25 @@ const Applicant: FC<ApplicantProps> = ({ apply }) => {
           {clickToggle ? <RxTriangleDown /> : <RxTriangleRight />}
         </button>
         <div
-          className={`${applyState === "WAITING" ? "text-white" : "text-gray"} ml-1`}
+          className={`${applyState === "WAITING" ? "text-white" : "text-gray"} ml-1 flex`}
         >
-          <p>지원자: {apply.userNickname}</p>
+          <p className={"mr-2"}>지원자: {apply.userNickname}</p>
+          {applyState === "APPROVE" ? (
+            <p className={"ml-2 text-darkgreen font-medium"}>
+              승인된 지원 입니다.
+            </p>
+          ) : applyState === "DISAPPROVE" ? (
+            <p className={"ml-2 text-red-500 font-medium"}>
+              거절된 지원 입니다.
+            </p>
+          ) : null}
         </div>
       </div>
       {clickToggle && (
-        <div className={"ml-6"}>
+        <div className={"mt-1 ml-6 w-full"}>
           <p>{apply.motivation}</p>
-          {applyState === "WAITING" ? (
-            <div>
+          {applyState === "WAITING" && clickComplete && (
+            <div className={"float-right mt-1"}>
               <button
                 onClick={handleAcceptClick}
                 className={"bg-darkgreen mr-1 rounded px-1 py-1"}
@@ -62,10 +72,6 @@ const Applicant: FC<ApplicantProps> = ({ apply }) => {
                 지원 거절
               </button>
             </div>
-          ) : applyState === "APPROVE" ? (
-            <p>승인된 지원 입니다.</p>
-          ) : (
-            <p>거절된 지원 입니다.</p>
           )}
         </div>
       )}
