@@ -38,7 +38,7 @@ function App() {
           <Route path="mypage" element={<My />} />
           <Route path="chat" element={<Chat />} />
           <Route path="videoChat" element={<VideoChat />} />
-          <Route path="ide" element={<Ide />} />
+          <Route path="ide/:id" element={<Ide />} />
         </Route>
       </Routes>
     </div>
