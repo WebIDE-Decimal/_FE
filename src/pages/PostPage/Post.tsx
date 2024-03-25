@@ -10,18 +10,19 @@ import { toggleApplyStudyModal } from "../../store/modal/modalSlice.ts";
 import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyModal.tsx";
 import { fetchPost } from "../../store/posts/post.slice.ts";
 import api from "../../api";
+import { initializeSession } from "../../api/chatAPI.ts";
 
 const Post = () => {
   const { post } = useAppSelector((state) => state.post);
   const { id } = useParams();
   const [clickComplete, setClickComplete] = useState<boolean>(
-    post?.state || true,
+    post?.state || true
   );
   const { viewApplyManagement, viewRecruitDescription } = useAppSelector(
-    (state) => state.postPage,
+    (state) => state.postPage
   );
   const { viewAlertModal, viewApplyStudyModal } = useAppSelector(
-    (state) => state.modal,
+    (state) => state.modal
   );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -36,12 +37,23 @@ const Post = () => {
   }, []);
 
   const handleCompleteButton = async (
-    e: React.MouseEvent<HTMLButtonElement>,
+    e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
     await api.patch(`/recruit/${id}/state?newState=false`).then(() => {
       setClickComplete(!post.state);
     });
+  };
+
+  // 1:1 채팅 버튼 클릭 시
+  const handleChatButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const properties = { customSessionId: "POST" + post.id };
+    await initializeSession({ properties, isPublisher: true });
+    //TODO: 작성자 세션에 초대
+
+    navigate("/chat");
   };
 
   if (!id && !post) {
@@ -138,6 +150,7 @@ const Post = () => {
                     className={
                       "bg-[#FFC107] rounded font-bold text-white px-6 py-3"
                     }
+                    onClick={handleChatButton}
                   >
                     1 : 1 채팅하기
                   </button>

@@ -9,6 +9,7 @@ import chatPage from "./chatPage/chatPageSlice.ts";
 import openViduReducer from "./openVidu/openViduSlice.ts";
 import postCategories from "./posts/postCategories.slice.ts";
 import post from "./posts/post.slice.ts";
+import chatReducer from "./chatPage/chatSlice.ts";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     user,
     openViduReducer,
     postCategories,
+    chatReducer,
   },
 });
 

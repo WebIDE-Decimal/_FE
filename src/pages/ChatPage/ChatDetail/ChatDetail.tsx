@@ -1,7 +1,8 @@
-import React from "react"; // Children 제거
+import React, { useEffect, useState } from "react"; // Children 제거
 import userImage from "../../../assets/images/def_userInfo.png";
 import { GrSend } from "react-icons/gr";
-
+import { useAppSelector } from "../../../hooks/redux";
+import { createConnection } from "../../../api/chatAPI";
 interface paramProps {
   isReceived: boolean;
   time: string;
@@ -44,16 +45,38 @@ const MessageItem = ({ isReceived, time, children }: paramProps) => {
 };
 
 const ChatDetail = () => {
+  const selectedChat = useAppSelector(
+    (state) => state.chatReducer.selectedChat
+  );
+  const [videoChatDto, setVideoChatDto] = useState<any>(undefined);
+  useEffect(() => {
+    const connectToChat = async () => {
+      try {
+        if (selectedChat) {
+          const connectionId = await createConnection(
+            selectedChat,
+            videoChatDto
+          );
+          console.log("Connection created successfully with ID:", connectionId);
+        }
+        // 필요한 경우 추가적인 작업 수행
+      } catch (error) {
+        console.error("Error creating connection:", error);
+        // 에러 처리
+      }
+    };
+
+    connectToChat(); // connectToChat 함수 호출
+  }, [selectedChat, videoChatDto]);
   return (
     <div className="flex flex-col h-full overflow-auto">
       <div className="flex-1 overflow-y-auto">
-        {/* 예제 메시지 */}
-        <MessageItem isReceived={true} time="02:07 AM">
+        {/* <MessageItem isReceived={true} time="02:07 AM">
           <p>받은 내용</p>
         </MessageItem>
         <MessageItem isReceived={false} time="02:07 AM">
           <p>보낸 내용</p>
-        </MessageItem>
+        </MessageItem> */}
       </div>
       <div className="p-4 flex justify-center items-center border-t border-chatBgBorder">
         <textarea
