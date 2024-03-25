@@ -54,9 +54,11 @@ const postsSlice = createSlice({
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         );
         state.recruitingPosts = action.payload.filter(
+          (post: Post) => post.state,
+        );
+        state.finishedPosts = action.payload.filter(
           (post: Post) => !post.state,
         );
-        state.finishedPosts = action.payload.filter((post: Post) => post.state);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.isLoading = false;

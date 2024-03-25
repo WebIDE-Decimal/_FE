@@ -96,7 +96,7 @@ const Post = () => {
                       <p className={"text-white mr-2"}>{post.target}</p>
                       <p className={"text-white ml-2"}>0 / {post.recruited}</p>
                     </div>
-                    {!post.isWriter && clickComplete ? (
+                    {!post.isWriter && post.state ? (
                       <button
                         onClick={handleApplyClick}
                         className={
@@ -109,7 +109,7 @@ const Post = () => {
                       post.isWriter && (
                         <button
                           onClick={handleCompleteButton}
-                          className={`${!clickComplete ? "bg-[#4CAF50]/90 hover:bg-[#4CAF50]" : "bg-gray hover:cursor-not-allowed"} text-white rounded px-2 py-1`}
+                          className={`${clickComplete ? "bg-[#4CAF50]/90 hover:bg-[#4CAF50]" : "bg-gray hover:cursor-not-allowed"} text-white rounded px-2 py-1`}
                         >
                           모집 완료
                         </button>

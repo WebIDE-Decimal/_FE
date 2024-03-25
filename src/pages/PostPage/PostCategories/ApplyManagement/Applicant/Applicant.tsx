@@ -57,7 +57,7 @@ const Applicant: FC<ApplicantProps> = ({ apply, clickComplete }) => {
       {clickToggle && (
         <div className={"mt-1 ml-6 w-full"}>
           <p>{apply.motivation}</p>
-          {applyState === "WAITING" && !clickComplete && (
+          {applyState === "WAITING" && clickComplete && (
             <div className={"float-right mt-1"}>
               <button
                 onClick={handleAcceptClick}

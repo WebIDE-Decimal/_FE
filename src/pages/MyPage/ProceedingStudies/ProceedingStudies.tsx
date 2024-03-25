@@ -7,7 +7,6 @@ import { Post } from "../../../store/posts/post.type.ts";
 
 const ProceedingStudies = () => {
   const [proceedingStudies, setProceedingStudies] = useState([]);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const myPost = async () => {
@@ -17,8 +16,9 @@ const ProceedingStudies = () => {
           (post: Post) => !post.state,
         );
         const myApplyResponse = await api.get("/recruitInfo/myApply");
+        console.log(myApplyResponse);
         const filteredMyApplies = myApplyResponse.data.filter(
-          (post: Post) => post.myState === "APPROVE",
+          (post: Post) => post.myState === "APPROVE" && !post.state,
         );
         setProceedingStudies(filteredMyPosts.concat(filteredMyApplies));
       } catch (err) {
