@@ -43,9 +43,7 @@ const NewStudyBottom = () => {
             </div>
           </Link>
         </div>
-        <div
-          className={"w-full mt-10 list-none flex justify-center items-center"}
-        >
+        <div className={"w-full mt-10 list-none flex items-center"}>
           {newPosts.map((post) => (
             <StudyCard key={post.id} post={post} />
           ))}
