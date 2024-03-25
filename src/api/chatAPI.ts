@@ -61,7 +61,7 @@ export const createConnection = async (
   videoChatDto: videoChatDto
 ) => {
   return api.post(
-    `${BASE_URL}/sessions/${sessionId}/connections`,
+    `${BASE_URL}/sessions/${sessionId}/connections/`,
     videoChatDto
   );
 };
@@ -71,12 +71,12 @@ export const inviteUserToSession = async (
   sessionId: string,
   inviteeId: string
 ) => {
-  return api.post(`${BASE_URL}/sessions/${sessionId}/invite`, null, {
+  return api.post(`${BASE_URL}/sessions/${sessionId}/invite/`, null, {
     params: { inviteeId },
   });
 };
 
 // 사용자가 연결된 모든 세션 가져오기
 export const getUserSessions = async (userId: string) => {
-  return api.get(`${BASE_URL}/${userId}/sessions`);
+  return api.get(`${BASE_URL}/${userId}/sessions/`);
 };
