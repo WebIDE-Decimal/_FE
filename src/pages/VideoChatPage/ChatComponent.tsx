@@ -4,19 +4,6 @@ import { useAppSelector } from "../../hooks/redux";
 import { getMemberProfile } from "../../api/chatAPI";
 import userImage from "../../assets/images/def_userInfo.png";
 import { GrSend } from "react-icons/gr";
-
-interface paramProps {
-  isReceived: boolean;
-  time: string;
-  children: React.ReactNode;
-}
-
-interface ChatComponentProps {
-  publisher?: Publisher;
-  subscriber?: Subscriber;
-  session: Session;
-}
-
 const ChatComponent: React.FC<ChatComponentProps> = ({
   publisher,
   subscriber,
@@ -51,17 +38,26 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     setMessages((prevMessages) => [
       ...prevMessages,
       {
-        nickname: data.nickname,
+        nickname: getNickname(data.from),
         message: data.message,
       },
     ]);
+  };
+
+  // Determine nickname based on sender
+  const getNickname = (from: string): string => {
+    return publisher === from
+      ? publisher
+      : subscriber === from
+        ? subscriber
+        : member;
   };
 
   // Send message
   const sendMessage = () => {
     if (inputMessage.trim() !== "") {
       const messageData = {
-        nickname: `${member}`,
+        nickname: member,
         message: inputMessage,
       };
       session.signal({

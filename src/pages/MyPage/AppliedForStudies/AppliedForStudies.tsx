@@ -32,8 +32,8 @@ const AppliedForStudies = () => {
         }
       >
         {appliedForStudies.length !== 0 &&
-          appliedForStudies.map((study) => (
-            <AppliedForStudy key={study.id} study={study} />
+          appliedForStudies.map((study, index) => (
+            <AppliedForStudy key={index} study={study} />
           ))}
       </ul>
     </div>

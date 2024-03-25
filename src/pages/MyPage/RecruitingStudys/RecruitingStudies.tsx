@@ -9,7 +9,7 @@ const RecruitingStudies = () => {
 
   useEffect(() => {
     dispatch(fetchPosts())
-      .then((res) => res.payload.filter((study) => study.isWriter))
+      .then((res) => res.payload.filter((study: any) => study.isWriter))
       .then((res) => setRecruitingStudies(res));
   }, []);
 
@@ -21,8 +21,8 @@ const RecruitingStudies = () => {
         }
       >
         {recruitingStudies.length !== 0 &&
-          recruitingStudies.map((study) => (
-            <RecruitingStudy key={study.id} study={study} />
+          recruitingStudies.map((study, index) => (
+            <RecruitingStudy key={index} study={study} />
           ))}
       </ul>
     </div>
