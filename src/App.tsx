@@ -14,6 +14,7 @@ import Recruit from "./pages/RecruitPage/Recruit.tsx";
 import Chat from "./pages/ChatPage/Chat.tsx";
 import VideoChat from "./pages/VideoChatPage/VideoChat.tsx";
 import Ide from "./pages/IdePage/Ide.tsx";
+import SetPassword from "./pages/SetPasswordPage/SetPassword.tsx";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="chat" element={<Chat />} />
           <Route path="videoChat" element={<VideoChat />} />
           <Route path="ide" element={<Ide />} />
+          <Route path="/api/verify-email/valid" element={<SetPassword />} />
         </Route>
       </Routes>
     </div>

@@ -7,6 +7,17 @@ import usePasswordCheck from "../../hooks/useCheck/usePasswordCheck.ts";
 import useNicknameCheck from "../../hooks/useCheck/useNicknameCheck.ts";
 import axios from "axios";
 
+interface ErrorResponse {
+  response: {
+    status: number;
+    [key: string]: any;
+  };
+}
+
+function isErrorWithResponse(error: any): error is ErrorResponse {
+  return error && error.response && typeof error.response.status === "number";
+}
+
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +29,10 @@ const SignUp = () => {
     emailChecked: false,
   });
   const [checkValidPassword, setCheckValidPassword] = useState(false);
-  const [validNickname, setValidNickname] = useState(false);
+  const [validNickname, setValidNickname] = useState({
+    checkPattern: false,
+    status: 0,
+  });
   const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
   const emailCheckButtonRef = useRef<HTMLButtonElement>(null);
@@ -40,6 +54,29 @@ const SignUp = () => {
         }
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleNicknameClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
+    if (validNickname.checkPattern) {
+      try {
+        const response = await api.post("/users/checkNickname", { nickname });
+        response.status === 200 &&
+          setValidNickname({ checkPattern: true, status: response.status });
+      } catch (err) {
+        if (isErrorWithResponse(err)) {
+          err.response.status === 400 &&
+            setValidNickname({
+              checkPattern: true,
+              status: err.response.status,
+            });
+        }
+      }
+    } else {
+      toast.warning("닉네임 형식이 올바르지 않습니다.");
+    }
   };
 
   // 이메일 유효성 검사
@@ -72,9 +109,9 @@ const SignUp = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const nicknameCheck = useNicknameCheck(nickname);
     if (nicknameCheck) {
-      setValidNickname(true);
+      setValidNickname({ ...validNickname, checkPattern: true });
     } else {
-      setValidNickname(false);
+      setValidNickname({ ...validNickname, checkPattern: false });
     }
   }, [nickname]);
 
@@ -96,6 +133,14 @@ const SignUp = () => {
         toast.success("회원가입 되었습니다.🎉");
       })
       .catch((err) => console.log(err));
+  };
+
+  const nicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (validNickname.status !== 0) {
+      setValidNickname({ ...validNickname, status: 0 });
+    }
+    setNickname(e.target.value);
   };
 
   return (
@@ -220,28 +265,38 @@ const SignUp = () => {
                 placeholder="닉네임"
                 type="text"
                 value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                onChange={nicknameChange}
               />
               <button
                 ref={nicknameCheckButtonRef}
+                onClick={handleNicknameClick}
                 type={"button"}
-                className={`${!validNickname ? "bg-gray" : "bg-loginBtn"} absolute right-3 z-10 text-white/80 px-2 py-1 rounded-md`}
+                className={`${!validNickname.checkPattern ? "bg-gray" : "bg-loginBtn"} absolute right-3 z-10 text-white/80 px-2 py-1 rounded-md`}
               >
                 인증
               </button>
             </div>
-            {!validNickname && nickname !== "" && (
+            {!validNickname.checkPattern && nickname !== "" && (
               <div className={"w-full mt-2"}>
                 <p className={"text-softwarning"}>
                   닉네임은 2자 이상 15자 이하의 공백이 없는 문자여야 합니다.
                 </p>
               </div>
             )}
+            {validNickname.status === 400 ? (
+              <div className={"w-full mt-2"}>
+                <p className={"text-warning"}>이미 사용중인 닉네임 입니다.</p>
+              </div>
+            ) : validNickname.status === 200 ? (
+              <div className={"w-full mt-2"}>
+                <p className={"text-darkgreen"}>사용 가능한 닉네임 입니다.</p>
+              </div>
+            ) : null}
           </div>
           <div>
             <button
               onClick={handleSignUpClick}
-              className="w-full my-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md hover:bg-login"
+              className={`w-full mb-4 font-semibold bg-loginBtn text-btnwhite h-12 rounded-md hover:bg-login`}
             >
               회원가입
             </button>
