@@ -12,7 +12,7 @@ const StudyCard = ({ post }: StudyCardProps) => {
   return (
     <Link
       to={`../post/${post.id}`}
-      className={"w-full px-4 pt-4 flex mx-1 mb-10 justify-center"}
+      className={"w-1/3 px-4 pt-4 flex mx-1 mb-10 justify-center"}
     >
       <li
         className={

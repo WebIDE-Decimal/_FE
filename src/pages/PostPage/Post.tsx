@@ -149,7 +149,9 @@ const Post = () => {
                   <div className={"flex items-center justify-between my-3"}>
                     <div className={"flex"}>
                       <p className={"text-white mr-2"}>{post.target}</p>
-                      <p className={"text-white ml-2"}>0 / {post.recruited}</p>
+                      <p className={"text-white ml-2"}>
+                        {post.applied} / {post.recruited}
+                      </p>
                     </div>
                     {!post.isWriter && post.state ? (
                       <button

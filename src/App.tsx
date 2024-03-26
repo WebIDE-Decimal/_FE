@@ -15,6 +15,7 @@ import Chat from "./pages/ChatPage/Chat.tsx";
 import VideoChat from "./pages/VideoChatPage/VideoChat.tsx";
 import Ide from "./pages/IdePage/Ide.tsx";
 import MyStudies from "./pages/StudyPage/MyStudies.tsx";
+import SetPassword from "./pages/SetPasswordPage/SetPassword.tsx";
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
           <Route path="mypage" element={<My />} />
           <Route path="chat" element={<Chat />} />
           <Route path="videoChat" element={<VideoChat />} />
+
+          <Route path="ide" element={<Ide />} />
+          <Route path="/setPassword" element={<SetPassword />} />
           <Route path="ide/:id" element={<Ide />} />
           <Route path="myStudies" element={<MyStudies />} />
         </Route>

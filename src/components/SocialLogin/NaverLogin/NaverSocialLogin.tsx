@@ -1,4 +1,4 @@
-import naverImg from "../../../assets/socialButton/btnG_아이콘사각.png";
+import naverImg from "../../../assets/socialButton/btnG_naverIcon.png";
 import React from "react";
 
 const NaverSocialLogin = () => {
