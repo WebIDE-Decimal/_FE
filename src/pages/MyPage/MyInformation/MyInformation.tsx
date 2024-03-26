@@ -6,6 +6,7 @@ import { toggleAlertModal } from "../../../store/modal/modalSlice.ts";
 import useNicknameCheck from "../../../hooks/useCheck/useNicknameCheck.ts";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import usePasswordCheck from "../../../hooks/useCheck/usePasswordCheck.ts";
 
 type UserProps = {
   authority: string;
@@ -29,6 +30,7 @@ const MyInformation = () => {
     status: 0,
     message: "",
   });
+  const [checkValidPassword, setCheckValidPassword] = useState(false);
   const [validNickname, setValidNickname] = useState({
     checkPattern: false,
     status: 0,
@@ -60,13 +62,11 @@ const MyInformation = () => {
       .post("users/updateNickname", nickname)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
           setValidNickname({ checkPattern: true, status: 200 });
           toast.success("닉네임이 변경되었습니다.");
         }
       })
       .catch((err) => {
-        console.log(err);
         if (err.response.status === 400) {
           toast.warning("이미 존재하는 닉네임 입니다.");
           setValidNickname({ checkPattern: true, status: 400 });
@@ -114,6 +114,10 @@ const MyInformation = () => {
       .then((res) => {
         if (res.status === 200) {
           setResponse({ status: res.status, message: res.data });
+          setNewPassword("");
+          setPassword("");
+          setCheckPassword("");
+          toast.success("비밀번호가 변경되었습니다.");
         }
       })
       .catch((err) => {
@@ -123,6 +127,16 @@ const MyInformation = () => {
         });
       });
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const passwordCheck = usePasswordCheck(newPassword);
+    if (passwordCheck) {
+      setCheckValidPassword(true);
+    } else {
+      setCheckValidPassword(false);
+    }
+  }, [newPassword]);
 
   if (user?.id) {
     return (
@@ -243,7 +257,12 @@ const MyInformation = () => {
               <div className={"flex items-center"}>
                 <input
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    if (response.message !== "") {
+                      setResponse({ status: 0, message: "" });
+                    }
+                    setPassword(e.target.value);
+                  }}
                   className={
                     "w-1/2 pl-2 bg-[#CBD5E1] rounded h-8 placeholder:font-medium placeholder:text-sky-800"
                   }
@@ -254,21 +273,34 @@ const MyInformation = () => {
             </div>
             <div className={"w-full mb-3"}>
               <p className={"text-white font-bold mb-3"}>새 비밀번호</p>
-              <div className={"flex items-center"}>
+              <div className={"flex flex-col"}>
                 <input
                   value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
+                  onChange={(e) => {
+                    setNewPassword(e.target.value);
+                    if (response.message !== "") {
+                      setResponse({ status: 0, message: "" });
+                    }
+                  }}
                   className={
                     "w-1/2 bg-[#CBD5E1] rounded h-8 pl-2 placeholder:font-medium placeholder:text-sky-800"
                   }
                   type={"password"}
                   placeholder={"변경할 비밀번호를 입력하세요."}
                 />
+                {!checkValidPassword && newPassword !== "" && (
+                  <div>
+                    <span className="text-softwarning">
+                      비밀번호는 영문, 숫자, 특수기호를 1개 이상씩 포함한
+                      8~15자여야 합니다.
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
             <div className={"w-full mb-3"}>
               <p className={"text-white font-bold mb-3"}>새 비밀번호 확인</p>
-              <div className={"flex"}>
+              <div className={"flex flex-col"}>
                 <div className={"w-1/2 flex flex-col"}>
                   <input
                     value={checkPassword}
@@ -279,7 +311,7 @@ const MyInformation = () => {
                     placeholder={"변경할 비밀번호를 다시 입력하세요."}
                     type={"password"}
                   />
-                  {checkPassword !== "" && checkPassword !== password ? (
+                  {checkPassword !== "" && checkPassword !== newPassword ? (
                     <div className={"pt-1"}>
                       <span className="text-sm font-medium text-warning/90">
                         비밀번호가 일치하지 않습니다.
@@ -293,14 +325,16 @@ const MyInformation = () => {
                     </div>
                   ) : null}
                 </div>
-                <button
-                  onClick={handleChangePasswordButton}
-                  className={
-                    "bg-darkgreen text-white font-bold rounded ml-8 px-4 py-1.5"
-                  }
-                >
-                  비밀번호 변경
-                </button>
+                <div className={"w-1/2"}>
+                  <button
+                    onClick={handleChangePasswordButton}
+                    className={
+                      "bg-darkgreen text-white font-bold rounded float-right mt-4 px-4 py-1.5"
+                    }
+                  >
+                    비밀번호 변경
+                  </button>
+                </div>
               </div>
             </div>
           </form>

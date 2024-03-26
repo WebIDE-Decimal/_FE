@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import mainLogo from "../../assets/images/main_logo.png";
-import { CiChat1, CiSearch } from "react-icons/ci";
+import { CiChat1 } from "react-icons/ci";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
 import React from "react";
-import api from "../../api/logout.ts";
+import api from "../../api";
 import userimg from "../../assets/images/def_userInfo.png";
 import { clickLogout } from "../../store/user/user.slice.ts";
 import { clickMyInformation } from "../../store/myPage/viewPage/viewPageSlice.ts";
