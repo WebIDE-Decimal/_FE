@@ -9,7 +9,7 @@ interface ChatComponentProps {
   subscriber: Subscriber;
   session: Session;
 }
-const ChatComponent: React.FC<ChatComponentProps> = ({
+const StudyGroupChatComponent: React.FC<ChatComponentProps> = ({
   publisher,
   subscriber,
   session,
@@ -23,40 +23,49 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   const [member, setMember] = useState("");
 
   useEffect(() => {
+    if (!session) return; // session이 없는 경우 아무것도 수행하지 않음
     const fetchChats = async () => {
       try {
         const data = await getMemberProfile(user);
+        console.log("data " + data?.nickname);
         if (data !== undefined) {
-          if (data.nickname === undefined) {
-            setMember(data.nickname);
-          }
+          setMember(data.nickname);
         }
       } catch (error) {
         console.error("채팅 목록을 불러오는 중 에러 발생:", error);
       }
     };
+    const handleNewMessage = (event: any) => {
+      fetchChats();
+      const data = JSON.parse(event.data);
+      console.log(data);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          nickname: data.nickname,
+          message: data.message,
+        },
+      ]);
+    };
 
-    fetchChats();
-  }, [user]); // user가 변경될 때마다 다시 호출
+    session.on("signal:chat", handleNewMessage); // 이벤트 핸들러 등록
 
-  // Function to handle new chat messages
-  const handleNewMessage = (event: any) => {
-    const data = JSON.parse(event.data);
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      {
-        nickname: getNickname(data.from),
-        message: data.message,
-      },
-    ]);
-  };
+    return () => {
+      session.off("signal:chat", handleNewMessage); // 컴포넌트가 언마운트될 때 이벤트 핸들러 해제
+    };
+  }, [session]);
 
-  // Determine nickname based on sender
-  const getNickname = (from: string): string => {
-    return from;
-  };
-
-  // Send message
+  // const handleNewMessage = (event: any) => {
+  //   const data = JSON.parse(event.data);
+  //   setMessages((prevMessages) => [
+  //     ...prevMessages,
+  //     {
+  //       nickname: data.nickname, // Use the nickname from the message data
+  //       message: data.message,
+  //     },
+  //   ]);
+  // };
+  // // Send message
   const sendMessage = () => {
     if (inputMessage.trim() !== "") {
       const messageData = {
@@ -76,23 +85,14 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Handle incoming chat messages
-  useEffect(() => {
-    session.on("signal:chat", handleNewMessage);
-
-    return () => {
-      session.off("signal:chat", handleNewMessage);
-    };
-  }, [session]);
-
   // Scroll to bottom on new messages
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-full overflow-auto">
-      <div className="flex-1 overflow-y-auto">
+    <div className="flex flex-col h-full overflow-auto ">
+      <div className="flex-1 overflow-y-auto ">
         {messages.map((message, index) => (
           <div
             key={index}
@@ -104,7 +104,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
               className={`${
                 message.nickname === member
                   ? "bg-blue-500 text-white"
-                  : "bg-white text-black"
+                  : "bg-white"
               } rounded-lg p-2 m-1`}
             >
               <strong>{message.nickname}:</strong> {message.message}
@@ -134,4 +134,4 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   );
 };
 
-export default ChatComponent;
+export default StudyGroupChatComponent;

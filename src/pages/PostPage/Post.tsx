@@ -10,48 +10,7 @@ import { toggleApplyStudyModal } from "../../store/modal/modalSlice.ts";
 import ApplyStudyModal from "../../components/Modal/ApplyStudyModal/ApplyStudyModal.tsx";
 import { fetchPost } from "../../store/posts/post.slice.ts";
 import api from "../../api";
-export const initializeSession = async (videoChatDto) => {
-  try {
-    const response = await api.post(`/chat/sessions`, videoChatDto);
-    return response.data; // 세션 ID를 반환합니다.
-  } catch (error) {
-    throw new Error("error creating session");
-  }
-};
-
-// 바디
-const videoChatDto = {
-  properties: {
-    id: "ses_YnDaGYNcd7",
-    object: "session",
-    createdAt: 1538481996019,
-    mediaMode: "ROUTED",
-    recordingMode: "MANUAL",
-    defaultRecordingProperties: {
-      name: "MyRecording",
-      hasAudio: true,
-      hasVideo: true,
-      outputMode: "COMPOSED",
-      recordingLayout: "BEST_FIT",
-      resolution: "1280x720",
-      frameRate: 25,
-      shmSize: 536870912,
-      mediaNode: "media_i-po39jr3e10rkjsdfj",
-    },
-    customSessionId: "TestSession",
-    connections: {
-      numberOfElements: 0,
-      content: [],
-    },
-    recording: false,
-    broadcasting: false,
-    forcedVideoCodec: "VP8",
-    allowTranscoding: false,
-    mediaNodeId: "media_i-po39jr3e10rkjsdfj",
-  },
-};
-
-// 세션 초기화 함수 호출
+import { initializeSession } from "../../api/chatAPI.ts";
 
 const Post = () => {
   const { post } = useAppSelector((state) => state.post);
@@ -89,14 +48,39 @@ const Post = () => {
   // 1:1 채팅 버튼 클릭 시
   const handleChatButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    initializeSession(videoChatDto)
-      .then((sessionId) => {
-        console.log("Session created successfully with ID:", sessionId);
-      })
-      .catch((error) => {
-        console.error("Error creating session:", error.message);
-      });
-    navigate("/chat");
+
+    const videoChatDto = {
+      properties: {
+        id: "ses_YnDaGYNcd7",
+        object: "session",
+        createdAt: 1538481996019,
+        mediaMode: "ROUTED",
+        recordingMode: "MANUAL",
+        defaultRecordingProperties: {
+          name: "MyRecording",
+          hasAudio: true,
+          hasVideo: true,
+          outputMode: "COMPOSED",
+          recordingLayout: "BEST_FIT",
+          resolution: "1280x720",
+          frameRate: 25,
+          shmSize: 536870912,
+          mediaNode: "media_i-po39jr3e10rkjsdfj",
+        },
+        customSessionId: id,
+        connections: {
+          numberOfElements: 0,
+          content: [],
+        },
+        recording: false,
+        broadcasting: false,
+        forcedVideoCodec: "VP8",
+        allowTranscoding: false,
+        mediaNodeId: "media_i-po39jr3e10rkjsdfj",
+      },
+    };
+    const data = JSON.stringify(videoChatDto);
+    initializeSession(videoChatDto);
   };
 
   if (!id && !post) {
