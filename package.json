@@ -50,6 +50,6 @@
   "proxy": {
     "/api": "http://localhost:8080",
     "/": "http://localhost:8082",
-    "/api/recruit": "https://groomcosmos.site"
+    "/api/": "https://43.203.98.60:8443/"
   }
 }

@@ -19,7 +19,7 @@ function VideoComponent() {
   const [publisher, setPublisher] = useState<Publisher | null>(null);
   const [OV, setOV] = useState<OpenVidu | null>(null);
 
-  const OPENVIDU_SERVER_URL = `https://groomcosmos.site`;
+  const OPENVIDU_SERVER_URL = `https://43.203.98.60`;
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
   const leaveSession = useCallback(() => {

@@ -70,7 +70,7 @@ export const getMemberProfile = async (user: any) => {
 
 // 세션 생성
 export const initializeSession = async (
-  videoChatDto: VideoChatDto | undefined
+  videoChatDto: Properties | undefined
 ): Promise<string> => {
   try {
     const response = await api.post<string>(
@@ -86,19 +86,12 @@ export const initializeSession = async (
 // 세션 연결
 export const createConnection = async (
   sessionId: string,
-  videoChatDto: VideoChatDto | undefined,
-  customUserDetails: CustomUserDetails
+  videoChatDto: VideoChatDto | undefined
 ): Promise<string> => {
   try {
     const response = await api.post<string>(
       `${BASE_URL}/sessions/${sessionId}/connections`,
-      videoChatDto,
-      {
-        headers: {
-          Authorization: `Bearer ${customUserDetails.token}`, // 사용자 토큰을 여기에 삽입해주세요
-          "Content-Type": "application/json",
-        },
-      }
+      videoChatDto
     );
     return response.data;
   } catch (error) {
