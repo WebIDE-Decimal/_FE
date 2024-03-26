@@ -22,8 +22,13 @@ const MyInformation = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [img, setImg] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [response, setResponse] = useState({
+    status: 0,
+    message: "",
+  });
   const [validNickname, setValidNickname] = useState({
     checkPattern: false,
     status: 0,
@@ -98,6 +103,25 @@ const MyInformation = () => {
       setValidNickname({ checkPattern: true, status: 0 });
     }
     setNickname(e.target.value);
+  };
+
+  const handleChangePasswordButton = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
+    await api
+      .post("users/updatePassword", { password, newPassword })
+      .then((res) => {
+        if (res.status === 200) {
+          setResponse({ status: res.status, message: res.data });
+        }
+      })
+      .catch((err) => {
+        setResponse({
+          status: err.response.status,
+          message: err.response.data,
+        });
+      });
   };
 
   if (user?.id) {
@@ -218,6 +242,8 @@ const MyInformation = () => {
               <p className={"text-white font-bold mb-3"}>기존 비밀번호</p>
               <div className={"flex items-center"}>
                 <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className={
                     "w-1/2 pl-2 bg-[#CBD5E1] rounded h-8 placeholder:font-medium placeholder:text-sky-800"
                   }
@@ -230,8 +256,8 @@ const MyInformation = () => {
               <p className={"text-white font-bold mb-3"}>새 비밀번호</p>
               <div className={"flex items-center"}>
                 <input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   className={
                     "w-1/2 bg-[#CBD5E1] rounded h-8 pl-2 placeholder:font-medium placeholder:text-sky-800"
                   }
@@ -253,15 +279,22 @@ const MyInformation = () => {
                     placeholder={"변경할 비밀번호를 다시 입력하세요."}
                     type={"password"}
                   />
-                  {checkPassword !== "" && checkPassword !== password && (
+                  {checkPassword !== "" && checkPassword !== password ? (
                     <div className={"pt-1"}>
                       <span className="text-sm font-medium text-warning/90">
                         비밀번호가 일치하지 않습니다.
                       </span>
                     </div>
-                  )}
+                  ) : response.status !== 200 && response.status !== 0 ? (
+                    <div className={"pt-1"}>
+                      <span className="text-sm font-medium text-warning/90">
+                        {response.message}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
                 <button
+                  onClick={handleChangePasswordButton}
                   className={
                     "bg-darkgreen text-white font-bold rounded ml-8 px-4 py-1.5"
                   }
