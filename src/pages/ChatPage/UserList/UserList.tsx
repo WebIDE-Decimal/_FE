@@ -28,16 +28,15 @@ const UserList = () => {
     const fetchChats = async () => {
       try {
         const properties = { customSessionId: "testSession1" };
-        const member = await getMemberProfile(user);
-        const invite = await inviteUserToSession("testSession1", "2");
-        // const test = await getUserSessions("2");
+        // const member = await getMemberProfile(user);
+        const invite = await inviteUserToSession("testSession1", "1");
         // console.log(test);
-        if (member !== undefined) {
-          await initializeSession({ properties, member });
-          // const data = await getUserSessions(member.id.toString() || "1"); // 채팅 목록 가져오기
-          // setChats(data); // 채팅 목록 업데이트
-          // setFilteredChats(data); // 필터된 채팅 목록 업데이트
-        }
+        // if (member !== undefined) {
+        // await initializeSession({ properties, member });
+        // const data = await getUserSessions(member.id.toString() || "1"); // 채팅 목록 가져오기
+        // setChats(data); // 채팅 목록 업데이트
+        // setFilteredChats(data); // 필터된 채팅 목록 업데이트
+        // }
       } catch (error) {
         console.error("채팅 목록을 불러오는 중 에러 발생:", error);
       }

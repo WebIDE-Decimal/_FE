@@ -17,11 +17,7 @@ const UserInfo = () => {
   return (
     <div className="flex justify-between items-center w-full bg-transparent p-4">
       {viewAlertModal && (
-        <AlertModal
-          text={"채팅방에서 나가시겠습니까?"}
-          type={"채팅방나가기"}
-          id="1"
-        />
+        <AlertModal text={"채팅방에서 나가시겠습니까?"} type={"채팅방나가기"} />
       )}
       <div className="flex items-center">
         <img className="w-8 h-8 mr-4 rounded-full" src={userImage} alt="User" />
