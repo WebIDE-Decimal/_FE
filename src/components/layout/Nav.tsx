@@ -3,7 +3,7 @@ import mainLogo from "../../assets/images/main_logo.png";
 import { CiChat1, CiSearch } from "react-icons/ci";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
 import React from "react";
-import api from "../../api";
+import api from "../../api/logout.ts";
 import userimg from "../../assets/images/def_userInfo.png";
 import { clickLogout } from "../../store/user/user.slice.ts";
 import { clickMyInformation } from "../../store/myPage/viewPage/viewPageSlice.ts";
@@ -51,9 +51,9 @@ const Nav = () => {
         ) : (
           <></>
         )}
-        {/* <Link to={`/videochat`} className="my-1 text-white px-4 py-2">
+        <Link to={`/videochat`} className="my-1 text-white px-4 py-2">
           VideoChat
-        </Link> */}
+        </Link>
       </div>
 
       <div className="flex items-center ">

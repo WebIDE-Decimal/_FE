@@ -70,7 +70,7 @@ export const getMemberProfile = async (user: any) => {
 
 // 세션 생성
 export const initializeSession = async (
-  videoChatDto: VideoChatDto | undefined
+  videoChatDto: Properties | undefined
 ): Promise<string> => {
   try {
     const response = await api.post<string>(
