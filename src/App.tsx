@@ -40,7 +40,7 @@ function App() {
           <Route path="chat" element={<Chat />} />
           <Route path="videoChat" element={<VideoChat />} />
           <Route path="ide" element={<Ide />} />
-          <Route path="/api/verify-email/valid" element={<SetPassword />} />
+          <Route path="/setPassword" element={<SetPassword />} />
         </Route>
       </Routes>
     </div>
