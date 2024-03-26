@@ -14,6 +14,7 @@ import Recruit from "./pages/RecruitPage/Recruit.tsx";
 import Chat from "./pages/ChatPage/Chat.tsx";
 import VideoChat from "./pages/VideoChatPage/VideoChat.tsx";
 import Ide from "./pages/IdePage/Ide.tsx";
+import MyStudies from "./pages/StudyPage/MyStudies.tsx";
 import SetPassword from "./pages/SetPasswordPage/SetPassword.tsx";
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="ide" element={<Ide />} />
           <Route path="/setPassword" element={<SetPassword />} />
           <Route path="ide/:id" element={<Ide />} />
+          <Route path="myStudies" element={<MyStudies />} />
         </Route>
       </Routes>
     </div>

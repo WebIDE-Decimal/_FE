@@ -3,7 +3,7 @@ import mainLogo from "../../assets/images/main_logo.png";
 import { CiChat1, CiSearch } from "react-icons/ci";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
 import React from "react";
-import api from "../../api";
+import api from "../../api/logout.ts";
 import userimg from "../../assets/images/def_userInfo.png";
 import { clickLogout } from "../../store/user/user.slice.ts";
 import { clickMyInformation } from "../../store/myPage/viewPage/viewPageSlice.ts";
@@ -41,27 +41,32 @@ const Nav = () => {
         <Link to={`/recruit`} className="my-1 text-white px-4 py-2">
           스터디 모집 게시판
         </Link>
-        <Link to={`/ide`} className="my-1 text-white px-4 py-2">
+        {/* <Link to={`/ide`} className="my-1 text-white px-4 py-2">
           IDE
-        </Link>
-
-        <Link to={`/Mypage`} className="my-1 text-white px-4 py-2">
-          내 스터디 목록
-        </Link>
-
+        </Link> */}
+        {user.accessToken ? (
+          <Link to={`/myStudies`} className="my-1 text-white px-4 py-2">
+            내 스터디 목록
+          </Link>
+        ) : (
+          <></>
+        )}
         <Link to={`/videochat`} className="my-1 text-white px-4 py-2">
           VideoChat
         </Link>
       </div>
+
       <div className="flex items-center ">
-        <Link to={`/`} className="my-1 text-white px-4 py-2">
+        {/* <Link to={`/`} className="my-1 text-white px-4 py-2">
           <CiSearch />
-        </Link>
-
-        <Link to={`/chat`} className="my-1 text-white px-4 py-2">
-          <CiChat1 />
-        </Link>
-
+        </Link> */}
+        {user.accessToken ? (
+          <Link to={`/chat`} className="my-1 text-white px-4 py-2">
+            <CiChat1 />
+          </Link>
+        ) : (
+          <></>
+        )}
         {user.accessToken ? (
           <div className={"flex items-center mr-3"}>
             <div className={"mx-4 my-2"}>

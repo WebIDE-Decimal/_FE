@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { toast } from "react-toastify";
 import { clickStudySettingModal } from "../../store/postPage/postPageSlice.ts";
 import api from "../../api";
+import { getMemberProfile, initializeSession } from "../../api/chatAPI.ts";
+import { createFolder } from "../../api/folderAPI.ts";
 
 const Write = () => {
   const { id } = useParams();
@@ -19,9 +21,11 @@ const Write = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const targetRef = useRef<HTMLInputElement>(null);
+  const { user } = useAppSelector((state) => state.user);
+  const member = getMemberProfile(user);
 
   const handleMinusClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (totalPeople === 1) {
@@ -34,7 +38,7 @@ const Write = () => {
   };
 
   const handlePlusClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (totalPeople >= 10) {
@@ -45,7 +49,7 @@ const Write = () => {
   };
 
   const handleRecruitClick = async (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
     e.preventDefault();
 
@@ -77,13 +81,22 @@ const Write = () => {
       .post("/recruit", newPost)
       .then(() => {
         navigate(`/recruit`);
+        const properties = { customSessionId: newPost.title };
+        initializeSession({ properties, isPublisher: true });
+        if (member !== undefined && id !== null && id !== undefined) {
+          createFolder({
+            folderName: newPost.title,
+            parentId: parseInt(id),
+            fileName: newPost.title,
+          });
+        }
         toast.success("모집 글이 등록되었습니다.👏");
       })
       .catch((err) => console.log(err));
   };
 
   const handleEditClick = async (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (title === "") {

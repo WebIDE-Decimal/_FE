@@ -51,7 +51,7 @@ const Editor = ({ sessionId }: { sessionId: string }) => {
   }, [editor, sessionId, socket]);
 
   useEffect(() => {
-    const newSocket = io("wss://groomcosmos.site/api"); // 웹소켓 서버 주소에 맞게 설정
+    const newSocket = io("wss://43.203.98.60:8443/api/"); // 웹소켓 서버 주소에 맞게 설정
     setSocket(newSocket);
 
     return () => {

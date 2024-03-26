@@ -4,6 +4,11 @@ import { useAppSelector } from "../../hooks/redux";
 import { getMemberProfile } from "../../api/chatAPI";
 import userImage from "../../assets/images/def_userInfo.png";
 import { GrSend } from "react-icons/gr";
+interface ChatComponentProps {
+  publisher: Publisher;
+  subscriber: Subscriber;
+  session: Session;
+}
 const ChatComponent: React.FC<ChatComponentProps> = ({
   publisher,
   subscriber,
@@ -22,7 +27,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       try {
         const data = await getMemberProfile(user);
         if (data !== undefined) {
-          setMember(data?.nickname);
+          if (data.nickname === undefined) {
+            setMember(data.nickname);
+          }
         }
       } catch (error) {
         console.error("채팅 목록을 불러오는 중 에러 발생:", error);
@@ -46,11 +53,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
   // Determine nickname based on sender
   const getNickname = (from: string): string => {
-    return publisher === from
-      ? publisher
-      : subscriber === from
-        ? subscriber
-        : member;
+    return from;
   };
 
   // Send message

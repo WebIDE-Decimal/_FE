@@ -1,5 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import { Post } from "../../../../store/posts/post.type.ts";
-import React,{useNavigate} from "react";
+import React from "react";
 
 type ProceedingStudyProps = {
   study: Post;
@@ -8,7 +9,7 @@ type ProceedingStudyProps = {
 const ProceedingStudy: React.FC<ProceedingStudyProps> = ({ study }) => {
   const date = new Date(study.createdAt);
   const navigate = useNavigate();
-  
+
   const formattedDate =
     date.getFullYear() +
     "년 " +
@@ -40,9 +41,9 @@ const ProceedingStudy: React.FC<ProceedingStudyProps> = ({ study }) => {
       <li
         className={
           "bg-studyCardBg/80 p-3 w-full flex flex-col justify-between h-48 flex-shrink-0 rounded-lg shadow-cardShadow hover:shadow-hoverShadow"
-                 
-}
-      onClick={() => handlePostClick(study)} >
+        }
+        onClick={() => handlePostClick(study)}
+      >
         <div className={"flex"}>
           <p className={"font-bold text-white/80"}>{study.title}</p>
         </div>

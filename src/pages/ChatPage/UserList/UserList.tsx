@@ -4,6 +4,9 @@ import chatIcon from "../../../assets/images/chatIcon.png";
 import { MdMessage } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 import { useAppSelector } from "../../../hooks/redux";
+import { useDispatch } from "react-redux";
+import { setSelectedChatId, setChats } from "../../../store/chatPage/chatSlice";
+
 import {
   getMemberProfile,
   getUserSessions,
@@ -11,31 +14,28 @@ import {
   inviteUserToSession,
 } from "../../../api/chatAPI";
 
-interface Chat {
-  id: string;
-  name: string;
-  time: string;
-}
-
 const UserList = () => {
-  const [chats, setChats] = useState<Chat[]>([]);
-  const [selectedChat, setSelectedChat] = useState<string | null>(null);
+  const selectedChatId = useAppSelector(
+    (state) => state.chatReducer.selectedChatId
+  );
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
+  const [filteredChats, setFilteredChats] = useState<string[]>([]);
   const { user } = useAppSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const properties = { customSessionId: "testSession1" };
+        // const properties = { customSessionId: "testSession2" };
         // const member = await getMemberProfile(user);
-        const invite = await inviteUserToSession("testSession1", "1");
+        // const invite = await inviteUserToSession("testSession2", "1");
         // console.log(test);
         // if (member !== undefined) {
         // await initializeSession({ properties, member });
-        // const data = await getUserSessions(member.id.toString() || "1"); // 채팅 목록 가져오기
-        // setChats(data); // 채팅 목록 업데이트
-        // setFilteredChats(data); // 필터된 채팅 목록 업데이트
+        const data = await getUserSessions(); // 채팅 목록 가져오기
+        // console.log(data);
+        dispatch(setChats(data));
+        setFilteredChats(data); // 필터된 채팅 목록 업데이트
         // }
       } catch (error) {
         console.error("채팅 목록을 불러오는 중 에러 발생:", error);
@@ -48,17 +48,17 @@ const UserList = () => {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (searchTerm) {
-        const filtered = chats.filter((chat) =>
-          chat.name.toLowerCase().includes(searchTerm.toLowerCase())
+        const filtered = filteredChats.filter((chat) =>
+          chat.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredChats(filtered);
       } else {
-        setFilteredChats(chats);
+        setFilteredChats(filteredChats);
       }
     }, 1000);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchTerm, chats]);
+  }, [searchTerm, filteredChats]);
 
   return (
     <div className="w-full h-full flex flex-col bg-transparent">
@@ -86,15 +86,17 @@ const UserList = () => {
             검색어를 다시 입력하세요
           </div>
         ) : (
-          filteredChats.map((chat) => (
+          filteredChats.map((chat, index) => (
             <div
-              key={chat.id}
+              key={index}
               className={`flex items-center p-4 cursor-pointer ${
-                selectedChat === chat.id
+                selectedChatId === index.toString()
                   ? "bg-chatSelectedBg text-white"
                   : "bg-transparent text-chatBorder"
               }`}
-              onClick={() => setSelectedChat(chat.id)}
+              onClick={() => {
+                dispatch(setSelectedChatId(index.toString()));
+              }}
             >
               <img
                 className="w-8 h-8 mr-4 rounded-full border-chatBorder border"
@@ -102,8 +104,7 @@ const UserList = () => {
                 alt="User"
               />
               <div className="flex-1">
-                <div>{chat.name}</div>
-                <div>{chat.time}</div>
+                <div>{chat}</div>
               </div>
             </div>
           ))
