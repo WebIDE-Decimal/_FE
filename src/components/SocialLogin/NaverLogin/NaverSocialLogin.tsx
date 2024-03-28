@@ -1,7 +1,6 @@
 import naverImg from "../../../assets/socialButton/btnG_naverIcon.png";
 import React from "react";
 import api from "../../../api/logout.ts";
-import { useNavigate } from "react-router-dom";
 
 const NaverSocialLogin = () => {
   const handleNaverLoginClick = async (
