@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useEmailCheck from "../../hooks/useCheck/useEmailCheck.ts";
-import axios from "axios";
+import api from "../../api/logout.ts";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -10,15 +10,14 @@ const SignUp = () => {
     sendMail: false,
     emailChecked: false,
   });
-  const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
 
   const handleEmailClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    await axios
-      .post("http://localhost:8080/api/verify-email/send", {
+    await api
+      .post("/verify-email/send", {
         email,
         resend: false,
         type: "email",
