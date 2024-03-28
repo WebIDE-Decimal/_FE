@@ -8,9 +8,6 @@ import {
 } from "openvidu-browser";
 import axios, { AxiosError } from "axios";
 import Form from "./Form";
-import Session from "./Session";
-import ChatComponent from "./ChatComponent";
-import { initializeSession } from "../../api/chatAPI";
 import StudyGroupChatComponent from "./StudyGroupChatComponent";
 
 function StudyGroupComponent({ postTitle }: any) {
@@ -44,6 +41,7 @@ function StudyGroupComponent({ postTitle }: any) {
 
     return () => {
       window.removeEventListener("beforeunload", leaveSession);
+      leaveSession(); // Call leaveSession when the component unmounts
     };
   }, [leaveSession]);
 
@@ -159,7 +157,10 @@ function StudyGroupComponent({ postTitle }: any) {
       })
       .catch(() => {});
   }, [session, OV, sessionId, OPENVIDU_SERVER_URL]);
-
+  useEffect(() => {
+    setSessionId(postTitle);
+    joinSession();
+  }, []);
   // joinSession();
   console.log(postTitle);
   return (
