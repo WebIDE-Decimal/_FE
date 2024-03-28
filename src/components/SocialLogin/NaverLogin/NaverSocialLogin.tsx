@@ -2,7 +2,7 @@ import naverImg from "../../../assets/socialButton/btnG_naverIcon.png";
 import React from "react";
 
 const NaverSocialLogin = () => {
-  const naverURL = "https://groomcosmos.site/socialLogin";
+  const naverURL = "https://groomcosmos.site/oauth2/authorization/naver";
 
   const handleNaverLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
