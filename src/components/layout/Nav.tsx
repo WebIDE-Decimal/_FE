@@ -52,9 +52,9 @@ const Nav = () => {
         ) : (
           <></>
         )}
-        <Link to={`/videochat`} className="my-1 text-white px-4 py-2">
+        {/* <Link to={`/videochat`} className="my-1 text-white px-4 py-2">
           VideoChat
-        </Link>
+        </Link> */}
       </div>
 
       <div className="flex items-center ">

@@ -110,58 +110,58 @@ const ChatDetail = () => {
     }
   };
 
-  const stompClient = useWebSocketService();
+  // const stompClient = useWebSocketService();
 
-  useEffect(() => {
-    if (stompClient) {
-      stompClient.activate();
-    }
+  // useEffect(() => {
+  //   if (stompClient) {
+  //     stompClient.activate();
+  //   }
 
-    return () => {
-      if (stompClient && stompClient.connected) {
-        stompClient.deactivate();
-      }
-    };
-  }, [stompClient]);
+  //   return () => {
+  //     if (stompClient && stompClient.connected) {
+  //       stompClient.deactivate();
+  //     }
+  //   };
+  // }, [stompClient]);
 
-  // 웹소켓 메시지 수신 및 처리 로직
-  useEffect(() => {
-    if (!stompClient || !stompClient.connected) {
-      return;
-    }
+  // // 웹소켓 메시지 수신 및 처리 로직
+  // useEffect(() => {
+  //   if (!stompClient || !stompClient.connected) {
+  //     return;
+  //   }
 
-    const subscription = stompClient.subscribe(
-      `/chat/${selectedChat}/chat.getMessages/`,
-      (message) => {
-        const newMessage = JSON.parse(message.body);
-        // 메시지 처리 로직'
-        console.log(newMessage);
-      }
-    );
+  //   const subscription = stompClient.subscribe(
+  //     `/chat/${selectedChat}/chat.getMessages/`,
+  //     (message) => {
+  //       const newMessage = JSON.parse(message.body);
+  //       // 메시지 처리 로직'
+  //       console.log(newMessage);
+  //     }
+  //   );
 
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [stompClient, selectedChat]);
+  //   return () => {
+  //     subscription.unsubscribe();
+  //   };
+  // }, [stompClient, selectedChat]);
 
   // 채팅 입력 및 전송 로직
-  const sendMessage = () => {
-    if (!stompClient || !stompClient.connected) {
-      console.error("WebSocket is not connected");
-      return;
-    }
+  // const sendMessage = () => {
+  //   if (!stompClient || !stompClient.connected) {
+  //     console.error("WebSocket is not connected");
+  //     return;
+  //   }
 
-    stompClient.publish({
-      destination: `/chat/${selectedChat}/chat.sendMessage/`,
-      body: JSON.stringify({ message: messageInput }),
-    });
+  //   stompClient.publish({
+  //     destination: `/chat/${selectedChat}/chat.sendMessage/`,
+  //     body: JSON.stringify({ message: messageInput }),
+  //   });
 
-    // 메시지 전송 후 입력창 비우기
-    setMessageInput("");
-  };
-  const handleInputChange = (event: any) => {
-    setMessageInput(event.target.value);
-  };
+  //   // 메시지 전송 후 입력창 비우기
+  //   setMessageInput("");
+  // };
+  // const handleInputChange = (event: any) => {
+  //   setMessageInput(event.target.value);
+  // };
   return (
     <div className="flex flex-col h-full overflow-auto">
       <div className="flex-1 overflow-y-auto">
@@ -177,13 +177,9 @@ const ChatDetail = () => {
           className="w-4/5 p-2 text-white resize-none bg-transparent focus:outline-none"
           rows={2}
           value={messageInput}
-          onChange={handleInputChange}
           placeholder="메시지를 입력해 주세요..."
         ></textarea>
-        <button
-          className="flex items-center gap-2 ml-4 bg-title text-white rounded-lg px-4 py-2"
-          onClick={sendMessage}
-        >
+        <button className="flex items-center gap-2 ml-4 bg-title text-white rounded-lg px-4 py-2">
           <p>Send</p>
           <GrSend />
         </button>
