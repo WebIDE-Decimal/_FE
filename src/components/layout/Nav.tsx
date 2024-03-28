@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import mainLogo from "../../assets/images/main_logo.png";
-import { CiChat1, CiSearch } from "react-icons/ci";
+import { CiChat1 } from "react-icons/ci";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
 import React from "react";
 // import api from "../../api/logout.ts";
