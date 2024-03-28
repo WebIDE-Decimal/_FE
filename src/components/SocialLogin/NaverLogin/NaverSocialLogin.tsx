@@ -1,13 +1,12 @@
 import naverImg from "../../../assets/socialButton/btnG_naverIcon.png";
 import React from "react";
-import api from "../../../api/logout.ts";
 
 const NaverSocialLogin = () => {
-  const handleNaverLoginClick = async (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const naverURL = "https://groomcosmos.site/socialLogin";
+
+  const handleNaverLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await api.get("https://groomcosmos.site/oauth2/authorization/naver");
+    window.location.href = naverURL;
   };
 
   return (
