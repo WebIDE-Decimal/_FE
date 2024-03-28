@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useEmailCheck from "../../hooks/useCheck/useEmailCheck.ts";
-import api from "../../api/logout.ts";
+import api from "../../api/index.ts";
+
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ const SignUp = () => {
   const emailRef = useRef<HTMLInputElement>(null);
 
   const handleEmailClick = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     await api
