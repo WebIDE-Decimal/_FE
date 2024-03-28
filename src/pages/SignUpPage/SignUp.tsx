@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useEmailCheck from "../../hooks/useCheck/useEmailCheck.ts";
 import api from "../../api/index.ts";
+
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +11,6 @@ const SignUp = () => {
     sendMail: false,
     emailChecked: false,
   });
-  const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
 
   const handleEmailClick = async (

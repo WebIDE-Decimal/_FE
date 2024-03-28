@@ -1,14 +1,13 @@
 import naverImg from "../../../assets/socialButton/btnG_naverIcon.png";
 import React from "react";
+import api from "../../../api/logout.ts";
 
 const NaverSocialLogin = () => {
-  const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
-  const redirectURL = "http://localhost:5173";
-  const naverURL = `https://nid.naver.com/oauth2.0/authorize?client_id=${clientId}&redirect_uri=${redirectURL}&response_type=code`;
-
-  const handleNaverLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleNaverLoginClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.preventDefault();
-    window.location.href = naverURL;
+    await api.get("https://groomcosmos.site/oauth2/authorization/naver");
   };
 
   return (
