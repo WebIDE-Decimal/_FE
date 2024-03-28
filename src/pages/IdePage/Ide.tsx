@@ -11,7 +11,9 @@ import ChatDetail from "../ChatPage/ChatDetail/ChatDetail";
 import TeamUsersList from "./TeamUsersList/TeamUsersList";
 import { useParams } from "react-router-dom";
 import { getRecruitPostById } from "../../api/recruitAPI";
-
+import { BiVideo } from "react-icons/bi";
+import VideoComponent from "../VideoChatPage/VideoComponent";
+import StudyGroupComponent from "../VideoChatPage/StudyGroupComponent";
 interface FileIconProps {
   type: string;
   isSelected: boolean;
@@ -21,7 +23,7 @@ const Ide = () => {
   const [selectedTab, setSelectedTab] = useState("chat");
   const [post, setPost] = useState<any>(null);
   const { id } = useParams<{ id: string }>();
-
+  const [postTitle, setPostTitle] = useState<string>("");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,6 +32,7 @@ const Ide = () => {
           const response = await getRecruitPostById(postId);
           console.log(response);
           setPost(response);
+          setPostTitle(response[0].title);
         }
       } catch (error) {
         console.error("Error fetching recruit post details:", error);
@@ -109,11 +112,15 @@ const Ide = () => {
                     : "bg-chatPBg text-white"
                 }`}
               >
-                참여 목록
+                <BiVideo />
               </div>
             </div>
-            <div className="flex-auto overflow-auto">
-              {selectedTab === "chat" ? <ChatDetail /> : <TeamUsersList />}
+            <div className="flex-auto overflow-auto flex">
+              {selectedTab === "chat" ? (
+                <StudyGroupComponent postTitle={postTitle} />
+              ) : (
+                <VideoComponent postTitle={postTitle} />
+              )}
             </div>
           </div>
         </div>

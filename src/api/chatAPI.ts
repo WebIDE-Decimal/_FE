@@ -52,13 +52,7 @@ export const getMemberProfile = async (user: any) => {
 
   try {
     const response = await api.post<Member>(
-      `${import.meta.env.VITE_API_URL}users/memberProfile`,
-      null,
-      {
-        headers: {
-          access_token: `${user.accessToken}`,
-        },
-      }
+      `http://localhost:8080/api/users/memberProfile`
     );
     const loggedInMember: Member = response.data;
     // console.log(loggedInMember);
@@ -86,13 +80,14 @@ export const initializeSession = async (
 // 세션 연결
 export const createConnection = async (
   sessionId: string,
-  videoChatDto: VideoChatDto | undefined
+  videoChatDto: Properties | undefined
 ): Promise<string> => {
   try {
     const response = await api.post<string>(
       `${BASE_URL}/sessions/${sessionId}/connections`,
       videoChatDto
     );
+    console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error("error creating connection");

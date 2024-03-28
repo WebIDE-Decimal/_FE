@@ -11,8 +11,9 @@ import Form from "./Form";
 import Session from "./Session";
 import ChatComponent from "./ChatComponent";
 import { initializeSession } from "../../api/chatAPI";
+import StudyGroupChatComponent from "./StudyGroupChatComponent";
 
-function VideoComponent({ postTitle }: any) {
+function StudyGroupComponent({ postTitle }: any) {
   const [session, setSession] = useState<OVSession | "">("");
   const [sessionId, setSessionId] = useState<string>("");
   const [subscriber, setSubscriber] = useState<Subscriber | null>(null);
@@ -159,44 +160,26 @@ function VideoComponent({ postTitle }: any) {
       .catch(() => {});
   }, [session, OV, sessionId, OPENVIDU_SERVER_URL]);
 
-  useEffect(() => {
-    setSessionId(postTitle);
-    joinSession();
-  }, []);
-
+  // joinSession();
   console.log(postTitle);
   return (
-    <div className="max-w-9xl mx-auto flex justify-center mt-16 text-white f-full">
-      <div className="w-3/5">
-        <h1 className="text-2xl mb-4"></h1>
-        {!session && (
-          <Form
-            joinSession={joinSession}
-            sessionId={sessionId}
-            sessionIdChangeHandler={sessionIdChangeHandler}
-          />
-        )}
-        {session && (
-          <Session
-            publisher={publisher as Publisher}
-            subscriber={subscriber as Subscriber}
-          />
-        )}
-      </div>
-      {/* {session && (
-        <div
-          className="w-2/5 border-l border-gray-300 p-4 overflow-y-auto"
-          style={{ minHeight: "calc(100vh - 100px)", maxHeight: "100px" }}
-        >
-           <ChatComponent
-            session={session}
-            publisher={publisher as Publisher}
-            subscriber={subscriber as Subscriber}
-          /> 
-        </div>
-      )} */}
+    <div className="max-w-9xl mx-auto flex justify-center mt-16">
+      {!session && (
+        <Form
+          joinSession={joinSession}
+          sessionId={sessionId}
+          sessionIdChangeHandler={sessionIdChangeHandler}
+        />
+      )}
+      {session && (
+        <StudyGroupChatComponent
+          session={session}
+          publisher={publisher as Publisher}
+          subscriber={subscriber as Subscriber}
+        />
+      )}
     </div>
   );
 }
 
-export default VideoComponent;
+export default StudyGroupComponent;
