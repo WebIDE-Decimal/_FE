@@ -81,8 +81,37 @@ const Write = () => {
       .post("/recruit", newPost)
       .then(() => {
         navigate(`/recruit`);
-        const properties = { customSessionId: newPost.title };
-        initializeSession({ properties, isPublisher: true });
+        const properties = {
+          properties: {
+            id: "ses_" + id,
+            object: "session",
+            createdAt: 1538481996019,
+            mediaMode: "ROUTED",
+            recordingMode: "MANUAL",
+            defaultRecordingProperties: {
+              name: "MyRecording",
+              hasAudio: true,
+              hasVideo: true,
+              outputMode: "COMPOSED",
+              recordingLayout: "BEST_FIT",
+              resolution: "1280x720",
+              frameRate: 25,
+              shmSize: 536870912,
+              mediaNode: "media_i-po39jr3e10rkjsdfj",
+            },
+            customSessionId: "ses_" + id,
+            connections: {
+              numberOfElements: 0,
+              content: [],
+            },
+            recording: false,
+            broadcasting: false,
+            forcedVideoCodec: "VP8",
+            allowTranscoding: false,
+            mediaNodeId: "media_i-po39jr3e10rkjsdfj",
+          },
+        };
+        initializeSession({ properties });
         if (member !== undefined && id !== null && id !== undefined) {
           createFolder({
             folderName: newPost.title,
