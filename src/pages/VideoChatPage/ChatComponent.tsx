@@ -4,11 +4,19 @@ import { useAppSelector } from "../../hooks/redux";
 import { getMemberProfile } from "../../api/chatAPI";
 import userImage from "../../assets/images/def_userInfo.png";
 import { GrSend } from "react-icons/gr";
+
+interface paramProps {
+  isReceived: boolean;
+  time: string;
+  children: React.ReactNode;
+}
+
 interface ChatComponentProps {
-  publisher: Publisher;
-  subscriber: Subscriber;
+  publisher?: Publisher;
+  subscriber?: Subscriber;
   session: Session;
 }
+
 const ChatComponent: React.FC<ChatComponentProps> = ({
   publisher,
   subscriber,
@@ -27,9 +35,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       try {
         const data = await getMemberProfile(user);
         if (data !== undefined) {
-          if (data.nickname === undefined) {
-            setMember(data.nickname);
-          }
+          setMember(data?.nickname);
         }
       } catch (error) {
         console.error("채팅 목록을 불러오는 중 에러 발생:", error);
@@ -45,22 +51,17 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     setMessages((prevMessages) => [
       ...prevMessages,
       {
-        nickname: getNickname(data.from),
+        nickname: data.nickname,
         message: data.message,
       },
     ]);
-  };
-
-  // Determine nickname based on sender
-  const getNickname = (from: string): string => {
-    return from;
   };
 
   // Send message
   const sendMessage = () => {
     if (inputMessage.trim() !== "") {
       const messageData = {
-        nickname: member,
+        nickname: `${member}`,
         message: inputMessage,
       };
       session.signal({
@@ -104,7 +105,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
               className={`${
                 message.nickname === member
                   ? "bg-blue-500 text-white"
-                  : "bg-white text-black"
+                  : "bg-white"
               } rounded-lg p-2 m-1`}
             >
               <strong>{message.nickname}:</strong> {message.message}
