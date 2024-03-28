@@ -81,6 +81,7 @@ const Post = () => {
     };
     const data = JSON.stringify(videoChatDto);
     initializeSession(videoChatDto);
+    navigate("/chat");
   };
 
   if (!id && !post) {

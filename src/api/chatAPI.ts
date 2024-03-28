@@ -52,7 +52,7 @@ export const getMemberProfile = async (user: any) => {
 
   try {
     const response = await api.post<Member>(
-      `http://localhost:8080/api/users/memberProfile`
+      `https://groomcosmos.site/api/users/memberProfile`
     );
     const loggedInMember: Member = response.data;
     // console.log(loggedInMember);
@@ -87,7 +87,7 @@ export const createConnection = async (
       `${BASE_URL}/sessions/${sessionId}/connections`,
       videoChatDto
     );
-    console.log(response.data);
+    console.log("Success Connections" + response.data);
     return response.data;
   } catch (error) {
     throw new Error("error creating connection");

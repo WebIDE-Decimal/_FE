@@ -13,6 +13,7 @@ import {
   initializeSession,
   inviteUserToSession,
 } from "../../../api/chatAPI";
+import { setUserName } from "../../../store/openVidu/openViduSlice";
 
 const UserList = () => {
   const selectedChatId = useAppSelector(
@@ -27,7 +28,10 @@ const UserList = () => {
     const fetchChats = async () => {
       try {
         // const properties = { customSessionId: "testSession2" };
-        // const member = await getMemberProfile(user);
+        const member = await getMemberProfile(user);
+        if (member) {
+          setUserName(member?.nickname);
+        }
         // const invite = await inviteUserToSession("testSession2", "1");
         // console.log(test);
         // if (member !== undefined) {
